@@ -39,7 +39,40 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.humanize',
+
+    'api',
+    'root_app',
 ]
+
+
+# SECURITY WARNING: don't run with debug turned on in production!
+if os.environ.get('IS_PRODUCTION') != 'True':
+    IS_PRODUCTION = False
+else:
+    IS_PRODUCTION = True
+
+if not IS_PRODUCTION:
+    DEBUG = True
+    # set to static locally for collectstatic
+    STATIC_ROOT = os.path.join(BASE_DIR, '/staticfiles')
+    ALLOWED_HOSTS = ['*']
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'stdepaul/static'),
+    )
+    PAYPAL_TEST = True
+    SECURE_SSL_REDIRECT = False
+else:
+    DEBUG = False
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    ALLOWED_HOSTS = ['www.stdepaul.org', 'stdepaul.org','stdepaul.herokuapp.com']
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'stdepaul/static'),   
+    )
+    PAYPAL_TEST = False
+
+    # autoredirect to https
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
 
 SITE_ID = 1
 
