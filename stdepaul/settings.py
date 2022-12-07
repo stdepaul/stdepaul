@@ -59,7 +59,6 @@ if not IS_PRODUCTION:
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'stdepaul/static'),
     )
-    PAYPAL_TEST = True
     SECURE_SSL_REDIRECT = False
 else:
     DEBUG = False
@@ -68,13 +67,55 @@ else:
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'stdepaul/static'),   
     )
-    PAYPAL_TEST = False
 
     # autoredirect to https
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
 
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+AWS_ACCESS_KEY_ID = os.environ.get('STDEPAUL_AWS_KEY')
+AWS_SECRET_ACCESS_KEY = os.environ.get('STDEPAUL_AWS_SECRET')
+AWS_STORAGE_BUCKET_NAME = 'stdepaul'
+AWS_QUERYSTRING_AUTH = False
+
+APPEND_SLASH = True 
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
 SITE_ID = 1
+
+RECAPTCHA_PUBLIC_KEY = '6LdA4AMbAAAAANNhcSEM1wJRNSh2vT5OspmtRCQL'
+RECAPTCHA_PRIVATE_KEY = '6LdA4AMbAAAAALOfzH3bHlCCGgYoWNWhNJPtQMsZ'
+
+LOGIN_REDIRECT_URL = '/'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(BASE_DIR, 'stdepaul/templates'),
+        ],
+        #'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'hendrixia.context_processors.page_context',
+            ],
+            'loaders': [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ],
+        },
+    },
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
