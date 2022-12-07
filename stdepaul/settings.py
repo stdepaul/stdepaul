@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -57,7 +57,7 @@ if not IS_PRODUCTION:
     STATIC_ROOT = os.path.join(BASE_DIR, '/staticfiles')
     ALLOWED_HOSTS = ['*']
     STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'stdepaul/static'),
+        os.path.join(BASE_DIR, 'static'),
     )
     SECURE_SSL_REDIRECT = False
 else:
@@ -65,7 +65,7 @@ else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     ALLOWED_HOSTS = ['www.stdepaul.org', 'stdepaul.org','stdepaul.herokuapp.com']
     STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'stdepaul/static'),   
+        os.path.join(BASE_DIR, 'static'),   
     )
 
     # autoredirect to https
@@ -97,7 +97,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'stdepaul/templates'),
+            os.path.join(BASE_DIR, 'templates'),
         ],
         #'APP_DIRS': True,
         'OPTIONS': {
