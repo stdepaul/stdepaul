@@ -2,7 +2,7 @@ Django==3
 dj-database-url==0.5.0
 dj-static==0.0.6
 gunicorn==19.8.1
-psycopg2==2.8.6
+psycopg2==2.9.5
 static==1.1.1
 requests
 djangorestframework==3.8.2
