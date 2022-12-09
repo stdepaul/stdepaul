@@ -133,7 +133,7 @@ WSGI_APPLICATION = 'stdepaul.wsgi.application'
 import dj_database_url
 dbpw = os.environ.get('STDEPAUL_DBPW')
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://postgres:%s@localhost:5432/stdepaul' % (dbpw))
+    'default': dj_database_url.config(default='postgres://postgres:%s@localhost:5432/stdepaul_dev' % (dbpw))
 }
 
 # Password validation
