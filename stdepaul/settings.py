@@ -22,8 +22,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@+svgz_n9c4t9)-=k@^ju!(7*ncdfd)ujf#=*fg-kp7fpvns1%'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -76,7 +74,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 AWS_ACCESS_KEY_ID = os.environ.get('STDEPAUL_AWS_KEY')
 AWS_SECRET_ACCESS_KEY = os.environ.get('STDEPAUL_AWS_SECRET')
-AWS_STORAGE_BUCKET_NAME = 'stdepaul'
+AWS_STORAGE_BUCKET_NAME = 'stdepaul-dev'
 AWS_QUERYSTRING_AUTH = False
 
 APPEND_SLASH = True 
