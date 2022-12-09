@@ -35,7 +35,7 @@ body{
   background: white;
   padding: 25px;
   margin-top: 50px;
-  margin-bottom: 150px;
+  margin-bottom: 100px;
   z-index: 1;
 }
 
@@ -48,6 +48,14 @@ body{
   background: white;
 }
 
+#help-form-section{
+  margin-top: 215px;
+}
+
+.slogan{
+  font-size:70px; 
+  color:white;
+}
 /* pill checkboxes */
 
 .PillList-item {
