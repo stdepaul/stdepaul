@@ -58,7 +58,7 @@ if not IS_PRODUCTION:
 else:
     DEBUG = False
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    ALLOWED_HOSTS = ['www.stdepaul.org', 'stdepaul.org','stdepaul.herokuapp.com']
+    ALLOWED_HOSTS = ['stdepaul-dev.herokuapp.com']
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static'),   
     )
