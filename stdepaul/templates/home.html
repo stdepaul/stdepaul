@@ -1,5 +1,175 @@
 {% extends 'base.html' %}
 
+{% block more_css %}
+
+<link href="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+
+{% endblock %}
 {% block content %}
-test
+	{% if not user.is_authenticated %}
+
+		
+	<video autoplay muted loop id="video">
+	  <source src="/static/assets/stdepaulfpvideo.mp4" type="video/mp4">
+	</video>
+
+	<section id="help-form-section" class="col-md-12">
+
+		<h1 class="prata-font col-md-5 col-sm-12 offset-md-1" style="margin-top:150px; font-size:70px; color:white"> Here to help you when you need it. </h1>
+		<div>
+		
+			<div id="help-form" class="col-md-6 col-sm-12 offset-md-1">
+			    <ul class="nav" style="display:none">
+			        <li class="nav-item" >
+			          <a class="nav-link" href="#step-1">
+			            <div class="num">1</div>
+			           	Help Type
+			          </a>
+			        </li>
+			        <li class="nav-item">
+			          <a class="nav-link" href="#step-2">
+			            <span class="num">2</span>
+			            For whom?
+			          </a>
+			        </li>
+			        <li class="nav-item">
+			          <a class="nav-link" href="#step-3">
+			            <span class="num">3</span>
+			            Step Title
+			          </a>
+			        </li>
+			    </ul>
+
+			    <div class="tab-content tab-content-styles">
+			        <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+
+			        	<div class="col-md-8 help-type-content" style="float:left">
+
+			        		<h3> What kind of help do you need? </h3>
+			        		<br>
+
+			                <label class="PillList-item">
+						    <input type="checkbox" name="feature" value="1">
+						    	<span class="PillList-label"> Food
+						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+						    	</span>
+							</label>
+
+							<label class="PillList-item">
+						    <input type="checkbox" name="feature" value="1">
+						    	<span class="PillList-label"> Housing
+						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+						    	</span>
+							</label>
+
+							<label class="PillList-item">
+						    <input type="checkbox" name="feature" value="1">
+						    	<span class="PillList-label"> Entry-level job
+						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+						    	</span>
+							</label>
+
+							<label class="PillList-item">
+						    <input type="checkbox" name="feature" value="1">
+						    	<span class="PillList-label"> Develop skills for a better job
+						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+						    	</span>
+							</label>
+
+							<label class="PillList-item">
+						    <input type="checkbox" name="feature" value="1">
+						    	<span class="PillList-label"> Mental health services
+						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+						    	</span>
+							</label>
+
+						    <label class="PillList-item">
+						    <input type="checkbox" name="feature" value="1">
+						    	<span class="PillList-label"> Drug or Alcohol Rehabilitation Services
+						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+						    	</span>
+							</label>
+
+						    <label class="PillList-item">
+						    <input type="checkbox" name="feature" value="1">
+						    	<span class="PillList-label"> Help applying for gov't social service
+						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+						    	</span>
+							</label>
+
+						    <label class="PillList-item">
+						    <input type="checkbox" name="feature" value="1">
+						    	<span class="PillList-label"> Scholarships
+						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+						    	</span>
+							</label>
+
+							
+
+						</div>
+						<div class="col-md-4" style="border-left:1px solid #ddd; display:inline-block; float:left; height:275px; padding: 110px 0 0 50px">
+							<a class="btn btn-primary" href="/accounts/signup"> <i class="fa fa-hand-holding-heart"> </i> Become a Helper </a>
+						</div>
+			        </div>
+			        <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+
+			        	<div class="col-md-12 help-type-content">
+			           		<h3> Is this for you or someont you know? </h3>
+			           		<div style="padding:25px 0 0 0;">
+				            	<label class="PillList-item">
+							    <input type="checkbox" name="feature" value="1">
+							    	<span class="PillList-label"> For me
+							    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+							    	</span>
+								</label>
+
+								<label class="PillList-item">
+							    <input type="checkbox" name="feature" value="1">
+							    	<span class="PillList-label"> For someone I know
+							    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+							    	</span>
+								</label>
+							</div>
+						</div>
+
+			        </div>
+			        <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+			        	<div class="col-md-12 help-type-content">
+				            <h3> Where do you live? </h3>
+				            <div style="padding:25px 0 0 0;">
+				            	<input type="text" class="form-control" placeholder="Example: Dallas, TX, USA" />
+				            </div>
+				        </div>
+			        </div>
+			    </div>
+
+			    <!-- Include optional progressbar HTML -->
+			    <div class="progress">
+			      <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+			    </div>
+			</div>
+	    </div>
+	</section>
+	<section id="popular-posts" class="col-md-12">
+		Test
+	</section>
+	{% else %}
+
+	{% endif %}
+{% endblock %}
+
+{% block more_js %}
+	<script src="https://cdn.jsdelivr.net/npm/smartwizard@6/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+	<script>
+		$('#help-form').smartWizard({
+		  theme: 'dots', // theme for the wizard, related css need to include for other than basic theme
+		  justified: true, // Nav menu justification. true/false
+		  enableUrlHash: false, // Enable selection of the step based on url hash=
+		  transition: {
+		      animation: 'fade', // Animation effect on navigation, none|fade|slideHorizontal|slideVertical|slideSwing|css(Animation CSS class also need to specify)
+		      speed: '400', // Animation speed. Not used if animation is 'css'
+		  },
+		});
+
+	</script>
 {% endblock %}
