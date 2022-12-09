@@ -56,6 +56,11 @@ body{
   font-size:70px; 
   color:white;
 }
+
+#popular-posts{
+  padding: 50px;
+}
+
 /* pill checkboxes */
 
 .PillList-item {

@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-CLR2N1YKXC"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'G-CLR2N1YKXC');
+	</script>
 	<title> {% block title %} St. Vincent de Paul Assistance Center {% endblock %}</title>
 
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
@@ -78,6 +88,15 @@
 	{% block content %}
 
 	{% endblock %}
+
+
+    {% block footer %}
+    <footer id="footer" class="midnight-blue">
+      
+    </footer>
+    {% endblock %}
+
+
 
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"> </script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"> </script>
