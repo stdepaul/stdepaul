@@ -43,11 +43,6 @@ body{
   min-height: 275px;
 }
 
-#popular-posts{
-  height: 500px;
-  background: white;
-}
-
 #help-form-section{
   margin-top: 215px;
 }
@@ -57,8 +52,33 @@ body{
   color:white;
 }
 
-#popular-posts{
+#who-are-we{
   padding: 50px;
+  text-align: center;
+  background: white;
+  height: 500px;
+}
+
+#for-whom{
+  margin-top: 50px;
+}
+.step {
+  margin: 1% 8.3% 1% 0;
+  font-size: 18px;
+  text-align: center;
+  padding: 20px;
+  height: 200px;
+  float: left;
+}
+.line {
+  border-top: 1px solid #ddd
+}
+.s1bottom{
+  font-size:13px;
+  padding: 20px;
+}
+.s1top{
+  padding: 20px;
 }
 
 /* pill checkboxes */
