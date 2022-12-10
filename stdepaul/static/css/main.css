@@ -82,16 +82,15 @@ body{
 #make-the-most{
   padding: 100px;
   text-align: center;
-  background: #333;
+  background: #eee;
   min-height: 700px;
   display: table;
   overflow: auto;
-  color: white;
 }
 
 #how-you-can-help{
   padding: 100px;
-  min-height: 700px;
+  min-height: 450px;
   text-align: center;
   background: white;
   display: table;

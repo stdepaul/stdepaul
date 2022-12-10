@@ -108,7 +108,7 @@
 
 						</div>
 						<div class="col-md-4 col-xs-12 col-sm-12" style="border-left:1px solid #ddd; display:inline-block; float:left; height:275px; padding: 110px 0 0 50px">
-							<a class="btn btn-primary" href="/accounts/signup"> <i class="fa fa-hand-holding-heart"> </i> Become a Helper </a>
+							<a class="btn btn-primary" href="/become-a-helper"> <i class="fa fa-hand-holding-heart"> </i> Become a Helper </a>
 						</div>
 			        </div>
 			        <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
@@ -189,13 +189,20 @@
 
 	<section id="how-we-can-help" class="col-md-12">
 		<div class="col-md-10 offset-md-1 col-sm-12 col-xs-12 ">
-			<div class="col-md-6 col-sm-12 col-xs-12 floatleft">
+			<div class="col-md-7 col-sm-12 col-xs-12 floatleft">
 				
 			</div>
-			<div class="col-md-6 col-sm-12 col-xs-12 floatright">
+			<div class="col-md-5 col-sm-12 col-xs-12 floatright ta-left">
 				<h1 class="prata-font"> 
 					How we can help
 				</h1>
+				<p> St. De Paul offers these services that help people are struggling: </p>
+				<h3 class="prata-font"> Helper Database</h3>
+				<p> The <a href="{% url 'posts_home' location='global' %}?post_type=helper"> Helper database </a> connects people and organizations who want to help people who are struggling to people who are struggling, especially those within the same communities. </p>
+				<h3 class="prata-font"> St. De Paul Wiki </h3>
+				<p> The <a href="{% url 'wiki_home' location='global' %}"> St. De Paul Wiki</a> helps ordinary people and community leaders to collaborate to provide information about social services in the area to people who are struggling </p>
+				<h3 class="prata-font"> Social Service Application Assistance </h3>
+				<p> St. De Paul makes it easy to apply for social services online, even social services which traditionally require snail mail to apply. </p>
 			</div>
 		</div>
 	</section>
@@ -205,14 +212,38 @@
 			<h1 class="prata-font"> 
 				How you can help
 			</h1>
+			<br><br>
+
+			<div class="col-md-6 col-sm-12 col-xs-12 floatleft ta-left">
+				<h3 class="prata-font"> Contribute to the <a href="{% url 'wiki_home' location='global' %}">St. De Paul Wiki </a> </h3>
+				<p> We need people who can add information about social services that can help people who are struggling! </p>
+
+			</div>
+
+			<div class="col-md-6 col-sm-12 col-xs-12 ta-right floatleft">
+				<h3 class="prata-font"> <a  href="/become-a-helper"> Become a Helper </a> </h3>
+				<p> A helper is someone who provides some type of free service for people struggling, or someone who donates. If you can, please consider becoming a Helper!
+			</div>
 		</div>
 	</section>
 
 	<section id="make-the-most" class="col-md-12">
-		<div class="col-md-10 offset-md-1 col-sm-12 ">
-			<h1 class="prata-font"> 
-				Other ways to contribute
-			</h1>
+		<div class="col-md-10 offset-md-1 col-sm-12 col-xs-12 ">
+			<div class="col-md-5 col-sm-12 col-xs-12 floatleft ta-right">
+				<h1 class="prata-font"> 
+					Other ways to contribute
+				</h1>
+				<p> You also can contribute and help St. De Paul in the follow ways: </p>
+				<h3 class="prata-font"> Contribute to Development</h3>
+				<p> The <a href="https://github.com/stdepaul/stdepaul"> source code</a> for St. De Paul is at GitHub; it is open source. You can contribute to the project and make a positive impact.</p>
+				<h3 class="prata-font"> Spread the Word</h3>
+				<p> Telling people about St. De Paul can help more people: more people may contribute and donate (to struggling people and to St. De Paul)! </p>
+				<h3 class="prata-font"> Donate </h3>
+				<p> You can donate directly to St. De Paul. This goes towards research on how to best help the poor, and to help leadership to keep the project moving forward. </p>
+			</div>
+			<div class="col-md-7 col-sm-12 col-xs-12 floatright">
+				
+			</div>
 		</div>
 	</section>
 
@@ -221,6 +252,9 @@
 			<h1 class="prata-font"> 
 				Join St. De Paul
 			</h1>
+			<p> If you are interested in being a part of St. De Paul, please consider registering! Even if you can't donate, you can help us by contributing to our wiki for your community (adding information about social services that help people who are struggling). </p>
+
+			<a class="btn btn-primary" href="/accounts/signup"> <i class="fa fa-user"></i> &nbsp; Join St. De Paul </a>
 		</div>
 	</section>
 
