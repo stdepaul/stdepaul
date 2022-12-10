@@ -34,11 +34,47 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.humanize',
+    'django.contrib.postgres',
 
     'api',
     'root_app',
+    'wiki',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    #'allauth.socialaccount.providers.facebook',
+    #'allauth.socialaccount.providers.google',
+
+    'vote',
+    'django_messages',
+    'captcha',
+
+    'rest_framework',
+    'rest_framework.authtoken',
+
+    'martor',
+    
 ]
 
+"""
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'APP': {
+            'client_id': '',
+            'secret': '',
+            'key': '',
+        }
+    },
+    'google': {
+        'APP': {
+            'client_id': '',
+            'secret': '',
+            'key': ''
+        }
+    }
+}
+"""
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('IS_PRODUCTION') != 'True':
@@ -49,7 +85,7 @@ else:
 if not IS_PRODUCTION:
     DEBUG = True
     # set to static locally for collectstatic
-    STATIC_ROOT = os.path.join(BASE_DIR, '/staticfiles')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     ALLOWED_HOSTS = ['*']
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static'),
@@ -76,10 +112,18 @@ AWS_QUERYSTRING_AUTH = False
 
 APPEND_SLASH = True 
 
+MARTOR_ENABLE_CONFIGS = {
+    'imgur': 'false',
+}
+
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
+
+EMAIL_BACKEND = "sgbackend.SendGridBackend"
+SENDGRID_API_KEY = os.environ.get('STDEPAUL_SENDGRID_API_KEY')
+DEFAULT_FROM_EMAIL = 'noreply@stdepaul.org'
 
 SITE_ID = 1
 
@@ -110,6 +154,10 @@ TEMPLATES = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

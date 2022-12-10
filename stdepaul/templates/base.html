@@ -104,9 +104,56 @@
 
 
     {% block footer %}
-    <footer id="footer" class="midnight-blue">
-      
-    </footer>
+    <footer id="footer">
+
+        <div class="col-md-8 offset-md-2 footer-styles">
+            <div class="col-md-4 col-sm-3 col-xs-4 offset-md-0 offset-sm-1 ta-left floatleft">
+                <div class="widget">
+                    <h3>Information</h3>
+                    <ul>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="mailto:self@mikejohnsonjr.com">Contact</a></li>
+                        <li><a href="//explorer.zealchain.com"> Explorer</a></li>
+                    </ul>
+                </div>    
+            </div><!--/.col-md-3-->
+
+            <div class="col-md-4 col-sm-3 col-xs-4 ta-center floatleft">
+                <div class="widget">
+                    <h3>Developers</h3>
+                    <ul>
+                        <li><a href="https://github.com/stdepaul/stdepaul">Source Code</a></li>
+                        <li><a href="/api-home"> API</a></li>
+                        <li><a href="/documentation"> Documentation </a></li>
+                       
+                    </ul>
+                </div>    
+            </div><!--/.col-md-3-->
+
+            <div class="col-md-4 col-sm-3 col-xs-4 ta-right floatleft">
+                <div class="widget">
+                    <h3>Follow</h3>
+                    <ul>
+                        <li><a href="//facebook.com/stdepaul">Facebook</a></li>
+                        <li><a href="#"> Discord </a></li>
+                    </ul>
+                </div>    
+            </div><!--/.col-md-3-->
+        </div>
+        <div class="col-md-8 offset-md-2 small3">
+
+            <div class="col-sm-12 col-md-6 floatleft">
+                St. Vincent de Paul Assistance Center
+            </div>
+            <div class="col-sm-12 col-md-6 floatright">
+                <ul class="floatright">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="mailto:hello@stdepaul.org">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer><!--/#footer-->
     {% endblock %}
 
 

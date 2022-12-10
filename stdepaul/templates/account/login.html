@@ -1,0 +1,71 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block metatags %}
+    <meta name="title" content="Sign in at St. De Paul">
+    <meta name="description" content="St. De Paul Sign In Page">
+    <meta name="keywords" content="st, de, paul, assistance, center, sign in, signin">
+    <meta property="og:site_name" content="St. De Paul">
+    <meta property="og:url" content="https://www.stdepaul.org/accounts/login">
+    <meta property="og:title" content="Sign In at St. De Paul">
+    <meta property="og:image" content="https://www.stdepaul.org/static/img/stdepaulsqblue.png">
+    <meta property="og:description" content="Sign In at St. De Paul">
+    {% endblock %}
+
+
+{% block content %}
+
+<div class="whiteblock col-md-4 offset-md-4">
+  <div class="bigfont"><a href="/"><img src="/static/img/stdepaulsmalllogo.png" class="logo-style-login" alt="St De Paul"></a></div>
+  <h1 style="text-align: center">{% trans "Sign In" %}</h1>
+
+
+{% if form.errors %}
+                                        <p>{{form.errors}}</p>
+                                        {% endif %}
+
+{% get_providers as socialaccount_providers %}
+
+{% if socialaccount_providers %}
+<p>{% blocktrans with site.name as site_name %}Please sign in with one
+of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+
+<div class="socialaccount_ballot">
+
+  <ul class="socialaccount_providers">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+  </ul>
+
+  <div class="login-or">{% trans 'or' %}</div>
+
+</div>
+
+{% include "socialaccount/snippets/login_extra.html" %}
+
+{% else %}
+<center>
+<p>{% blocktrans %}If you have not created an account yet, then please
+<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+{% endif %}
+
+
+<form class="login" method="POST" action="{% url 'account_login' %}">
+  {% csrf_token %}
+  <p><input type="text" class="form-control fcs" name="login" value="{{form.login.value|default_if_none:''}}" placeholder="Username" autofocus="autofocus" maxlength="150" required id="id_login" /></p>
+<p> <input type="password" class="form-control fcs" name="password" placeholder="Password" required id="id_password" /></p>
+<p><label for="id_remember">Remember Me:</label> <input type="checkbox" name="remember" id="id_remember" /></p>
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+  <button class="primaryAction btn btn-primary" type="submit">{% trans "Sign In" %}&raquo;</button>
+</form>
+</center>
+</div>
+{% endblock %}
+{% block footer %}{% endblock %}

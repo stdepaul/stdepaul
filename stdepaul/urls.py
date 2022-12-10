@@ -1,57 +1,55 @@
-"""stdepaul URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from root_app import views as root_views
+from wiki import views as wiki_views
+
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),
 
-    # home
+    path('accounts/', include('allauth.urls')),
+    path('martor/', include('martor.urls')),
+
     path('', root_views.home, name='home'),
-    # allauth
-    # user profile page
-    # about
-    # rules
-    # privacy policy
-    # terms of service
-    # wizard results page (list and/or map)
-     
-    # registration (custom, wizard (donator org, donator indv, regular user, etc))
+   
+    path('about', root_views.about, name='about'),
+    
+    path('terms', root_views.terms, name='terms'),
+    path('privacy', root_views.privacy, name='privacy'),
+    path('rules', root_views.rules, name='rules'),
 
-    # assistance request create
-    # assistance request detail
-    # assistance request update
-    # assistance request delete
-    # stdepaul.org/assistance/global/food-banks
-    # stdepaul.org/assistance/us-tx-dallas/food-banks/posts/request/detail/80/i-need-food
-    # stdepaul.org/assistance/us-tx-dallas/<help_type>+<help_type>
+    # stdepaul.org/assistance/us-tx-dallas/food-assistance/ <-- button here, "create wiki entry"
 
-    # assistance offers - (number of applicants to acccept (first come first serve), serving city, state, country, or global (affects visibility of offer post))
-    # assistance offer create
-    # assistance offer detail
-    # assistance offer update
-    # assistance offer delete
-    # stdepaul.org/assistance/us-tx-dallas/food-banks/posts/offer/detail/53/i-own-a-food-bank
-    # stdepaul.org/assistance/us-tx-dallas/food-banks/organization/detail/55/arts-district-food-bank
+    path('profile/<slug:user>/', root_views.profile, name='profile'),
+    path('update_profile/<slug:slug>/', login_required(root_views.ProfileUpdateView.as_view()), name='update_profile'),
 
-    # wiki "these spaces need content", each wiki has a faq with common questions, like "how long does approval take?" for disability, tc
-    # stdepaul.org/assistance/us-tx-dallas/food-banks/wiki/detail/135/dallas-food-bank
-    # stdepaul.org/assistance/us-tx-dallas/food-banks/wiki/create
+    path('messages/inbox/', login_required(root_views.inbox), name='messages_inbox'),
+    path('messages/', include('django_messages.urls')),
 
+    path('become-a-helper', login_required(root_views.HelperCreateView.as_view()), name='helper_create'),
+    path('help/<slug:location>/helper/<int:pk>/<slug:slug>', root_views.HelperDetailView.as_view(), name='helper_detail'),
+    path('help/<slug:location>/helper/update/<int:pk>/<slug:slug>', root_views.HelperUpdateView.as_view(), name='helper_detail'),
+    path('help/<slug:location>/helper/delete/<int:pk>/<slug:slug>', root_views.HelperDeleteView.as_view(), name='helper_detail'),
 
+    path('help/<slug:location>/', root_views.posts, name='posts_home'),
+    # stdepaul.org/assistance/us-tx-dallas/?help-types=food-assistance+housing-assistance
+
+    path('help/<slug:location>/post/create', login_required(root_views.PostCreateView.as_view()), name='post_create'),
+    path('help/<slug:location>/post/<int:pk>/<slug:slug>', root_views.PostDetailView.as_view(), name='post_detail'),
+    path('help/<slug:location>/post/update/<int:pk>/<slug:slug>', login_required(root_views.PostUpdateView.as_view()), name='post_update'),
+    path('help/<slug:location>/post/delete/<int:pk>/<slug:slug>', login_required(root_views.PostDeleteView.as_view()), name='post_update'),
+
+    path('help/<slug:location>/wiki', wiki_views.wiki_home, name='wiki_home'),
+    path('help/<slug:location>/wiki/entry/create/', login_required(wiki_views.WikiEntryCreateView.as_view()), name='wiki_entry_create'),
+    path('help/<slug:location>/wiki/<int:pk>/<slug:slug>', wiki_views.WikiEntryDetailView.as_view(), name='wiki_entry_detail'),
+    path('help/<slug:location>/wiki/update/<int:pk>/<slug:slug>', login_required(wiki_views.WikiEntryUpdateView.as_view()), name='wiki_entry_update'),
+    path('help/<slug:location>/wiki/delete/<int:pk>/<slug:slug>', login_required(wiki_views.WikiEntryDeleteView.as_view()), name='wiki_entry_update'),
+
+    path('comment/create/', login_required(root_views.CommentCreateView.as_view()), name='comment_create'),
+    path('comment/delete/<int:pk>/', login_required(root_views.CommentDeleteView.as_view()), name='comment_delete'),
+
+    path('search', root_views.search, name='search'),
 ]
