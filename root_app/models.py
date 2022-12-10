@@ -169,6 +169,8 @@ class UserProfile(models.Model):
 
 	slug = models.SlugField(max_length=50, blank=True, null=True)
 
+	is_helper = models.BooleanField(default=False)
+
 	def save(self, *args, **kwargs):
 		if not self.slug:
 			self.slug = slugify(self.user.username)[:50]

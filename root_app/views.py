@@ -4,6 +4,8 @@ import random
 import string
 import markdown
 
+from itertools import chain
+
 from django.shortcuts import render
 from django.contrib.postgres.search import SearchVector
 from django.contrib.postgres.search import SearchRank
@@ -81,6 +83,14 @@ def rules(request):
 	template_name = 'rules.html'
 	return render(request, template_name, context)
 
+def my_organizations(request):
+	organizations = Helper.objects.filter(created_by=request.user)
+	context = {
+		'organizations': organizations
+	}
+	template_name = 'root_app/my_organizations.html'
+	return render(request, template_name, context)
+
 def posts(request, location):
 
 	posts = Post.objects.filter(location=location)
@@ -119,9 +129,14 @@ def search(request):
 	search_type = request.GET.get('search_type', None) # I want to help
 	query = SearchQuery(q)
 
-	posts = Post.objects.annotate(search=SearchVector('title', 'body', 'created_by')).filter(search=q)
+	posts = Post.objects.annotate(search=SearchVector('title', 'body', 'created_by')).filter(search=q).filter(post_type=search_type)
 	helpers = Helper.objects.annotate(search=SearchVector('name', 'description', 'moderators', 'created_by')).filter(search=q)
 	wiki_entries = WikiEntry.objects.annotate(search=SearchVector('name', 'description', 'moderators', 'created_by')).filter(search=q)
+
+	if search_type == 'IWTH':
+		result_items = posts
+	elif search_type == 'INH':
+		result_items = chain(posts, helpers, wiki_entries)
 
 	paginator = Paginator(result_items, 25)
 	page = request.GET.get('page')
@@ -130,10 +145,10 @@ def search(request):
 	context = {
 		'results': results,
 		'q': q,
-		'item_type': item_type,
+		'search_type': search_type,
 	}
 	return render(request,
-				  'search.html',
+				  'root_app/search.html',
 				  context)
 
 

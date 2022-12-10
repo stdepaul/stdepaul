@@ -84,15 +84,44 @@
 		          <a class="dropdown-item" href="https://github.com/stdepaul/stdepaul">Source Code</a>
 		        </div>
 		    </li>
-		    &nbsp;
-		    <div style="border-left:1px solid #ddd;"> </div> &nbsp;
 		    <li class="nav-item">
-		    	<a class="nav-link" href="/accounts/login"> Login </a>
+		    	<a class="nav-link" href="/help/global/wiki"> Wiki </a>
 		    </li>
 
-		    <li class="nav-item">
-		    	<a class="nav-link" href="/accounts/signup"> Register </a>
-		    </li>
+		    &nbsp;
+		    <div style="border-left:1px solid #ddd;"> </div> &nbsp;
+		   
+
+		      	{% if not user.is_authenticated %}
+	             <li class="nav-item">
+			    	<a class="nav-link" href="/accounts/login"> Login </a>
+			    </li>
+
+			    <li class="nav-item">
+			    	<a class="nav-link" href="/accounts/signup"> Register </a>
+			    </li>
+
+	            {% else %}
+
+	            <li class="dropdown">
+	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{request.user}} <span class="caret"></span></a>
+	              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+			          <a class="dropdown-item" href="/profile/{{request.user}}">Profile</a>
+			          <a class="dropdown-item" href="/edit-profile">Edit Profile</a>
+			          <div class="dropdown-divider"> </div>
+
+			          {% if request.user.is_helper %}
+			          <a class="dropdown-item" href="/my-organizations">My Organizations</a>
+			          <a class="dropdown-item" href="/wiki-management-dashboard">My Wiki Management Dashboard</a>
+			          {% endif %}
+			          <div class="dropdown-divider"></div>
+			          <a class="dropdown-item" href="/accounts/logout">Log out</a>
+			        </div>
+	            </li>
+
+	            
+
+	            {% endif %}  
 	    </ul>
 	  </div>
 	</nav>
@@ -106,19 +135,18 @@
     {% block footer %}
     <footer id="footer">
 
-        <div class="col-md-8 offset-md-2 footer-styles">
-            <div class="col-md-4 col-sm-3 col-xs-4 offset-md-0 offset-sm-1 ta-left floatleft">
+        <div class="col-md-8 offset-md-2 col-sm-12 col-xs-12 footer-styles">
+            <div class="col-md-4 col-sm-4 col-xs-4 offset-md-0 ta-left floatleft">
                 <div class="widget">
-                    <h3>Information</h3>
+                    <h3>Info</h3>
                     <ul>
                         <li><a href="/about">About</a></li>
-                        <li><a href="mailto:self@mikejohnsonjr.com">Contact</a></li>
-                        <li><a href="//explorer.zealchain.com"> Explorer</a></li>
+                        <li><a href="mailto:hello@stdepaul.org">Contact</a></li>
                     </ul>
                 </div>    
             </div><!--/.col-md-3-->
 
-            <div class="col-md-4 col-sm-3 col-xs-4 ta-center floatleft">
+            <div class="col-md-4 col-sm-4 col-xs-4 ta-center floatleft">
                 <div class="widget">
                     <h3>Developers</h3>
                     <ul>
@@ -130,11 +158,11 @@
                 </div>    
             </div><!--/.col-md-3-->
 
-            <div class="col-md-4 col-sm-3 col-xs-4 ta-right floatleft">
+            <div class="col-md-4 col-sm-4 col-xs-4 ta-right floatright">
                 <div class="widget">
                     <h3>Follow</h3>
                     <ul>
-                        <li><a href="//facebook.com/stdepaul">Facebook</a></li>
+                        <li><a href="//instagram.com/stdepaul">Instagram</a></li>
                         <li><a href="#"> Discord </a></li>
                     </ul>
                 </div>    

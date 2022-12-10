@@ -42,11 +42,20 @@ from root_app.models import Comment
 
 from root_app.forms import CommentForm
 
-def wiki_home(request):
+def wiki_home(request, location):
+
+	if location != 'global':
+		location_arr = location.split('-')
+		city = location_arr[0]
+		state_province = location_arr[1]
+		country = location_arr[2]
+
 	context = {
 
 	}
+
 	template_name = 'wiki/home.html'
+	return render(request, template_name, context)
 
 class WikiEntryCreateView(CreateView):
 	model = WikiEntry

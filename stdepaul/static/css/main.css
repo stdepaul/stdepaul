@@ -44,6 +44,8 @@ body{
 
 .tab-content-styles{
   min-height: 275px;
+  overflow: auto;
+  display: table;
 }
 
 #help-form-section{
@@ -59,12 +61,52 @@ body{
   padding: 100px;
   text-align: center;
   background: white;
-  height: 590px;
+  min-height: 590px;
+  display: table;
+  overflow: auto;
 }
 
 #for-whom{
   margin-top: 50px;
 }
+
+#how-we-can-help{
+  padding: 100px;
+  text-align: center;
+  min-height: 700px;
+  background: #ddd; 
+  display: table;
+  overflow: auto;
+}
+
+#make-the-most{
+  padding: 100px;
+  text-align: center;
+  background: #333;
+  min-height: 700px;
+  display: table;
+  overflow: auto;
+  color: white;
+}
+
+#how-you-can-help{
+  padding: 100px;
+  min-height: 700px;
+  text-align: center;
+  background: white;
+  display: table;
+  overflow: auto;
+}
+
+#join{
+   padding: 100px;
+  text-align: center;
+  min-height: 450px;
+  background: white;
+  display: table;
+  overflow: auto;
+}
+
 .step {
   margin: 1% 8.3% 1% 0;
   font-size: 18px;
