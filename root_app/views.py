@@ -127,6 +127,8 @@ def profile(request, user):
 def search(request):
 	q = request.GET.get('q', None)
 	search_type = request.GET.get('search_type', None) # I want to help
+	help_types = request.GET.get('help_types', None)
+	location = request.GET.get('location', None)
 	query = SearchQuery(q)
 
 	posts = Post.objects.annotate(search=SearchVector('title', 'body', 'created_by')).filter(search=q).filter(post_type=search_type)
