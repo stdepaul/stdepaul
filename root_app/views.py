@@ -6,6 +6,8 @@ import markdown
 
 from django.shortcuts import render
 from django.contrib.postgres.search import SearchVector
+from django.contrib.postgres.search import SearchRank
+from django.contrib.postgres.search import SearchQuery
 from django_messages.models import Message
 
 from datetime import datetime, timezone
@@ -41,6 +43,8 @@ from .models import UserProfile
 from .models import Post
 from .models import Comment
 from .models import Helper
+
+from wiki.models import WikiEntry
 
 def home(request):
 	context = {
@@ -112,19 +116,14 @@ def profile(request, user):
 
 def search(request):
 	q = request.GET.get('q', None)
-	item_type = request.GET.get('item_type')
+	search_type = request.GET.get('search_type', None) # I want to help
+	query = SearchQuery(q)
 
-	if item_type == 'Page':
+	posts = Post.objects.annotate(search=SearchVector('title', 'body', 'created_by')).filter(search=q)
+	helpers = Helper.objects.annotate(search=SearchVector('name', 'description', 'moderators', 'created_by')).filter(search=q)
+	wiki_entries = WikiEntry.objects.annotate(search=SearchVector('name', 'description', 'moderators', 'created_by')).filter(search=q)
 
-		result_items = Page.objects.annotate(
-			search=SearchVector('title', 'description', 'content', 'page_type')).filter(search=q)
-
-	if item_type == 'Post':
-
-		result_items = Post.objects.annotate(
-			search=SearchVector('title', 'body', 'creator')).filter(search=q)
-
-	paginator = Paginator(result_items, 20)
+	paginator = Paginator(result_items, 25)
 	page = request.GET.get('page')
 	results = paginator.get_page(page)
 

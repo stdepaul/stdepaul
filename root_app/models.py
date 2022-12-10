@@ -83,9 +83,14 @@ class PostReport(models.Model):
 	created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 	rule_broken = models.CharField(max_length=255, choices=RULES)
 
+POST_TYPES = (
+	('IWTH', 'I want to help'),
+	('INH', 'I need help'),
+)
+
 class Post(VoteModel, models.Model):
 
-	title = models.CharField(max_length=255, default="Untitled")
+	title = models.CharField(max_length=255, blank=True, null=True)
 	body = MartorField(blank=True, null=True)
 	slug = models.SlugField(blank=True, null=True)
 	image = models.ImageField(upload_to="post_images/")
@@ -93,6 +98,8 @@ class Post(VoteModel, models.Model):
 	created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
+
+	help_type = models.CharField(max_length=255, choices=POST_TYPES, blank=True, null=True)
 
 	def save(self, *args, **kwargs):
 		if not self.slug:
