@@ -1,3 +1,2 @@
 release: python manage.py migrate
-release: python manage.py collectstatic --no-input
-web: gunicorn stdepaul.wsgi --log-file -
+web: python manage.py collectstatic --no-input; gunicorn stdepaul.wsgi --log-file -
