@@ -14,64 +14,70 @@
 			<form action="{% url 'posts_home' location=location %}" method="GET">
 
 			<p class="prata-font"> Keywords </p>
-			<input type="text" placeholder="Keywords" name="keywords" class="col-md-9 form-control" /><br>
+			<input type="text" placeholder="Keywords" name="q" value="{{q}}" class="col-md-9 form-control" /><br>
 			<p class="prata-font">
 				Help Type
 			</p>
 			<div style="width:100%;display:table">
 			
             <label class="PillList-item">
-		    <input type="checkbox" name="feature" value="1">
+		    <input type="checkbox" name="help_types[]" value="food" checked>
 		    	<span class="PillList-label"> Food
 		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 		    	</span>
 			</label>
 
 			<label class="PillList-item">
-		    <input type="checkbox" name="feature" value="1">
+		    <input type="checkbox" name="help_types[]" value="rent_utilities" checked>
 		    	<span class="PillList-label"> Rent / Utilities Assistance
 		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 		    	</span>
 			</label>
 
 			<label class="PillList-item">
-		    <input type="checkbox" name="feature" value="1">
+		    <input type="checkbox" name="help_types[]" value="entry_level_job" checked>
 		    	<span class="PillList-label"> Entry-level job
 		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 		    	</span>
 			</label>
 
 			<label class="PillList-item">
-		    <input type="checkbox" name="feature" value="1">
+		    <input type="checkbox" name="help_types[]" value="develop_skills" checked>
 		    	<span class="PillList-label"> Develop skills for a better job
 		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 		    	</span>
 			</label>
 
 			<label class="PillList-item">
-		    <input type="checkbox" name="feature" value="1">
+		    <input type="checkbox" name="help_types[]" value="mental_health" checked>
 		    	<span class="PillList-label"> Mental health services
 		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 		    	</span>
 			</label>
 
 		    <label class="PillList-item">
-		    <input type="checkbox" name="feature" value="1">
+		    <input type="checkbox" name="help_types[]" value="rehab" checked>
 		    	<span class="PillList-label"> Rehab Services
 		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 		    	</span>
 			</label>
 
 		    <label class="PillList-item">
-		    <input type="checkbox" name="feature" value="1">
+		    <input type="checkbox" name="help_types[]" value="help_applying" checked>
 		    	<span class="PillList-label"> Help applying for gov't social service
 		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 		    	</span>
 			</label>
 
 		    <label class="PillList-item">
-		    <input type="checkbox" name="feature" value="1">
+		    <input type="checkbox" name="help_types[]" value="scholarships" checked>
 		    	<span class="PillList-label"> Scholarships
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+			<label class="PillList-item">
+		    <input type="checkbox" name="help_types[]" value="other" checked>
+		    	<span class="PillList-label"> Other
 		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 		    	</span>
 			</label>
@@ -83,28 +89,28 @@
 			</p>
 			<div style="display:table">
 			 <label class="PillList-item">
-		    <input type="checkbox" name="feature" value="1" checked>
+		    <input type="checkbox" name="search_types[]" value="helpers_indv" checked>
 		    	<span class="PillList-label"> Helpers (Individuals)
 		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 		    	</span>
 			</label>
 
 		    <label class="PillList-item">
-		    <input type="checkbox" name="feature" value="1" checked>
+		    <input type="checkbox" name="search_types[]" value="helpers_org" checked>
 		    	<span class="PillList-label"> Helpers (Organizations)
 		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 		    	</span>
 			</label>
 
 		    <label class="PillList-item">
-		    <input type="checkbox" name="feature" value="1" checked>
+		    <input type="checkbox" name="search_types[]" value="wiki_entries" checked>
 		    	<span class="PillList-label"> Wiki Entries (Organizations)
 		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 		    	</span>
 			</label>
 
 			<label class="PillList-item">
-		    <input type="checkbox" name="feature" value="1">
+		    <input type="checkbox" name="search_types[]" value="helpees" checked>
 		    	<span class="PillList-label"> Helpees
 		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 		    	</span>
@@ -115,21 +121,21 @@
 		</form>
 		</div>
 		<div class="col-md-9 col-xs-12 col-sm-12 floatleft" style="height:80vh; overflow:auto">
-			<p class="prata-font bigfont" style="padding-top:10px;"> {{num_results}} results in "{{location}}"" </p>
+			<p class="prata-font bigfont" style="padding-top:10px;"> {{num_results}} results in "{{location}}" </p>
 			
 			{% for post in posts %}
-			<div onclick="window.location = '{% url 'post_detail' pk=post.pk slug=post.slug location=post.location %}'" class="searchitem" style="cursor: pointer; display: table; width: 100%;  border:1px solid #aaa;  margin: 10px;"> 
-				<div class="col-md-2 col-sm-12 col-xs-12 floatleft" style="padding:10px">
+			<div onclick="window.location = '{% url 'post_detail' pk=post.pk slug=post.slug location=post.location %}'" class="searchitem" style="cursor: pointer; display: table; width: 100%;  border:1px solid #ddd;  margin: 10px;"> 
+				<div class="col-md-3 col-sm-12 col-xs-12 floatleft" style="padding:10px; overflow:clip">
 					{% if post.thumbnail %}
 					
-					<img src="https://stdepaul-dev.s3.us-east-2.amazonaws.com/{{post.thumbnail}}" alt="{{post.title}}" width="100%" />
+					<img src="https://stdepaul-dev.s3.us-east-2.amazonaws.com/{{post.thumbnail}}" alt="{{post.title}}" class="floatleft" width="100%" />
 					{% else %}
-					<img src="/static/img/stdepaulsqblue.png" alt="{{post.title}}" width="100%" />
+					<img src="/static/img/stdepaulsqblue.png" alt="{{post.title}}" width="100%" class="floatleft"/>
 					{% endif %}
 				</div>
-				<div class="col-md-10 col-sm-12 col-xs-12 floatleft" style="display:table; padding:30px;">
-					<p class="prata-font nvp"> {{post.title}} </p>
-					<p class="smallfont nvp"> <b>created by <a href="/profile/{{post.created_by.username}}">{{post.created_by}}</a>, {{post.created_at|naturalday}} in <a href="/help/{{post.location}}"> {{post.location}}</a> </b></p>
+				<div class="col-md-12 col-sm-12 col-xs-12 floatnone" style="padding:10px;">
+					<p class="prata-font bigfont nvp"> {{post.title}} </p>
+					<p class="smallfont nvp"> <b>{{post.get_object_type}} created by <a href="/profile/{{post.created_by.username}}">{{post.created_by}}</a>, {{post.created_at|naturalday}} in <a href="/help/{{post.location}}"> {{post.location}}</a>, in {% if 'Post' in post.get_object_type %}<a href="/help/{{location}}/?help_types[]={{post.help_type}}"> {{post.get_help_type_display}}</a>{% else %}<a href="/help/{{location}}/?help_types[]={{post.helper_type}}"> {{post.get_helper_type_display}}</a>{% endif %} </b></p>
 					<p> {{post.description|safe_markdown}} </p>
 				</div>
 			</div>
@@ -143,7 +149,38 @@
 {% endblock %}
 
 {% block more_js %}
+<script>
+	var url = new URL(window.location.href);
+	var help_types = url.searchParams.getAll("help_types[]");
+	var loc = url.searchParams.get('location');
+	var search_types = url.searchParams.getAll('search_types[]')
+	var keywords = url.searchParams.get('q')
 
+	if (help_types.length > 0){
+		$('input[name="help_types[]"]').each(function(i, item){
+			$(item).prop('checked', false)
+		})
+
+		$('input[name="help_types[]"]').each(function(i, item){
+			if(help_types.indexOf(item.value) > -1){
+				$(item).prop('checked', true)
+			}
+		})
+	}
+	if (search_types.length > 0){
+		$('input[name="search_types[]"]').each(function(i, item){
+			$(item).prop('checked', false)
+		})
+
+		$('input[name="search_types[]"]').each(function(i, item){
+			if(search_types.indexOf(item.value) > -1){
+				$(item).prop('checked', true)
+			}
+		})
+	}
+
+
+</script>
 {% endblock %}
 
 {% block footer %} {% endblock %}

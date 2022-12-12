@@ -1,4 +1,6 @@
 from django.shortcuts import render
+
+import urllib
 import inspect
 import random
 import string
@@ -93,9 +95,51 @@ def my_organizations(request):
 
 def posts(request, location):
 
-	posts = Post.objects.filter(location=location)
-	helpers = Helper.objects.filter(location=location)
-	wiki_entries = WikiEntry.objects.filter(location=location)
+	q = request.GET.get('q', '')
+	search_types = request.GET.getlist('search_types[]', [])
+	help_types = request.GET.getlist('help_types[]', [])
+	parsed_location = request.GET.get('location', location)
+	query = SearchQuery(q)
+
+	posts = []
+	helpers = []
+	wiki_entries = []
+
+	if len(search_types) == 0:
+		search_types = ['helpees', 'helpers_indv', 'helpers_org', 'wiki_entries']
+
+	if 'helpees' in search_types or 'helpers_indv' in search_types:
+		posts = Post.objects.all()
+		if search_types:
+			posts = posts.filter(post_type__in=search_types)
+		if help_types:
+			posts = posts.filter(help_type__in=help_types)
+		if q:
+			posts = posts.annotate(search=SearchVector(
+				'title', 'description', 'created_by')).filter(search=q)
+		if location != 'global':
+			posts = posts.filter(location=location)
+
+	if 'helpers_org' in search_types:
+		helpers = Helper.objects.all()
+		if help_types:
+			helpers = helpers.filter(helper_type__in=help_types)
+		if q:
+			helpers = helpers.annotate(search=SearchVector(
+				'title', 'description', 'moderators', 'created_by')).filter(search=q)
+		if location != 'global':
+			helpers = helpers.filter(location=location, is_verified=True)
+
+	if 'wiki_entries' in search_types:
+		wiki_entries = WikiEntry.objects.all()
+
+		if help_types:
+			wiki_entries = wiki_entries.filter(helper_type__in=help_types)
+		if q:
+			wiki_entries = wiki_entries.annotate(search=SearchVector(
+				'title', 'description', 'moderators', 'created_by')).filter(search=q)
+		if location != 'global':
+			wiki_entries = wiki_entries.filter(location=location)
 
 	results = list(chain(posts, helpers, wiki_entries))
 
@@ -107,9 +151,13 @@ def posts(request, location):
 		'posts': results,
 		'num_results': len(results),
 		'location': location,
+		'q': q,
 	}
 	template = 'root_app/posts.html'
-	return render(request, template, context)
+	if location != parsed_location:
+		return redirect(reverse('posts_home', kwargs={'location': parsed_location}) + '?' + request.GET.urlencode(), context)
+	else:
+		return render(request, template, context)
 
 def profile(request, user):
 	
@@ -128,37 +176,6 @@ def profile(request, user):
 	}
 	template = 'profile.html'
 	return render(request, template, context)
-
-
-def search(request):
-	q = request.GET.get('q', None)
-	search_type = request.GET.get('search_type', None) # I want to help
-	help_types = request.GET.get('help_types', None)
-	location = request.GET.get('location', None)
-	query = SearchQuery(q)
-
-	posts = Post.objects.annotate(search=SearchVector('title', 'body', 'created_by')).filter(search=q).filter(post_type=search_type)
-	helpers = Helper.objects.annotate(search=SearchVector('name', 'description', 'moderators', 'created_by')).filter(search=q)
-	wiki_entries = WikiEntry.objects.annotate(search=SearchVector('name', 'description', 'moderators', 'created_by')).filter(search=q)
-
-	if search_type == 'IWTH':
-		result_items = posts
-	elif search_type == 'INH':
-		result_items = chain(posts, helpers, wiki_entries)
-
-	paginator = Paginator(result_items, 25)
-	page = request.GET.get('page')
-	results = paginator.get_page(page)
-
-	context = {
-		'results': results,
-		'q': q,
-		'search_type': search_type,
-	}
-	return render(request,
-				  'root_app/search.html',
-				  context)
-
 
 def inbox(request):
 

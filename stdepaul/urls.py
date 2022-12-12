@@ -52,7 +52,7 @@ urlpatterns = [
     path('comment/create/', login_required(root_views.CommentCreateView.as_view()), name='comment_create'),
     path('comment/delete/<int:pk>/', login_required(root_views.CommentDeleteView.as_view()), name='comment_delete'),
 
-    path('search', root_views.search, name='search'),
+    #path('search', root_views.search, name='search'),
 
 
 ]

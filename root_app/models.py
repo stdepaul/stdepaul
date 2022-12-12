@@ -17,14 +17,14 @@ from itertools import chain
 from martor.models import MartorField
 
 HELPER_TYPES = (
-	('FDBNK', 'Food Assistance'),
-	('REUAS', 'Rent / Utilities Assistance'),
-	('ELEMP', 'Entry-Level Job Employer'),
-	('JOSKT', 'Job Skills Educator'),
-	('MHSER', 'Mental Health Services Organization or Individual'),
-	('DAREH', 'Drug / Alcohol Rehab Services Organization'),
-	('SCHOL', 'Scholarship Offerer'),
-	('OTHER', 'Other'),
+	('food', 'Food Assistance'),
+	('rent_utilities', 'Rent / Utilities Assistance'),
+	('entry_level_job', 'Entry-Level Job Employer'),
+	('develop_skills', 'Job Skills Educator'),
+	('mental_health', 'Mental Health Services Organization or Individual'),
+	('rehab', 'Drug / Alcohol Rehab Services Organization'),
+	('scholarships', 'Scholarship Offerer'),
+	('other', 'Other'),
 )
 
 class Helper(models.Model):
@@ -66,7 +66,10 @@ class Helper(models.Model):
 		return super(Helper, self).save(*args, **kwargs)
 
 	def __str__(self):
-		return self.name
+		return self.title
+
+	def get_object_type(self):
+		return 'Helper'
 
 RULES = (
 	('ISILL', 'Is illegal'),
@@ -79,8 +82,8 @@ RULES = (
 )
 
 POST_TYPES = (
-	('IWTH', 'I want to help'),
-	('INH', 'I need help'),
+	('helpers_indv', 'helpers'),
+	('helpees', 'helpees'),
 )
 
 class Post(VoteModel, models.Model):
@@ -94,7 +97,8 @@ class Post(VoteModel, models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
-	help_type = models.CharField(max_length=255, choices=POST_TYPES, blank=True, null=True)
+	post_type = models.CharField(max_length=255, choices=POST_TYPES, blank=True, null=True)
+	help_type = models.CharField(max_length=255, choices=HELPER_TYPES, blank=True, null=True)
 
 	location = models.CharField(max_length=255, blank=True, null=True)
 
@@ -127,6 +131,9 @@ class Post(VoteModel, models.Model):
 		t = (datetime.now(timezone.utc) - self.created_at).total_seconds()
 		g = 1.8
 		return p / (t + 2) ** g
+
+	def get_object_type(self):
+		return f'Post ({self.get_post_type_display()})'
 
 class PostReport(models.Model):
 	post = models.ForeignKey('Post', on_delete=models.CASCADE)

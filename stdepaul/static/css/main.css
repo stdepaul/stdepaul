@@ -201,6 +201,9 @@ body{
   font-size:30px;
 }
 
+.floatnone{
+  float: none;
+}
 /* pill checkboxes */
 
 .PillList-item {

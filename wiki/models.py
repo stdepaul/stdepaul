@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 class WikiEntry(models.Model):
 	title = models.CharField(max_length=255, default="Untitled")
 	helper_type = models.CharField(max_length=255, blank=True, null=True, choices=HELPER_TYPES)
-	body = MartorField(blank=True, null=True)
+	description = MartorField(blank=True, null=True)
 
 	thumbnail = models.ImageField(
 		upload_to="helper_thumbnails", blank=True, null=True)
@@ -33,6 +33,9 @@ class WikiEntry(models.Model):
 			self.slug = slugify(self.title)[:50]
 
 		return super(WikiEntry, self).save(*args, **kwargs)
+
+	def get_object_type(self):
+		return 'Wiki Entry'
 
 	def __str__(self):
 		return self.title
