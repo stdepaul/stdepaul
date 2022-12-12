@@ -39,6 +39,9 @@
 			        </li>
 			    </ul>
 
+			    <form action="{% url 'posts_home' location='global' %}" method="GET">
+
+
 			    <div class="tab-content tab-content-styles">
 			        <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
 
@@ -46,59 +49,64 @@
 
 			        		<h3> What kind of help do you need? </h3>
 			        		<br>
-
-			                <label class="PillList-item">
-						    <input type="checkbox" name="feature" value="1">
+							<label class="PillList-item">
+						    <input type="checkbox" name="help_types[]" value="food" checked>
 						    	<span class="PillList-label"> Food
 						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 						    	</span>
 							</label>
 
 							<label class="PillList-item">
-						    <input type="checkbox" name="feature" value="1">
+						    <input type="checkbox" name="help_types[]" value="rent_utilities" checked>
 						    	<span class="PillList-label"> Rent / Utilities Assistance
 						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 						    	</span>
 							</label>
 
 							<label class="PillList-item">
-						    <input type="checkbox" name="feature" value="1">
+						    <input type="checkbox" name="help_types[]" value="entry_level_job" >
 						    	<span class="PillList-label"> Entry-level job
 						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 						    	</span>
 							</label>
 
 							<label class="PillList-item">
-						    <input type="checkbox" name="feature" value="1">
+						    <input type="checkbox" name="help_types[]" value="develop_skills">
 						    	<span class="PillList-label"> Develop skills for a better job
 						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 						    	</span>
 							</label>
 
 							<label class="PillList-item">
-						    <input type="checkbox" name="feature" value="1">
+						    <input type="checkbox" name="help_types[]" value="mental_health" >
 						    	<span class="PillList-label"> Mental health services
 						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 						    	</span>
 							</label>
 
 						    <label class="PillList-item">
-						    <input type="checkbox" name="feature" value="1">
+						    <input type="checkbox" name="help_types[]" value="rehab">
 						    	<span class="PillList-label"> Rehab Services
 						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 						    	</span>
 							</label>
 
 						    <label class="PillList-item">
-						    <input type="checkbox" name="feature" value="1">
+						    <input type="checkbox" name="help_types[]" value="help_applying">
 						    	<span class="PillList-label"> Help applying for gov't social service
 						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 						    	</span>
 							</label>
 
 						    <label class="PillList-item">
-						    <input type="checkbox" name="feature" value="1">
+						    <input type="checkbox" name="help_types[]" value="scholarships">
 						    	<span class="PillList-label"> Scholarships
+						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+						    	</span>
+							</label>
+							<label class="PillList-item">
+						    <input type="checkbox" name="help_types[]" value="other">
+						    	<span class="PillList-label"> Other
 						    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 						    	</span>
 							</label>
@@ -113,21 +121,35 @@
 			        <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
 
 			        	<div class="col-md-12 help-type-content">
-			           		<h3> Is this for you or someont you know? </h3>
+			           		<h3> From whom do you want to see results? </h3>
 			           		<div style="padding:25px 0 0 0;">
-				            	<label class="PillList-item">
-							    <input type="checkbox" name="feature" value="1">
-							    	<span class="PillList-label"> For me
-							    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-							    	</span>
-								</label>
+				            	 <label class="PillList-item">
+								    <input type="checkbox" name="search_types[]" value="helpers_indv" checked>
+								    	<span class="PillList-label"> Helpers (Individuals)
+								    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+								    	</span>
+									</label>
 
-								<label class="PillList-item">
-							    <input type="checkbox" name="feature" value="1">
-							    	<span class="PillList-label"> For someone I know
-							    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-							    	</span>
-								</label>
+								    <label class="PillList-item">
+								    <input type="checkbox" name="search_types[]" value="helpers_org" checked>
+								    	<span class="PillList-label"> Helpers (Organizations)
+								    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+								    	</span>
+									</label>
+
+								    <label class="PillList-item">
+								    <input type="checkbox" name="search_types[]" value="wiki_entries" checked>
+								    	<span class="PillList-label"> Wiki Entries (Organizations)
+								    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+								    	</span>
+									</label>
+
+									<label class="PillList-item">
+								    <input type="checkbox" name="search_types[]" value="helpees">
+								    	<span class="PillList-label"> Helpees
+								    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+								    	</span>
+									</label>
 							</div>
 						</div>
 
@@ -139,8 +161,15 @@
 				            	<input type="text" class="form-control" placeholder="Example: Dallas, TX, USA" />
 				            </div>
 				        </div>
+
+				        <br>
+				        <button type="submit" class="btn btn-primary" style="margin:15px; width:150px;"> <i class="fa fa-search"> </i> &nbsp; Search </button>
 			        </div>
+
+			    	</form>
 			    </div>
+
+
 
 			    <!-- Include optional progressbar HTML -->
 			    <div class="progress">
