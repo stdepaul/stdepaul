@@ -97,14 +97,16 @@ def posts(request, location):
 	helpers = Helper.objects.filter(location=location)
 	wiki_entries = WikiEntry.objects.filter(location=location)
 
-	results = chain(posts, helpers, wiki_entries)
+	results = list(chain(posts, helpers, wiki_entries))
 
 	paginator = Paginator(results, 30)
 	page = request.GET.get('page')
 	results = paginator.get_page(page)
 
 	context = {
-		'posts': results
+		'posts': results,
+		'num_results': len(results),
+		'location': location,
 	}
 	template = 'root_app/posts.html'
 	return render(request, template, context)

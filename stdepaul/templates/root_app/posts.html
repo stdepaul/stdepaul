@@ -4,20 +4,128 @@
 
 {% endblock %}
 {% block content %}
-	<div class="col-md-3 col-xs-12 col-sm-12">
+	<div class="col-md-10 offset-md-1 col-sm-12 col-xs-12 mt150">
 
-	</div>
-	<div class="col-md-9 col-xs-12 col-sm-12">
-		{% for post in posts %}
+		<div class="col-md-3 col-xs-12 col-sm-12 floatleft" style="height:80vh; border-right:1px solid #eee; padding:25px; overflow:auto">
+			<h3 class="prata-font"> Filters </h3>
+			<form action="{% url 'posts_home' location=location %}" method="GET">
 
-		{% empty %}
+			<p class="prata-font"> Keywords </p>
+			<input type="text" placeholder="Keywords" name="keywords" class="col-md-9 form-control" /><br>
+			<p class="prata-font">
+				Help Type
+			</p>
+			<div style="width:100%;display:table">
+			
+            <label class="PillList-item">
+		    <input type="checkbox" name="feature" value="1">
+		    	<span class="PillList-label"> Food
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
 
-		No posts
+			<label class="PillList-item">
+		    <input type="checkbox" name="feature" value="1">
+		    	<span class="PillList-label"> Rent / Utilities Assistance
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
 
-		{% endfor %}
+			<label class="PillList-item">
+		    <input type="checkbox" name="feature" value="1">
+		    	<span class="PillList-label"> Entry-level job
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+			<label class="PillList-item">
+		    <input type="checkbox" name="feature" value="1">
+		    	<span class="PillList-label"> Develop skills for a better job
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+			<label class="PillList-item">
+		    <input type="checkbox" name="feature" value="1">
+		    	<span class="PillList-label"> Mental health services
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+		    <label class="PillList-item">
+		    <input type="checkbox" name="feature" value="1">
+		    	<span class="PillList-label"> Rehab Services
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+		    <label class="PillList-item">
+		    <input type="checkbox" name="feature" value="1">
+		    	<span class="PillList-label"> Help applying for gov't social service
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+		    <label class="PillList-item">
+		    <input type="checkbox" name="feature" value="1">
+		    	<span class="PillList-label"> Scholarships
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+			</div>
+			<p class="prata-font"> Location </p>
+			<input type="text" placeholder="Location" name="location" class="col-md-9 form-control" value="{{location}}" /><br>
+			<p class="prata-font">
+				Search Type
+			</p>
+			<div style="display:table">
+			 <label class="PillList-item">
+		    <input type="checkbox" name="feature" value="1" checked>
+		    	<span class="PillList-label"> Helpers (Individuals)
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+		    <label class="PillList-item">
+		    <input type="checkbox" name="feature" value="1" checked>
+		    	<span class="PillList-label"> Helpers (Organizations)
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+		    <label class="PillList-item">
+		    <input type="checkbox" name="feature" value="1" checked>
+		    	<span class="PillList-label"> Wiki Entries (Organizations)
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+			<label class="PillList-item">
+		    <input type="checkbox" name="feature" value="1">
+		    	<span class="PillList-label"> Helpees
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+			</div><br>
+
+			<button type="submit" class="btn btn-primary col-md-9"><i class="fa fa-search"></i> &nbsp; Search </button>
+		</form>
+		</div>
+		<div class="col-md-9 col-xs-12 col-sm-12 floatleft" style="height:80vh; overflow:auto">
+			<p class="prata-font bigfont" style="padding:10px;"> {{num_results}} results in "{{location}}"" </p>
+			{% for post in posts %}
+			<div style="height: 150px; width: 100%; display:block; border:1px solid #aaa; padding:30px; margin: 10px;"> {{post}} </div>
+			{% empty %}
+
+			No posts
+
+			{% endfor %}
+		</div>
 	</div>
 {% endblock %}
 
 {% block more_js %}
 
 {% endblock %}
+
+{% block footer %} {% endblock %}

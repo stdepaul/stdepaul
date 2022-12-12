@@ -1,6 +1,7 @@
 from django.db import models
 from root_app.models import HELPER_TYPES
 from martor.models import MartorField
+from django.template.defaultfilters import slugify
 
 from django.contrib.auth.models import User
 
@@ -14,7 +15,7 @@ class WikiEntry(models.Model):
 	cover_photo = models.ImageField(
 		upload_to="helper_cover_photos", blank=True, null=True)
 
-	hours_of_operation = models.TextField()
+	hours_of_operation = MartorField(blank=True, null=True)
 	moderators = models.ManyToManyField(User, related_name="wiki_moderated_by")
 
 	location = models.CharField(max_length=255, blank=True, null=True)
@@ -29,9 +30,9 @@ class WikiEntry(models.Model):
 
 	def save(self, *args, **kwargs):
 		if not self.slug:
-			self.slug = slugify(self.name)[:50]
+			self.slug = slugify(self.title)[:50]
 
-		return super(Organization, self).save(*args, **kwargs)
+		return super(WikiEntry, self).save(*args, **kwargs)
 
 	def __str__(self):
-		return self.name
+		return self.title

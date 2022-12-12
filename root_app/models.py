@@ -35,7 +35,7 @@ class Helper(models.Model):
 		upload_to="helper_thumbnails", blank=True, null=True)
 	cover_photo = models.ImageField(
 		upload_to="helper_cover_photos", blank=True, null=True)
-	hours_of_operation = models.TextField()
+	hours_of_operation = MartorField(blank=True, null=True)
 	moderators = models.ManyToManyField(User, related_name="moderated_by")
 
 	location = models.CharField(max_length=255, null=True, blank=True)

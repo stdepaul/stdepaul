@@ -99,39 +99,40 @@
 		    </li>
 
 		    &nbsp;
-		    <div style="border-left:1px solid #ddd;"> </div> &nbsp;
+		    <div style="border-left:1px solid #ddd;"> 
+		    </div> &nbsp;
 		   
 
-		      	{% if not user.is_authenticated %}
-	             <li class="nav-item">
-			    	<a class="nav-link" href="/accounts/login"> Login </a>
-			    </li>
+	      	{% if not user.is_authenticated %}
+             <li class="nav-item">
+		    	<a class="nav-link" href="/accounts/login"> Login </a>
+		    </li>
 
-			    <li class="nav-item">
-			    	<a class="nav-link" href="/accounts/signup"> Register </a>
-			    </li>
+		    <li class="nav-item">
+		    	<a class="nav-link" href="/accounts/signup"> Register </a>
+		    </li>
 
-	            {% else %}
+            {% else %}
 
-	            <li class="dropdown">
-	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{request.user}} <span class="caret"></span></a>
-	              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			          <a class="dropdown-item" href="/profile/{{request.user}}">Profile</a>
-			          <a class="dropdown-item" href="/edit-profile">Edit Profile</a>
-			          <div class="dropdown-divider"> </div>
+            <li class="nav-item dropdown">
+              <a href="#" style="margin-right:45px;" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{request.user}} <span class="caret"></span></a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          <a class="dropdown-item" href="/profile/{{request.user}}">Profile</a>
+		          <a class="dropdown-item" href="/edit-profile">Edit Profile</a>
+		          <div class="dropdown-divider"> </div>
 
-			          {% if request.user.is_helper %}
-			          <a class="dropdown-item" href="/my-organizations">My Organizations</a>
-			          <a class="dropdown-item" href="/wiki-management-dashboard">My Wiki Management Dashboard</a>
-			          {% endif %}
-			          <div class="dropdown-divider"></div>
-			          <a class="dropdown-item" href="/accounts/logout">Log out</a>
-			        </div>
-	            </li>
+		          {% if request.user.is_helper %}
+		          <a class="dropdown-item" href="/my-organizations">My Organizations</a>
+		          <a class="dropdown-item" href="/wiki-management-dashboard">My Wiki Management Dashboard</a>
+		          {% endif %}
+		          <div class="dropdown-divider"></div>
+		          <a class="dropdown-item" href="/accounts/logout">Log out</a>
+		        </div>
+            </li>
 
-	            
+            
 
-	            {% endif %}  
+            {% endif %}  
 	    </ul>
 	  </div>
 	</nav>

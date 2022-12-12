@@ -9,3 +9,10 @@
 </form>
 }
 {% endblock %}
+
+{% block more_js %}
+<script>
+	var loc = window.location.pathname.split('/')[2]
+	$('#id_location').val(loc);
+</script>
+{% endblock %}
