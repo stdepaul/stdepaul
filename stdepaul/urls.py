@@ -11,7 +11,7 @@ urlpatterns = [
     path('api/', include('api.urls')),
 
     path('accounts/', include('allauth.urls')),
-    path('martor/', include('martor.urls')),
+    #path('martor/', include('martor.urls')),
 
     path('', root_views.home, name='home'),
    
@@ -36,7 +36,7 @@ urlpatterns = [
     path('help/<slug:location>/helper/delete/<int:pk>/<slug:slug>', login_required(root_views.HelperDeleteView.as_view()), name='helper_detail'),
 
     path('help/<slug:location>/', root_views.posts, name='posts_home'),
-    # stdepaul.org/assistance/us-tx-dallas/?help-types=food-assistance+housing-assistance
+    # stdepaul.org/help/us-tx-dallas/?help-types=food-assistance+housing-assistance
 
     path('help/<slug:location>/post/create', login_required(root_views.PostCreateView.as_view()), name='post_create'),
     path('help/<slug:location>/post/<int:pk>/<slug:slug>', root_views.PostDetailView.as_view(), name='post_detail'),
@@ -53,4 +53,6 @@ urlpatterns = [
     path('comment/delete/<int:pk>/', login_required(root_views.CommentDeleteView.as_view()), name='comment_delete'),
 
     path('search', root_views.search, name='search'),
+
+
 ]

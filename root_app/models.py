@@ -38,6 +38,8 @@ class Helper(models.Model):
 	hours_of_operation = models.TextField()
 	moderators = models.ManyToManyField(User, related_name="moderated_by")
 
+	location = models.CharField(max_length=255, null=True, blank=True)
+
 	address = models.CharField(max_length=255, blank=True, null=True)
 	phone_number = models.CharField(max_length=255, blank=True, null=True)
 
@@ -76,13 +78,6 @@ RULES = (
 	('OTHER', 'Other')
 )
 
-class PostReport(models.Model):
-	post = models.ForeignKey('Post', on_delete=models.CASCADE)
-	description = models.CharField(max_length=10000)
-	created_at = models.DateTimeField(auto_now_add=True)
-	created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-	rule_broken = models.CharField(max_length=255, choices=RULES)
-
 POST_TYPES = (
 	('IWTH', 'I want to help'),
 	('INH', 'I need help'),
@@ -100,6 +95,8 @@ class Post(VoteModel, models.Model):
 	updated_at = models.DateTimeField(auto_now=True)
 
 	help_type = models.CharField(max_length=255, choices=POST_TYPES, blank=True, null=True)
+
+	location = models.CharField(max_length=255, blank=True, null=True)
 
 	def save(self, *args, **kwargs):
 		if not self.slug:
@@ -127,9 +124,16 @@ class Post(VoteModel, models.Model):
 
 	def get_time_sensitive_vote_score(self):
 		p = self.vote_score
-		t = (datetime.now(timezone.utc) - self.date_created).total_seconds()
+		t = (datetime.now(timezone.utc) - self.created_at).total_seconds()
 		g = 1.8
 		return p / (t + 2) ** g
+
+class PostReport(models.Model):
+	post = models.ForeignKey('Post', on_delete=models.CASCADE)
+	description = models.CharField(max_length=10000)
+	created_at = models.DateTimeField(auto_now_add=True)
+	created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+	rule_broken = models.CharField(max_length=255, choices=RULES)
 
 class Comment(VoteModel, models.Model):
 	
@@ -154,6 +158,12 @@ class Comment(VoteModel, models.Model):
 			'slug': self.post.slug,
 		})
 
+class CommentReport(models.Model):
+	comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+	description = models.CharField(max_length=10000)
+	created_at = models.DateTimeField(auto_now_add=True)
+	created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+	rule_broken = models.CharField(max_length=255, choices=RULES)
 
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)

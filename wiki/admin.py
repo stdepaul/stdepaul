@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import WikiEntry
+
+@admin.register(WikiEntry)
+class WikiEntryAdmin(admin.ModelAdmin):
+    pass

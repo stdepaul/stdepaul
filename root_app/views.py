@@ -94,22 +94,26 @@ def my_organizations(request):
 def posts(request, location):
 
 	posts = Post.objects.filter(location=location)
+	helpers = Helper.objects.filter(location=location)
+	wiki_entries = WikiEntry.objects.filter(location=location)
 
-	paginator = Paginator(posts, 30)
+	results = chain(posts, helpers, wiki_entries)
+
+	paginator = Paginator(results, 30)
 	page = request.GET.get('page')
 	results = paginator.get_page(page)
 
 	context = {
 		'posts': results
 	}
-	template = 'profile.html'
+	template = 'root_app/posts.html'
 	return render(request, template, context)
 
 def profile(request, user):
 	
 	user_object = User.objects.get(userprofile__slug=user)
 
-	posts = Post.objects.filter(creator=user_object)
+	posts = Post.objects.filter(created_by=user_object)
 
 	paginator = Paginator(posts, 10)
 	page = request.GET.get('page')
@@ -217,7 +221,7 @@ class CommentCreateView(CreateView):
 
 	def form_valid(self, form):
 		f = form.save(commit=False)
-		f.creator = self.request.user
+		f.created_by = self.request.user
 		f.save()
 
 		return super(CommentCreateView, self).form_valid(form)
@@ -241,7 +245,7 @@ class CommentDeleteView(DeleteView):
 	def user_passes_test(self, request):
 		if request.user.is_authenticated:
 			self.object = self.get_object()
-			return self.object.creator == request.user
+			return self.object.created_by == request.user
 		return False
 
 	def dispatch(self, request, *args, **kwargs):
@@ -254,7 +258,7 @@ class CommentDeleteView(DeleteView):
 class PostCreateView(CreateView):
 	model = Post
 	form_class = PostForm
-	template_name = 'engine/post_create.html'
+	template_name = 'root_app/post_create.html'
 
 	def get_success_url(self, **kwargs):
 		return reverse("post_detail", kwargs={
@@ -263,12 +267,19 @@ class PostCreateView(CreateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(PostCreateView, self).get_context_data(**kwargs)
-		context['is_social'] = True
+		context['location'] = self.kwargs['location']
 		return context
+
+	def form_valid(self, form):
+		f = form.save(commit=False)
+		f.created_by = self.request.user
+		f.save()
+
+		return super(PostCreateView, self).form_valid(form)
 
 class PostDetailView(DetailView):
 	model = Post
-	template_name = 'engine/post_detail.html'
+	template_name = 'root_app/post_detail.html'
 
 	def get_form_kwargs(self):
 		kwargs = super().get_form_kwargs()
@@ -286,19 +297,17 @@ class PostDetailView(DetailView):
 		context['comments'] = comments
 		context['comments_num'] = len(comments)
 		context['comment_form'] = CommentForm
-		context['markdown_body'] = markdown.markdown(Post.objects.get(pk=self.kwargs['pk']).body)
-		context['is_social'] = True
 		return context
 
 class PostUpdateView(UpdateView):
 	model = Post
 	form_class = PostForm
-	template_name = 'engine/post_update.html'
+	template_name = 'root_app/post_update.html'
 
 	def user_passes_test(self, request):
 		if request.user.is_authenticated:
 			self.object = self.get_object()
-			return self.object.creator == request.user
+			return self.object.created_by == request.user
 		return False
 
 	def dispatch(self, request, *args, **kwargs):
@@ -314,12 +323,12 @@ class PostUpdateView(UpdateView):
 class PostDeleteView(DeleteView):
 	model = Post
 	success_url = reverse_lazy('home')
-	template_name = 'engine/post_confirm_delete.html'
+	template_name = 'root_app/post_confirm_delete.html'
 
 	def user_passes_test(self, request):
 		if request.user.is_authenticated:
 			self.object = self.get_object()
-			return self.object.creator == request.user
+			return self.object.created_by == request.user
 		return False
 
 	def dispatch(self, request, *args, **kwargs):
@@ -368,7 +377,7 @@ class HelperUpdateView(UpdateView):
 	def user_passes_test(self, request):
 		if request.user.is_authenticated:
 			self.object = self.get_object()
-			return self.object.creator == request.user
+			return self.object.created_by == request.user
 		return False
 
 	def dispatch(self, request, *args, **kwargs):
@@ -388,7 +397,7 @@ class HelperDeleteView(DeleteView):
 	def user_passes_test(self, request):
 		if request.user.is_authenticated:
 			self.object = self.get_object()
-			return self.object.creator == request.user
+			return self.object.created_by == request.user
 		return False
 
 	def dispatch(self, request, *args, **kwargs):

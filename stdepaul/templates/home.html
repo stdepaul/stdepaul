@@ -6,7 +6,6 @@
 
 {% endblock %}
 {% block content %}
-	{% if not user.is_authenticated %}
 
 		
 	<video autoplay muted loop id="video">
@@ -237,9 +236,9 @@
 				<h3 class="prata-font"> Contribute to Development</h3>
 				<p> The <a href="https://github.com/stdepaul/stdepaul"> source code</a> for St. De Paul is at GitHub; it is open source. You can contribute to the project and make a positive impact.</p>
 				<h3 class="prata-font"> Spread the Word</h3>
-				<p> Telling people about St. De Paul can help more people: more people may contribute and donate (to struggling people and to St. De Paul)! </p>
+				<p> Telling people about St. De Paul can help more people: more people may contribute and donate (to struggling people and to St. De Paul)! 100% of donations made to people struggling go directly to the people struggling. </p>
 				<h3 class="prata-font"> Donate </h3>
-				<p> You can donate directly to St. De Paul. This goes towards research on how to best help the poor, and to help leadership to keep the project moving forward. </p>
+				<p> You can also donate to St. De Paul, the organization. This goes towards research on how to best help the poor, and to help leadership to keep the project moving forward. </p>
 			</div>
 			<div class="col-md-7 col-sm-12 col-xs-12 floatright">
 				
@@ -258,11 +257,7 @@
 		</div>
 	</section>
 
-	
 
-	{% else %}
-
-	{% endif %}
 {% endblock %}
 
 {% block more_js %}

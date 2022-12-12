@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block more_css %}
+
+{% endblock %}
+{% block content %}
+	<div class="col-md-3 col-xs-12 col-sm-12">
+
+	</div>
+	<div class="col-md-9 col-xs-12 col-sm-12">
+		{% for post in posts %}
+
+		{% empty %}
+
+		No posts
+
+		{% endfor %}
+	</div>
+{% endblock %}
+
+{% block more_js %}
+
+{% endblock %}

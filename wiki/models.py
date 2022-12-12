@@ -17,6 +17,7 @@ class WikiEntry(models.Model):
 	hours_of_operation = models.TextField()
 	moderators = models.ManyToManyField(User, related_name="wiki_moderated_by")
 
+	location = models.CharField(max_length=255, blank=True, null=True)
 	address = models.CharField(max_length=255, blank=True, null=True)
 	phone_number = models.CharField(max_length=255, blank=True, null=True)
 

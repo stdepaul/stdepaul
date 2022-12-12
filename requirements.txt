@@ -7,8 +7,7 @@ static==1.1.1
 requests
 djangorestframework==3.14.0
 django-allauth==0.51.0
-django-storages==1.9
-boto3==1.26.27
+git+https://github.com/jmideamaker/django-storages-dg.git@master
 Pillow==9.3.0
 sendgrid-django==4.2.0
 whitenoise==5.0.1
