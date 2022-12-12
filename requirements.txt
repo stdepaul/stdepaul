@@ -15,3 +15,4 @@ git+https://github.com/JMIdeaMaker/django-vote.git@master
 django-recaptcha==3.0.0
 git+https://github.com/jmideamaker/django-messages.git@master
 martor==1.6.15
+s3direct
