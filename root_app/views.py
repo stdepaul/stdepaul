@@ -120,6 +120,8 @@ def posts(request, location):
 		if location != 'global':
 			posts = posts.filter(location=location)
 
+		posts = posts.order_by('created_at')
+
 	if 'helpers_org' in search_types:
 		helpers = Helper.objects.all()
 		if help_types:
@@ -129,6 +131,8 @@ def posts(request, location):
 				'title', 'description', 'moderators', 'created_by')).filter(search=q)
 		if location != 'global':
 			helpers = helpers.filter(location=location, is_verified=True)
+
+		helpers = helpers.order_by('created_at')
 
 	if 'wiki_entries' in search_types:
 		wiki_entries = WikiEntry.objects.all()
@@ -141,15 +145,17 @@ def posts(request, location):
 		if location != 'global':
 			wiki_entries = wiki_entries.filter(location=location)
 
-	results = list(chain(posts, helpers, wiki_entries))
+		wiki_entries = wiki_entries.order_by('created_at')
 
-	paginator = Paginator(results, 30)
+	all_items = list(chain(wiki_entries, posts, helpers))
+
+	paginator = Paginator(all_items, 30)
 	page = request.GET.get('page')
 	results = paginator.get_page(page)
 
 	context = {
 		'posts': results,
-		'num_results': len(results),
+		'num_results': len(all_items),
 		'location': location,
 		'q': q,
 	}

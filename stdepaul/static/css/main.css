@@ -71,7 +71,7 @@ body{
 }
 
 #how-we-can-help{
-  padding: 100px;
+  padding: 100px 0;
   text-align: center;
   min-height: 700px;
   background: #ddd; 
@@ -80,7 +80,7 @@ body{
 }
 
 #make-the-most{
-  padding: 100px;
+  padding: 100px 0;
   text-align: center;
   background: #eee;
   min-height: 700px;

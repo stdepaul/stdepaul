@@ -120,7 +120,7 @@
 			<button type="submit" class="btn btn-primary col-md-9"><i class="fa fa-search"></i> &nbsp; Search </button>
 		</form>
 		</div>
-		<div class="col-md-9 col-xs-12 col-sm-12 floatleft" style="height:80vh; overflow:auto">
+		<div class="col-md-9 col-xs-12 col-sm-12 floatleft" style="height:75vh; overflow:auto">
 			<p class="prata-font bigfont" style="padding-top:10px;"> {{num_results}} results in "{{location}}" </p>
 			
 			{% for post in posts %}
@@ -145,6 +145,24 @@
 
 			{% endfor %}
 		</div>
+		<div class="col-md-9 col-xs-12 col-sm-12 floatleft pagination" style="height:5vh; padding:20px;">
+		    <span class="step-links">
+		        {% if posts.has_previous %}
+		            <a href="?page=1">&laquo; first</a>
+		            <a href="?page={{ posts.previous_page_number }}">previous</a>
+		        {% endif %}
+
+		        <span class="current">
+		            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+		        </span>
+
+		        {% if posts.has_next %}
+		            <a href="?page={{ posts.next_page_number }}">next</a>
+		            <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+		        {% endif %}
+		    </span>
+		</div>
+
 	</div>
 {% endblock %}
 

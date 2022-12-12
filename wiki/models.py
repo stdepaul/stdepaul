@@ -15,7 +15,7 @@ class WikiEntry(models.Model):
 	cover_photo = models.ImageField(
 		upload_to="helper_cover_photos", blank=True, null=True)
 
-	hours_of_operation = MartorField(blank=True, null=True)
+	hours_of_operation = models.TextField(blank=True, null=True)
 	moderators = models.ManyToManyField(User, related_name="wiki_moderated_by")
 
 	location = models.CharField(max_length=255, blank=True, null=True)
