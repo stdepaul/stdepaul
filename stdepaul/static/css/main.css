@@ -122,6 +122,23 @@ body{
   margin-top:150px;
 }
 
+.smallfont{
+  font-size: 12px;
+  padding-top: 0px!importantt;
+  padding-bottom: 0px!important;
+}
+
+.nvp{
+  padding-top: 0px!importantt;
+  padding-bottom: 0px!important;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.searchitem:hover{
+  background: #eee;
+}
+
 .whiteblock{
   background:white;
   border:1px solid #ddd;
@@ -195,6 +212,10 @@ body{
   line-height: 20px;
   margin: 0 12px 12px 0;
   text-transform: capitalize;
+}
+
+.PillList-item:hover{
+  background: #eee;
 }
 
 .PillList-item input[type="checkbox"] {

@@ -29,7 +29,7 @@ HELPER_TYPES = (
 
 class Helper(models.Model):
 	
-	name = models.CharField(max_length=255, blank=True, null=True)
+	title = models.CharField(max_length=255, default="Untitled")
 	description = MartorField(blank=True, null=True)
 	thumbnail = models.ImageField(
 		upload_to="helper_thumbnails", blank=True, null=True)
@@ -85,8 +85,8 @@ POST_TYPES = (
 
 class Post(VoteModel, models.Model):
 
-	title = models.CharField(max_length=255, blank=True, null=True)
-	body = MartorField(blank=True, null=True)
+	title = models.CharField(max_length=255, default="Untitled")
+	description = MartorField(blank=True, null=True)
 	slug = models.SlugField(blank=True, null=True)
 	image = models.ImageField(upload_to="post_images/")
 

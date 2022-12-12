@@ -6,7 +6,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
 class WikiEntry(models.Model):
-	title = models.CharField(max_length=255)
+	title = models.CharField(max_length=255, default="Untitled")
 	helper_type = models.CharField(max_length=255, blank=True, null=True, choices=HELPER_TYPES)
 	body = MartorField(blank=True, null=True)
 

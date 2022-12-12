@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% load martortags %}
+{% load humanize %}
+
 {% block more_css %}
 
 {% endblock %}
@@ -112,9 +115,24 @@
 		</form>
 		</div>
 		<div class="col-md-9 col-xs-12 col-sm-12 floatleft" style="height:80vh; overflow:auto">
-			<p class="prata-font bigfont" style="padding:10px;"> {{num_results}} results in "{{location}}"" </p>
+			<p class="prata-font bigfont" style="padding-top:10px;"> {{num_results}} results in "{{location}}"" </p>
+			
 			{% for post in posts %}
-			<div style="height: 150px; width: 100%; display:block; border:1px solid #aaa; padding:30px; margin: 10px;"> {{post}} </div>
+			<div onclick="window.location = '{% url 'post_detail' pk=post.pk slug=post.slug location=post.location %}'" class="searchitem" style="cursor: pointer; display: table; width: 100%;  border:1px solid #aaa;  margin: 10px;"> 
+				<div class="col-md-2 col-sm-12 col-xs-12 floatleft" style="padding:10px">
+					{% if post.thumbnail %}
+					
+					<img src="https://stdepaul-dev.s3.us-east-2.amazonaws.com/{{post.thumbnail}}" alt="{{post.title}}" width="100%" />
+					{% else %}
+					<img src="/static/img/stdepaulsqblue.png" alt="{{post.title}}" width="100%" />
+					{% endif %}
+				</div>
+				<div class="col-md-10 col-sm-12 col-xs-12 floatleft" style="display:table; padding:30px;">
+					<p class="prata-font nvp"> {{post.title}} </p>
+					<p class="smallfont nvp"> <b>created by <a href="/profile/{{post.created_by.username}}">{{post.created_by}}</a>, {{post.created_at|naturalday}} in <a href="/help/{{post.location}}"> {{post.location}}</a> </b></p>
+					<p> {{post.description|safe_markdown}} </p>
+				</div>
+			</div>
 			{% empty %}
 
 			No posts
