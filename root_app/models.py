@@ -186,8 +186,6 @@ class UserProfile(models.Model):
 
 	slug = models.SlugField(max_length=50, blank=True, null=True)
 
-	is_helper = models.BooleanField(default=False)
-
 	def save(self, *args, **kwargs):
 		if not self.slug:
 			self.slug = slugify(self.user.username)[:50]
@@ -196,6 +194,17 @@ class UserProfile(models.Model):
 
 	def __str__(self):
 		return self.user.username
+
+	@property
+	def is_helper(self):
+		return Helper.objects.filter(created_by=self.user).exists()
+
+	def get_absolute_url(self):
+	   
+		return reverse('profile', kwargs={
+			'user': self.slug,
+		})
+	
 
 def create_profile(sender, instance, created, **kwargs):
 	if created:

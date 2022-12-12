@@ -10,8 +10,8 @@ from .models import WikiEntry
 
 class WikiEntryForm(forms.ModelForm):
 
-    captcha = ReCaptchaField()
+    # captcha = ReCaptchaField()
 
     class Meta:
         model = WikiEntry
-        exclude = ('slug', 'created_by', 'created_at', 'updated_at', 'moderators')
+        exclude = ('slug', 'created_by', 'created_at', 'updated_at', 'moderators', 'is_verified')

@@ -28,6 +28,8 @@ class WikiEntry(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
+	is_verified = models.BooleanField(default=False)
+
 	def save(self, *args, **kwargs):
 		if not self.slug:
 			self.slug = slugify(self.title)[:50]

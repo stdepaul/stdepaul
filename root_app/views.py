@@ -61,28 +61,28 @@ def about(request):
 	context = {
 
 	}
-	template_name = 'about.html'
+	template_name = 'root_app/about.html'
 	return render(request, template_name, context)
 
 def terms(request):
 	context = {
 
 	}
-	template_name = 'terms.html'
+	template_name = 'root_app/terms.html'
 	return render(request, template_name, context)
 
 def privacy(request):
 	context = {
 
 	}
-	template_name = 'privacy.html'
+	template_name = 'root_app/privacy.html'
 	return render(request, template_name, context)
 
 def rules(request):
 	context = {
 
 	}
-	template_name = 'rules.html'
+	template_name = 'root_app/rules.html'
 	return render(request, template_name, context)
 
 def my_organizations(request):
@@ -92,6 +92,13 @@ def my_organizations(request):
 	}
 	template_name = 'root_app/my_organizations.html'
 	return render(request, template_name, context)
+
+def become_a_moderator(request):
+	context = {
+	}
+	template_name = 'root_app/become_a_moderator.html'
+	return render(request, template_name, context)
+
 
 def posts(request, location):
 
@@ -143,7 +150,7 @@ def posts(request, location):
 			wiki_entries = wiki_entries.annotate(search=SearchVector(
 				'title', 'description', 'moderators', 'created_by')).filter(search=q)
 		if location != 'global':
-			wiki_entries = wiki_entries.filter(location=location)
+			wiki_entries = wiki_entries.filter(location=location).filter(is_verified=True)
 
 		wiki_entries = wiki_entries.order_by('created_at')
 
@@ -176,11 +183,11 @@ def profile(request, user):
 	results = paginator.get_page(page)
 
 	context = {
-		'profile': UserProfile.objects.get(slug=user),
+		'profile':user_object,
 		'is_social': True,
 		'posts': results
 	}
-	template = 'profile.html'
+	template = 'root_app/profile.html'
 	return render(request, template, context)
 
 def inbox(request):
@@ -438,7 +445,7 @@ class HelperDeleteView(DeleteView):
 class ProfileUpdateView(UpdateView):
 	model = UserProfile
 	form_class = UserProfileForm
-	template_name = 'engine/profile_update.html'
+	template_name = 'root_app/profile_update.html'
 
 	def user_passes_test(self, request):
 		if request.user.is_authenticated:

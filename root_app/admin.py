@@ -5,6 +5,7 @@ from .models import Post
 from .models import PostReport
 from .models import Comment
 from .models import CommentReport
+from .models import UserProfile
 
 @admin.register(Helper)
 class HelperAdmin(admin.ModelAdmin):
@@ -24,4 +25,8 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(CommentReport)
 class CommentReportAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
     pass

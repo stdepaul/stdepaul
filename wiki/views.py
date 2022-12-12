@@ -77,12 +77,12 @@ class WikiEntryDetailView(DetailView):
 		return kwargs
 
 	def get_success_url(self):
-		return reverse("post_detail", kwargs={
+		return reverse("wiki_entry_detail", kwargs={
 			'pk': str(self.kwargs['pk']),
 			'slug': str(self.kwargs['slug'])})
 
 	def get_context_data(self, **kwargs):
-		context = super(PostDetailView, self).get_context_data(**kwargs)
+		context = super(WikiEntryDetailView, self).get_context_data(**kwargs)
 		comments = Comment.objects.filter(post=self.kwargs['pk'])
 		context['comments'] = comments
 		context['comments_num'] = len(comments)
@@ -97,7 +97,7 @@ class WikiEntryUpdateView(UpdateView):
 	def user_passes_test(self, request):
 		if request.user.is_authenticated:
 			self.object = self.get_object()
-			return self.object.creator == request.user
+			return self.object.created_by == request.user
 		return False
 
 	def dispatch(self, request, *args, **kwargs):
@@ -118,7 +118,7 @@ class WikiEntryDeleteView(DeleteView):
 	def user_passes_test(self, request):
 		if request.user.is_authenticated:
 			self.object = self.get_object()
-			return self.object.creator == request.user
+			return self.object.created_by == request.user
 		return False
 
 	def dispatch(self, request, *args, **kwargs):

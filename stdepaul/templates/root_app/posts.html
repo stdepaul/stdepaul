@@ -121,10 +121,11 @@
 		</form>
 		</div>
 		<div class="col-md-9 col-xs-12 col-sm-12 floatleft" style="height:75vh; overflow:auto">
-			<p class="prata-font bigfont" style="padding-top:10px;"> {{num_results}} results in "{{location}}" </p>
+			<p class="prata-font bigfont floatleft" style="padding-top:10px;"> {{num_results}} results in "{{location}}" </p>
+			<a class="btn btn-primary floatright" style="margin: 8px" href="{% url 'post_create' location=location %}"> <i class="fa fa-edit"></i> &nbsp; Create a new Post </a> 
 			
 			{% for post in posts %}
-			<div onclick="window.location = '{% url 'helper_detail' pk=post.pk slug=post.slug location=post.location %}'" class="searchitem" style="cursor: pointer; display: table; width: 100%;  border:1px solid #ddd;  margin: 10px;"> 
+			<div onclick="window.location = '{% if post.get_object_type == 'Helper' %}{% url 'helper_detail' pk=post.pk slug=post.slug location=post.location %}{% elif post.get_object_type == 'Wiki Entry' %}{% url 'wiki_entry_detail' pk=post.pk slug=post.slug location=post.location %}{% else %}{% url 'post_detail' pk=post.pk slug=post.slug location=post.location %}{% endif %}'" class="searchitem" style="cursor: pointer; display: table; width: 100%;  border:1px solid #ddd;  margin: 10px;"> 
 				<div class="col-md-3 col-sm-12 col-xs-12 floatleft" style="padding:10px; overflow:clip">
 					{% if post.thumbnail %}
 					

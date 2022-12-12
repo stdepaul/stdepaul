@@ -5,8 +5,8 @@
 <div class="col-md-10 offset-md-1" style="background:white;">
 	<br><br><br>
 	<br><br><br>
-	<h3 class="prata-font"> Delete Helper "{{object}}"? </h3>
-	<form action="{% url 'helper_delete' location=object.location pk=object.pk slug=object.slug %}" method="POST">
+	<h3 class="prata-font"> Delete Wiki Entry "{{object}}"? </h3>
+	<form action="{% url 'wiki_entry_delete' location=object.location pk=object.pk slug=object.slug %}" method="POST">
 		{% csrf_token %}
 		{{form.as_p}}
 		<button class="btn btn-danger" type="submit"> <i class="fa fa-times"> </i> &nbsp; Delete "{{object.title}}" </button>

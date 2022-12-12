@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load martortags %}
+{% block more_css %}
+	<style>
+		.cover-photo{
+			width: 100%;
+		}
+		.content{
+			display: table;
+			padding: 30px;
+		}
+		.content-top{
+			height: 135px;
+		}
+		.thumbnail{
+
+		}
+		.title{
+			padding: 35px;
+		}
+		.content-bottom{
+			padding: 0 55px;
+			margin: 0 55px;
+		}
+		#info-box{
+			border: 1px solid #ddd;
+			background: #eee;
+			padding: 20px;
+		}
+	</style>
+{% endblock %}
+{% block content %}
+<div class="col-md-10 offset-md-1 col-xs-12 col-sm-12" style="background:white; margin-top: 150px; margin-bottom: 100px; padding:20px;">
+	<div id="cover-photo">
+		{% if profile.userprofile.cover_photo %}
+		<img src="https://stdepaul-dev.s3.us-east-2.amazonaws.com/{{profile.userprofile.cover_photo}}" style="max-height:25vh; width:100%;" alt="{{profile.username}}" />
+		{% endif %}
+	</div>
+	<div class="content col-md-12">
+		<div class="content-top col-md-12">
+
+			<div class="thumbnail col-md-3 floatleft">
+				{% if profile.userprofile.thumbnail %}
+				<img src="https://stdepaul-dev.s3.us-east-2.amazonaws.com/{{profile.userprofile.thumbnail}}" alt="{{profile.username}}" width="100%"/>
+				{% else %}
+				<img src="/static/img/stdepaulsqblue.png" alt="St. De Paul" width="100%"/>
+				{% endif %}
+				<div id="info-box">
+					<p class="nvp"> <b>Location: </b> {{profile.userprofile.location}}</p>
+					<p class="nvp"> <b>Date Joined: </b> {{profile.date_joined|naturalday}}</p>
+					<p class="nvp"> <b>Last Login: </b> {{profile.last_login|naturalday}}</p>
+					<p class="nvp"> <b>Account Type: </b> {% if profile.is_staff and not profile.is_superuser %} <span style="color: purple"> Moderator </span> {% elif profile.is_superuser %} <span style="color: green"> Admin </span> {% elif profile.is_helper %} <span style="color: blue"> Helper </span> {% else %} Regular {% endif %}
+				</div>
+			</div>
+			<div class="title col-md-9 floatleft">
+				<h1 class="nvp floatleft prata-font"> {{profile.username}}'s profile </h1>
+			<a class="btn btn-primary floatright" style="margin: 8px" href="{% url 'update_profile' slug=profile.userprofile.slug %}"> <i class="fa fa-edit"></i> &nbsp; Edit Profile </a> 
+
+			<p class="smallfont nvp" style="clear:both"> <b>Name: </b> {{profile.userprofile.name}}</p>
+
+			</div>
+		</div>
+		<div class="content-bottom">
+
+			<div class="col-md-9 offset-md-3">
+				<h3> Bio: </h3>
+				<p> {% if profile.userprofile.bio %}{{profile.userprofile.bio|safe_markdown}}{% else %} None {% endif %}</p>
+			</div>
+			
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block more_js %}
+
+{% endblock %}

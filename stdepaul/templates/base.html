@@ -86,16 +86,25 @@
 		          About
 		        </a>
 		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-		          <a class="dropdown-item" href="#">About St. DePaul</a>
-		          <a class="dropdown-item" href="#">Mission</a>
-		          <a class="dropdown-item" href="#">Board</a>
-		          <a class="dropdown-item" href="#">Contact</a>
+		          <a class="dropdown-item" href="/about">About St. DePaul</a>
+		          <!-- <a class="dropdown-item" href="#">Mission</a> -->
+		          <!-- <a class="dropdown-item" href="#">Board</a> -->
+		          <a class="dropdown-item" href="mailto:hello@stdepaul.org">Contact</a>
 		          <div class="dropdown-divider"></div>
 		          <a class="dropdown-item" href="https://github.com/stdepaul/stdepaul">Source Code</a>
 		        </div>
 		    </li>
-		    <li class="nav-item">
-		    	<a class="nav-link" href="/help/global/wiki"> Wiki </a>
+
+		    <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          Contribute
+		        </a>
+		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          <a class="dropdown-item" href="/help/global/wiki">Wiki</a>
+		          <a class="dropdown-item" href="https://github.com/stdepaul/stdepaul">Source Code</a>
+		          <a class="dropdown-item" href="/become-a-helper">Become a Helper</a>
+		          <a class="dropdown-item" href="/become-a-moderator">Become a Moderator</a>
+		        </div>
 		    </li>
 
 		    &nbsp;
@@ -121,10 +130,9 @@
 		          <a class="dropdown-item" href="/edit-profile">Edit Profile</a>
 		          <div class="dropdown-divider"> </div>
 
-		          {% if request.user.is_helper %}
-		          <a class="dropdown-item" href="/my-organizations">My Organizations</a>
-		          <a class="dropdown-item" href="/wiki-management-dashboard">My Wiki Management Dashboard</a>
-		          {% endif %}
+		          <a class="dropdown-item" href="/my-organizations">My Helper Orgs</a>
+		          <!-- <a class="dropdown-item" href="/wiki-management-dashboard">My Wiki Management Dashboard</a> -->
+
 		          <div class="dropdown-divider"></div>
 		          <a class="dropdown-item" href="/accounts/logout">Log out</a>
 		        </div>

@@ -47,10 +47,12 @@ urlpatterns = [
     path('help/<slug:location>/wiki/entry/create/', login_required(wiki_views.WikiEntryCreateView.as_view()), name='wiki_entry_create'),
     path('help/<slug:location>/wiki/<int:pk>/<slug:slug>', wiki_views.WikiEntryDetailView.as_view(), name='wiki_entry_detail'),
     path('help/<slug:location>/wiki/update/<int:pk>/<slug:slug>', login_required(wiki_views.WikiEntryUpdateView.as_view()), name='wiki_entry_update'),
-    path('help/<slug:location>/wiki/delete/<int:pk>/<slug:slug>', login_required(wiki_views.WikiEntryDeleteView.as_view()), name='wiki_entry_update'),
+    # path('help/<slug:location>/wiki/delete/<int:pk>/<slug:slug>', login_required(wiki_views.WikiEntryDeleteView.as_view()), name='wiki_entry_update'),
 
     path('comment/create/', login_required(root_views.CommentCreateView.as_view()), name='comment_create'),
     path('comment/delete/<int:pk>/', login_required(root_views.CommentDeleteView.as_view()), name='comment_delete'),
+
+    path('become-a-moderator', login_required(root_views.become_a_moderator), name='become-a-moderator'),
 
     #path('search', root_views.search, name='search'),
 

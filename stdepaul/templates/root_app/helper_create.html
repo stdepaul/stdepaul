@@ -9,7 +9,7 @@
 {% block content %}
 <div class="col-md-8 offset-md-2 col-xs-12 col-sm-12" style="background:white; border:1px solid #ddd; margin-top: 150px; margin-bottom: 100px; padding:20px;">
 	<div class="bigfont"><a href="/"><img src="/static/img/stdepaulsmalllogo.png" class="logo-style-login" alt="St De Paul"></a></div>
-	<h1 class="ta-center"> Become a Helper with St. De Paul </h2>
+	<h1 class="ta-center prata-font"> Become a Helper with St. De Paul </h2>
 <form action="{% url 'helper_create' %}" method="POST" enctype='multipart/form-data'>
 {% csrf_token %}
  {{form}}

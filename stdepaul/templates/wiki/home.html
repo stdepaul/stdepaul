@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block more_css %}
+
+{% endblock %}
+
+{% block content %}
+<div class="col-md-10 offset-md-1 col-xs-12 col-sm-12" style="background:white; margin-top: 150px; margin-bottom: 100px; padding:20px;">
+	<h1 class="prata-font"> The St. De Paul Wiki </h1>
+	<a class="btn btn-primary" href="{% url 'wiki_entry_create' location='global' %}"> <i class="fa fa-edit"> </i>&nbsp; Create a Wiki Entry </a>
+</div>
+{% endblock %}
+
+{% block more_js %}
+
+{% endblock %}
