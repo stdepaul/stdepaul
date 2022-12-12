@@ -124,7 +124,7 @@
 			<p class="prata-font bigfont" style="padding-top:10px;"> {{num_results}} results in "{{location}}" </p>
 			
 			{% for post in posts %}
-			<div onclick="window.location = '{% url 'post_detail' pk=post.pk slug=post.slug location=post.location %}'" class="searchitem" style="cursor: pointer; display: table; width: 100%;  border:1px solid #ddd;  margin: 10px;"> 
+			<div onclick="window.location = '{% url 'helper_detail' pk=post.pk slug=post.slug location=post.location %}'" class="searchitem" style="cursor: pointer; display: table; width: 100%;  border:1px solid #ddd;  margin: 10px;"> 
 				<div class="col-md-3 col-sm-12 col-xs-12 floatleft" style="padding:10px; overflow:clip">
 					{% if post.thumbnail %}
 					
@@ -135,7 +135,7 @@
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12 floatnone" style="padding:10px;">
 					<p class="prata-font bigfont nvp"> {{post.title}} </p>
-					<p class="smallfont nvp"> <b>{{post.get_object_type}} created by <a href="/profile/{{post.created_by.username}}">{{post.created_by}}</a>, {{post.created_at|naturalday}} in <a href="/help/{{post.location}}"> {{post.location}}</a>, in {% if 'Post' in post.get_object_type %}<a href="/help/{{location}}/?help_types[]={{post.help_type}}"> {{post.get_help_type_display}}</a>{% else %}<a href="/help/{{location}}/?help_types[]={{post.helper_type}}"> {{post.get_helper_type_display}}</a>{% endif %} </b></p>
+					<p class="smallfont nvp"> <b>{{post.get_object_type}} created by <a href="/profile/{{post.created_by.username}}">{{post.created_by}}</a>, {{post.created_at|naturalday}} in <a href="/help/{{post.location}}"> {{post.location}}</a>, in {% if 'Post' in post.get_object_type %}<a href="/help/{{location}}/?help_types[]={{post.help_type}}"> {{post.get_help_type_display}}</a>{% else %}<a href="/help/{{post.location}}/?help_types[]={{post.helper_type}}"> {{post.get_helper_type_display}}</a>{% endif %} </b></p>
 					<p> {{post.description|safe_markdown}} </p>
 				</div>
 			</div>

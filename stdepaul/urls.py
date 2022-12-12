@@ -32,8 +32,8 @@ urlpatterns = [
     path('become-a-helper', login_required(root_views.HelperCreateView.as_view()), name='helper_create'),
     path('my-organizations', login_required(root_views.my_organizations), name='helper_list'),
     path('help/<slug:location>/helper/<int:pk>/<slug:slug>', root_views.HelperDetailView.as_view(), name='helper_detail'),
-    path('help/<slug:location>/helper/update/<int:pk>/<slug:slug>', login_required(root_views.HelperUpdateView.as_view()), name='helper_detail'),
-    path('help/<slug:location>/helper/delete/<int:pk>/<slug:slug>', login_required(root_views.HelperDeleteView.as_view()), name='helper_detail'),
+    path('help/<slug:location>/helper/update/<int:pk>/<slug:slug>', login_required(root_views.HelperUpdateView.as_view()), name='helper_update'),
+    path('help/<slug:location>/helper/delete/<int:pk>/<slug:slug>', login_required(root_views.HelperDeleteView.as_view()), name='helper_delete'),
 
     path('help/<slug:location>/', root_views.posts, name='posts_home'),
     # stdepaul.org/help/us-tx-dallas/?help-types=food-assistance+housing-assistance

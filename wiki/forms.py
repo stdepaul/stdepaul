@@ -14,4 +14,4 @@ class WikiEntryForm(forms.ModelForm):
 
     class Meta:
         model = WikiEntry
-        exclude = ('slug', 'created_by', 'created_at', 'updated_at',)
+        exclude = ('slug', 'created_by', 'created_at', 'updated_at', 'moderators')

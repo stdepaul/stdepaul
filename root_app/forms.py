@@ -39,4 +39,4 @@ class HelperForm(forms.ModelForm):
 
     class Meta:
         model = Helper
-        exclude = ('slug', 'created_by', 'created_at', 'updated_at', 'is_verified', 'verification_document_1', 'verification_document_2',)
+        exclude = ('slug', 'created_by', 'created_at', 'updated_at', 'is_verified', 'verification_document_1', 'verification_document_2', 'moderators')

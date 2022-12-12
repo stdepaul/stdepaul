@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load martortags %}
+{% block more_css %}
+	<style>
+		.cover-photo{
+			width: 100%;
+		}
+		.content{
+			display: table;
+			padding: 30px;
+		}
+		.content-top{
+			height: 135px;
+		}
+		.thumbnail{
+
+		}
+		.title{
+			padding: 35px;
+		}
+		.content-bottom{
+
+		}
+	</style>
+{% endblock %}
+{% block content %}
+<div class="col-md-10 offset-md-1 col-xs-12 col-sm-12" style="background:white; margin-top: 150px; margin-bottom: 100px; padding:20px;">
+	<div id="cover-photo">
+		{% if object.cover_photo %}
+		<img src="https://stdepaul-dev.s3.us-east-2.amazonaws.com/{{object.cover_photo}}" style="max-height:25vh; width:100%;" alt="{{object.title}}" />
+		{% endif %}
+	</div>
+	<div class="content col-md-12">
+		<div class="content-top col-md-12">
+
+			<div class="thumbnail col-md-3 floatleft">
+				{% if object.thumbnail %}
+				<img src="https://stdepaul-dev.s3.us-east-2.amazonaws.com/{{object.thumbnail}}" alt="{{object.title}}" width="100%"/>
+				{% else %}
+				<img src="/static/img/stdepaulsqblue.png" alt="St. De Paul" width="100%"/>
+				{% endif %}
+			</div>
+			<div class="title col-md-9 floatleft">
+				<h1 class="nvp floatleft"> {{object.title}} </h1>
+				{% if request.user == object.created_by %}
+			<a class="btn btn-primary floatright" style="margin: 8px" href="{% url 'helper_update' location=object.location pk=object.pk slug=object.slug %}"> <i class="fa fa-edit"></i> &nbsp; Update this Page </a> 
+
+			<a class="btn btn-danger floatright" style="margin: 8px" href="{% url 'helper_delete' location=object.location pk=object.pk slug=object.slug %}"> <i class="fa fa-times"></i> &nbsp; Delete this Page </a> 
+
+			{% endif %}
+				<p class="smallfont nvp" style="clear:both"> <b>{{object.get_object_type}} created by <a href="/profile/{{object.created_by.username}}">{{object.created_by}}</a>, {{object.created_at|naturalday}} in <a href="/help/{{object.location}}"> {{object.location}}</a>, in <a href="/help/{{object.location}}/?help_types[]={{object.helper_type}}"> {{object.get_helper_type_display}}</a></b></p>
+
+			</div>
+		</div>
+		<div class="content-bottom">
+
+
+			<p> {{object.description|safe_markdown}} </p>
+
+			<p> <b>Phone Number:  </b>{{object.phone_number}}</p>
+			<p> <b>Address:  </b>{{object.address}}</p>
+
+			<p> <b>Hours of Operation: </b> {{object.hours_of_operation}}</p>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block more_js %}
+
+{% endblock %}

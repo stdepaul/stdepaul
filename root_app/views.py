@@ -415,7 +415,7 @@ class HelperUpdateView(UpdateView):
 			request, *args, **kwargs)
 
 class HelperDeleteView(DeleteView):
-	model = Post
+	model = Helper
 	success_url = reverse_lazy('home')
 	template_name = 'root_app/helper_confirm_delete.html'
 
