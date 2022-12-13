@@ -229,7 +229,11 @@
                     }, 0);
                 }
               });
-		$('label[for="id_captcha"]').hide();
+
+		if($('label[for="id_captcha"]').length > 0){
+			$('label[for="id_captcha"]').hide();
+		}
+		
 	</script>
 	<script src="/static/js/main.js"> </script>
 
