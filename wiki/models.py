@@ -11,9 +11,9 @@ class WikiEntry(models.Model):
 	description = MartorField(blank=True, null=True)
 
 	thumbnail = models.ImageField(
-		upload_to="helper_thumbnails", blank=True, null=True)
+		upload_to="wiki_entry_thumbnails", blank=True, null=True)
 	cover_photo = models.ImageField(
-		upload_to="helper_cover_photos", blank=True, null=True)
+		upload_to="wiki_entry_cover_photos", blank=True, null=True)
 
 	hours_of_operation = models.TextField(blank=True, null=True)
 	moderators = models.ManyToManyField(User, related_name="wiki_moderated_by")
