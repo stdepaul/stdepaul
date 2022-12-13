@@ -1,0 +1,310 @@
+@import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+body{
+  font-family: 'Montserrat';
+}
+.prata-font{
+  font-family: 'Prata';
+}
+.brand-styles{
+  padding-left: 19px;
+}
+.main-container{
+  min-height: 100vh; /* will cover the 100% of viewport */
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 100px; /* height of your footer */
+}
+
+#nav{
+  height: 100px;
+}
+
+#video{
+  width: 100vw;
+  filter: brightness(0.85);
+  position: fixed;
+  top: 100px;
+}
+
+.floatright{
+  float: right;
+}
+.floatleft{
+  float:left;
+}
+#help-form{
+  background: white;
+  padding: 25px;
+  margin-top: 50px;
+  margin-bottom: 100px;
+  z-index: 1;
+}
+
+.tab-content-styles{
+  min-height: 275px;
+  overflow: auto;
+  display: table;
+}
+
+#help-form-section{
+  margin-top: 215px;
+}
+
+.slogan{
+  font-size:70px; 
+  color:white;
+}
+
+#who-are-we{
+  padding: 100px;
+  text-align: center;
+  background: white;
+  min-height: 590px;
+  display: table;
+  overflow: auto;
+}
+
+#for-whom{
+  margin-top: 50px;
+}
+
+#how-we-can-help{
+  padding: 100px;
+  text-align: center;
+  min-height: 700px;
+  background: #ddd; 
+  display: table;
+  overflow: auto;
+}
+
+#make-the-most{
+  padding: 100px;
+  text-align: center;
+  background: #333;
+  min-height: 700px;
+  display: table;
+  overflow: auto;
+  color: white;
+}
+
+#how-you-can-help{
+  padding: 100px;
+  min-height: 700px;
+  text-align: center;
+  background: white;
+  display: table;
+  overflow: auto;
+}
+
+#join{
+   padding: 100px;
+  text-align: center;
+  min-height: 450px;
+  background: white;
+  display: table;
+  overflow: auto;
+}
+
+.step {
+  margin: 1% 8.3% 1% 0;
+  font-size: 18px;
+  text-align: center;
+  padding: 20px;
+  height: 200px;
+  float: left;
+}
+.line {
+  border-top: 1px solid #ddd
+}
+.whiteblock{
+  background:white;
+  border:1px solid #ddd;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  margin-top:175px;
+  padding:20px;
+}
+
+.white-box{
+  border:1px solid #eee;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  background:white;
+  margin-top:100px;
+  padding:20px;
+}
+
+.logo-style-login{
+  height: 100px; 
+  margin: 0 auto; 
+  width:100px; 
+  display:table
+}
+
+.s1bottom{
+  font-size:13px;
+  padding: 20px;
+}
+.s1top{
+  padding: 20px;
+}
+
+.small1{
+  font-size:20px;
+}
+.small3{
+  font-size: 13.5px;
+}
+.mt10{
+  margin-top:10px;
+}
+.up0{
+  margin-top:-5px;
+}
+.up1{
+  margin-top:-10px;
+}
+.fcs{
+  margin-top:10px;
+}
+.fcs2{
+  display:inline-block;
+  margin-top:5px;
+}
+
+.bigfont{
+  font-size:30px;
+}
+
+/* pill checkboxes */
+
+.PillList-item {
+  cursor: pointer;
+  display: inline-block;
+  float: left;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 20px;
+  margin: 0 12px 12px 0;
+  text-transform: capitalize;
+}
+
+.PillList-item input[type="checkbox"] {
+  display: none;
+}
+.PillList-item input[type="checkbox"]:checked + .PillList-label {
+  background-color: #0c4581;
+  border: 1px solid #0c4581;
+  color: #fff;
+  padding-right: 16px;
+  padding-left: 16px;
+}
+.PillList-label {
+  border: 1px solid #0c4581;
+  border-radius: 3px;
+  color: #0c4581;
+  display: block;
+  padding: 7px 28px;
+  text-decoration: none;
+}
+.PillList-item
+  input[type="checkbox"]:checked
+  + .PillList-label
+  .Icon--checkLight {
+  display: inline-block;
+}
+.PillList-item input[type="checkbox"]:checked + .PillList-label .Icon--addLight,
+.PillList-label .Icon--checkLight,
+.PillList-children {
+  display: none;
+}
+.PillList-label .Icon {
+  width: 12px;
+  height: 12px;
+  margin: 0 0 0 12px;
+}
+.Icon--smallest {
+  font-size: 12px;
+  line-height: 12px;
+}
+.Icon {
+  background: transparent;
+  display: inline-block;
+  font-style: normal;
+  vertical-align: baseline;
+  position: relative;
+}
+
+/* pill list end */
+
+.ta-center {
+  text-align: center
+}
+.ta-left {
+  text-align: left
+}
+.ta-right {
+  text-align: right!important
+}
+
+.widget {
+  margin-bottom: 20px;
+  padding-left: 0
+}
+.widget h3 {
+  color: #000;
+  font-family: 'Prata';
+  margin-bottom: 20px
+}
+
+.footer-styles ul>li {
+  display: block!important
+}
+#footer {
+  padding-bottom: 30px;
+  color: #fff;
+  background: #2e2e2e;
+  font-weight: 100;
+  padding-top: 100px;
+  position: relative;
+  min-height: 300px;
+}
+#footer a {
+  color: #444
+}
+#footer a:hover {
+  color: #2f415d
+}
+#footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0
+}
+#footer {
+  z-index: 200
+}
+#footer ul>li {
+  display: inline-block
+}
+
+footer#footer {
+  background: #eee;
+  color: #222
+}
+.footer {
+  background: none repeat scroll 0 0 #2e2e2e;
+  border-top: 1px solid #2f415d;
+  height: 100px;
+ width: 100%;
+}
+.footer_left {
+  padding: 10px
+}
+
+.footer-styles-1  li {
+  margin-right: 20px
+}

@@ -1,6 +1,11 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
+
+	{% load static %}
+	{% load martortags %}
 
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-CLR2N1YKXC"></script>
@@ -42,6 +47,11 @@
     <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
 	-->
 
+	<link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+  	<link href="{% static 'plugins/css/resizable.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+  	<link href="{% static 'martor/css/martor.bootstrap.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+
+
 	{% block more_css %}
 
 	{% endblock %}
@@ -63,24 +73,75 @@
 	      </li>
 	  	  -->
 	      
-	      <li class="nav-item dropdown">
-	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	          About
-	        </a>
-	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-	          <a class="dropdown-item" href="#">About St. DePaul</a>
-	          <a class="dropdown-item" href="#">Mission</a>
-	          <a class="dropdown-item" href="#">Board</a>
-	          <a class="dropdown-item" href="#">Contact</a>
-	          <div class="dropdown-divider"></div>
-	          <a class="dropdown-item" href="https://github.com/stdepaul/stdepaul">Source Code</a>
-	        </div>
-	      </li>
+	      
+
+	      	<form class="form-inline my-2 my-lg-0" action="{% url 'posts_home' location='global' %}">
+		      <input class="form-control mr-sm-2" type="search" placeholder="Search" name='q' aria-label="Search">
+		      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit"><i class="fa fa-search"> </i></button>
+		    </form>
 	    </ul>
-	    <form class="form-inline my-2 my-lg-0">
-	      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-	      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-	    </form>
+	    <ul class="nav navbar-nav navbar-right">
+	    	<li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          About
+		        </a>
+		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          <a class="dropdown-item" href="/about">About St. DePaul</a>
+		          <!-- <a class="dropdown-item" href="#">Mission</a> -->
+		          <!-- <a class="dropdown-item" href="#">Board</a> -->
+		          <a class="dropdown-item" href="mailto:hello@stdepaul.org">Contact</a>
+		          <div class="dropdown-divider"></div>
+		          <a class="dropdown-item" href="https://github.com/stdepaul/stdepaul">Source Code</a>
+		        </div>
+		    </li>
+
+		    <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          Contribute
+		        </a>
+		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          <a class="dropdown-item" href="/help/global/wiki">Wiki</a>
+		          <a class="dropdown-item" href="https://github.com/stdepaul/stdepaul">Source Code</a>
+		          <a class="dropdown-item" href="/become-a-helper">Become a Helper</a>
+		          <a class="dropdown-item" href="/become-a-moderator">Become a Moderator</a>
+		        </div>
+		    </li>
+
+		    &nbsp;
+		    <div style="border-left:1px solid #ddd;"> 
+		    </div> &nbsp;
+		   
+
+	      	{% if not user.is_authenticated %}
+             <li class="nav-item">
+		    	<a class="nav-link" href="/accounts/login"> Login </a>
+		    </li>
+
+		    <li class="nav-item">
+		    	<a class="nav-link" href="/accounts/signup"> Register </a>
+		    </li>
+
+            {% else %}
+
+            <li class="nav-item dropdown">
+              <a href="#" style="margin-right:45px;" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{request.user}} <span class="caret"></span></a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          <a class="dropdown-item" href="/profile/{{request.user}}">Profile</a>
+		          <a class="dropdown-item" href="/edit-profile/{{request.user}}">Edit Profile</a>
+		          <div class="dropdown-divider"> </div>
+
+		          <a class="dropdown-item" href="/my-organizations">My Helper Orgs</a>
+		          <!-- <a class="dropdown-item" href="/wiki-management-dashboard">My Wiki Management Dashboard</a> -->
+
+		          <div class="dropdown-divider"></div>
+		          <a class="dropdown-item" href="/accounts/logout">Log out</a>
+		        </div>
+            </li>
+
+            
+
+            {% endif %}  
+	    </ul>
 	  </div>
 	</nav>
 
@@ -91,20 +152,91 @@
 
 
     {% block footer %}
-    <footer id="footer" class="midnight-blue">
-      
-    </footer>
+    <footer id="footer">
+
+        <div class="col-md-8 offset-md-2 col-sm-12 col-xs-12 footer-styles">
+            <div class="col-md-4 col-sm-4 col-xs-4 offset-md-0 ta-left floatleft">
+                <div class="widget">
+                    <h3>Info</h3>
+                    <ul>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="mailto:hello@stdepaul.org">Contact</a></li>
+                    </ul>
+                </div>    
+            </div><!--/.col-md-3-->
+
+            <div class="col-md-4 col-sm-4 col-xs-4 ta-center floatleft">
+                <div class="widget">
+                    <h3>Developers</h3>
+                    <ul>
+                        <li><a href="https://github.com/stdepaul/stdepaul">Source Code</a></li>
+                        <li><a href="/api-home"> API</a></li>
+                        <!--<li><a href="/documentation"> Documentation </a></li>-->
+                       
+                    </ul>
+                </div>    
+            </div><!--/.col-md-3-->
+
+            <div class="col-md-4 col-sm-4 col-xs-4 ta-right floatright">
+                <div class="widget">
+                    <h3>Follow</h3>
+                    <ul>
+                        <li><a href="//instagram.com/stdepaul">Instagram</a></li>
+                        <li><a href="https://discord.gg/qdjSRKvz"> Discord </a></li>
+                    </ul>
+                </div>    
+            </div><!--/.col-md-3-->
+        </div>
+        <div class="col-md-8 offset-md-2 small3">
+
+            <div class="col-sm-12 col-md-6 floatleft">
+                St. Vincent de Paul Assistance Center
+            </div>
+            <div class="col-sm-12 col-md-6 floatright">
+                <ul class="floatright">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="mailto:hello@stdepaul.org">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer><!--/#footer-->
     {% endblock %}
 
 
-
+    <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"> </script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"> </script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"> </script>
 
+	<script type="text/javascript" src="{% static 'plugins/js/ace.js' %}"></script>
+	<script type="text/javascript" src="{% static 'plugins/js/mode-markdown.js' %}"></script>
+	<script type="text/javascript" src="{% static 'plugins/js/ext-language_tools.js' %}"></script>
+	<script type="text/javascript" src="{% static 'plugins/js/theme-github.js' %}"></script>
+	<script type="text/javascript" src="{% static 'plugins/js/typo.js' %}"></script>
+	<script type="text/javascript" src="{% static 'plugins/js/spellcheck.js' %}"></script>
+	<script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'plugins/js/resizable.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'plugins/js/emojis.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'martor/js/martor.bootstrap.min.js' %}"></script>
+
+	<script>
+		$("#id_location").autocomplete({
+                source: "/api/get_location_slug/",
+                minLength: 2,
+                open: function(){
+                    setTimeout(function () {
+                        $('.ui-autocomplete').css('z-index', 99);
+                    }, 0);
+                }
+              });
+	</script>
 	<script src="/static/js/main.js"> </script>
 
+	
 	{% block more_js %}
+
+
 
 	{% endblock %}
 </body>

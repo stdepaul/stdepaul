@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block more_css %}
+<style>
+	.some-vert-margin{
+		margin: 5px 0px;
+	}
+</style>
+{% endblock %}
+{% block content %}
+<div class="col-md-8 offset-md-2 col-xs-12 col-sm-12" style="background:white; border:1px solid #ddd; margin-top: 150px; margin-bottom: 100px; padding:20px;">
+	<div class="bigfont"><a href="/"><img src="/static/img/stdepaulsmalllogo.png" class="logo-style-login" alt="St De Paul"></a></div>
+	<h1 class="ta-center prata-font"> Update Your Profile </h2>
+<form action="{% url 'update_profile' slug=request.user.userprofile.slug %}" method="POST" enctype='multipart/form-data'>
+{% csrf_token %}
+ {{form}}
+ <button type="submit" class="btn btn-primary form-control some-vert-margin"> <i class="fa fa-edit"></i> &nbsp; Update </button>
+</form>
+</div>
+{% endblock %}
+
+
+{% block more_js %}
+
+	<script>
+		$('input').addClass('form-control');
+		$('input').addClass('some-vert-margin');
+		$('input').addClass('form-control');
+		$('input').addClass('some-vert-margin');
+		$('select').addClass('form-control');
+		$('select').addClass('some-vert-margin');
+		$('textarea').addClass('form-control');
+		$('textarea').addClass('some-vert-margin');
+	</script>
+{% endblock %}

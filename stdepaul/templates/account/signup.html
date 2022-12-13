@@ -1,0 +1,49 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block metatags %}
+    <meta name="title" content="Signup at Zealchain">
+    <meta name="description" content="Zealchain Signup Page">
+    <meta name="keywords" content="zeal, znet, zealchain, cryptocurrency, alternate dns root, sign up, signup">
+    <meta property="og:site_name" content="Zealchain">
+    <meta property="og:url" content="https://www.zealchain.com/accounts/signup">
+    <meta property="og:title" content="Signup at Zealchain">
+    <meta property="og:image" content="https://www.zealchain.com/static/img/zealbg.png">
+    <meta property="og:description" content="Signup at Zealchain">
+    {% endblock %}
+
+{% block content %}
+
+<div class="whiteblock col-md-4 offset-md-4">
+<center>
+
+<div class="bigfont"><a href="/"><img src="/static/img/stdepaulsmalllogo.png" class="logo-style-login" alt="St De Paul"></a></div>
+  <h1 style="text-align: center">{% trans "Sign Up" %}</h1>
+
+{% if form.errors %}
+                                        <p>{{form.errors}}</p>
+                                        {% endif %}
+
+</center>
+<center>
+
+<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+  {% csrf_token %}
+  <p><input type="text" class="form-control fcs" name="username" value="{{form.username.value|default_if_none:''}}" placeholder="Username" autofocus="autofocus" minlength="1" maxlength="150" required id="id_username" /></p>
+<p><input type="email" class="form-control fcs" name="email" value="{{form.email.value|default_if_none:''}}" placeholder="E-mail address" id="id_email" /></p>
+<p><input type="password" class="form-control fcs" name="password1" placeholder="Password" required id="id_password1" /></p>
+<p><input type="password" class="form-control fcs" name="password2" placeholder="Password (confirm)" required id="id_password2" /></p>
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button class="btn btn-primary" type="submit">{% trans "Sign Up" %} &raquo;</button>
+</form>
+</center>
+</div>
+{% endblock %}
+{% block footer %}{% endblock %}

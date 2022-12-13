@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+
+{% load martortags %}
+{% load humanize %}
+
+{% block more_css %}
+
+{% endblock %}
+{% block content %}
+	<div class="col-md-10 offset-md-1 col-sm-12 col-xs-12 mt150">
+
+		<div class="col-md-3 col-xs-12 col-sm-12 floatleft" style="height:80vh; border-right:1px solid #eee; padding:25px; overflow:auto">
+			<h3 class="prata-font"> Filters </h3>
+			<form action="{% url 'posts_home' location=location %}" method="GET">
+
+			<p class="prata-font"> Keywords </p>
+			<input type="text" placeholder="Keywords" name="q" value="{{q}}" class="col-md-9 form-control" /><br>
+			<p class="prata-font">
+				Help Type
+			</p>
+			<div style="width:100%;display:table">
+			
+            <label class="PillList-item">
+		    <input type="checkbox" name="help_types[]" value="food" checked>
+		    	<span class="PillList-label"> Food
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+			<label class="PillList-item">
+		    <input type="checkbox" name="help_types[]" value="rent_utilities" checked>
+		    	<span class="PillList-label"> Rent / Utilities Assistance
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+			<label class="PillList-item">
+		    <input type="checkbox" name="help_types[]" value="entry_level_job" checked>
+		    	<span class="PillList-label"> Entry-level job
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+			<label class="PillList-item">
+		    <input type="checkbox" name="help_types[]" value="develop_skills" checked>
+		    	<span class="PillList-label"> Develop skills for a better job
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+			<label class="PillList-item">
+		    <input type="checkbox" name="help_types[]" value="mental_health" checked>
+		    	<span class="PillList-label"> Mental health services
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+		    <label class="PillList-item">
+		    <input type="checkbox" name="help_types[]" value="rehab" checked>
+		    	<span class="PillList-label"> Rehab Services
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+		    <label class="PillList-item">
+		    <input type="checkbox" name="help_types[]" value="help_applying" checked>
+		    	<span class="PillList-label"> Help applying for gov't social service
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+		    <label class="PillList-item">
+		    <input type="checkbox" name="help_types[]" value="scholarships" checked>
+		    	<span class="PillList-label"> Scholarships
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+			<label class="PillList-item">
+		    <input type="checkbox" name="help_types[]" value="other" checked>
+		    	<span class="PillList-label"> Other
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+			</div>
+			<p class="prata-font"> Location </p>
+			<input type="text" placeholder="Location" name="location" id="id_location" class="col-md-9 form-control" value="{{location}}" /><br>
+			<p class="prata-font">
+				Search Type
+			</p>
+			<div style="display:table">
+			 <label class="PillList-item">
+		    <input type="checkbox" name="search_types[]" value="helpers_indv" checked>
+		    	<span class="PillList-label"> Helpers (Individuals)
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+		    <label class="PillList-item">
+		    <input type="checkbox" name="search_types[]" value="helpers_org" checked>
+		    	<span class="PillList-label"> Helpers (Organizations)
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+		    <label class="PillList-item">
+		    <input type="checkbox" name="search_types[]" value="wiki_entries" checked>
+		    	<span class="PillList-label"> Wiki Entries (Organizations)
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+
+			<label class="PillList-item">
+		    <input type="checkbox" name="search_types[]" value="helpees" checked>
+		    	<span class="PillList-label"> Helpees
+		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+		    	</span>
+			</label>
+			</div><br>
+
+			<button type="submit" class="btn btn-primary col-md-9"><i class="fa fa-search"></i> &nbsp; Search </button>
+		</form>
+		</div>
+		<div class="col-md-9 col-xs-12 col-sm-12 floatleft" style="height:75vh; overflow:auto">
+			<p class="prata-font bigfont floatleft" style="padding-top:10px;"> {{num_results}} results in "{{location}}" </p>
+			<a class="btn btn-primary floatright" style="margin: 8px" href="{% url 'post_create' location=location %}"> <i class="fa fa-edit"></i> &nbsp; Create a new Post </a> 
+			&nbsp; <a class="btn btn-success floatright" style="margin: 8px" href="{% url 'helper_create' %}"> <i class="fa fa-hand-holding-heart"> </i> &nbsp; Become a Helper </a>
+			{% for post in posts %}
+			<div onclick="window.location = '{% if post.get_object_type == 'Helper' %}{% url 'helper_detail' pk=post.pk slug=post.slug location=post.location %}{% elif post.get_object_type == 'Wiki Entry' %}{% url 'wiki_entry_detail' pk=post.pk slug=post.slug location=post.location %}{% else %}{% url 'post_detail' pk=post.pk slug=post.slug location=post.location %}{% endif %}'" class="searchitem" style="cursor: pointer; display: table; width: 100%;  border:1px solid #ddd;  margin: 10px;"> 
+				<div class="col-md-3 col-sm-12 col-xs-12 floatleft" style="padding:10px; overflow:clip">
+					{% if post.thumbnail %}
+					
+					<img src="https://stdepaul-dev.s3.us-east-2.amazonaws.com/{{post.thumbnail}}" alt="{{post.title}}" class="floatleft" width="100%" />
+					{% else %}
+					<img src="/static/img/stdepaulsqblue.png" alt="{{post.title}}" width="100%" class="floatleft"/>
+					{% endif %}
+				</div>
+				<div class="col-md-12 col-sm-12 col-xs-12 floatnone" style="padding:10px;">
+					<p class="prata-font bigfont nvp"> {{post.title}} </p>
+					<p class="smallfont nvp"> <b>{{post.get_object_type}} created by <a href="/profile/{{post.created_by.username}}">{{post.created_by}}</a>, {{post.created_at|naturalday}} in <a href="/help/{{post.location}}"> {{post.location}}</a>, in {% if 'Post' in post.get_object_type %}<a href="/help/{{location}}/?help_types[]={{post.help_type}}"> {{post.get_help_type_display}}</a>{% else %}<a href="/help/{{post.location}}/?help_types[]={{post.helper_type}}"> {{post.get_helper_type_display}}</a>{% endif %} </b></p>
+					<p> {{post.description|safe_markdown}} </p>
+				</div>
+			</div>
+			{% empty %}
+
+
+			{% endfor %}
+		</div>
+		<div class="col-md-9 col-xs-12 col-sm-12 floatleft pagination" style="height:5vh; padding:20px;">
+		    <span class="step-links">
+		        {% if posts.has_previous %}
+		            <a href="?page=1">&laquo; first</a>
+		            <a href="?page={{ posts.previous_page_number }}">previous</a>
+		        {% endif %}
+
+		        <span class="current">
+		            Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+		        </span>
+
+		        {% if posts.has_next %}
+		            <a href="?page={{ posts.next_page_number }}">next</a>
+		            <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+		        {% endif %}
+		    </span>
+		</div>
+
+	</div>
+{% endblock %}
+
+{% block more_js %}
+<script>
+	var url = new URL(window.location.href);
+	var help_types = url.searchParams.getAll("help_types[]");
+	var loc = url.searchParams.get('location');
+	var search_types = url.searchParams.getAll('search_types[]')
+	var keywords = url.searchParams.get('q')
+
+	if (help_types.length > 0){
+		$('input[name="help_types[]"]').each(function(i, item){
+			$(item).prop('checked', false)
+		})
+
+		$('input[name="help_types[]"]').each(function(i, item){
+			if(help_types.indexOf(item.value) > -1){
+				$(item).prop('checked', true)
+			}
+		})
+	}
+	if (search_types.length > 0){
+		$('input[name="search_types[]"]').each(function(i, item){
+			$(item).prop('checked', false)
+		})
+
+		$('input[name="search_types[]"]').each(function(i, item){
+			if(search_types.indexOf(item.value) > -1){
+				$(item).prop('checked', true)
+			}
+		})
+	}
+
+
+</script>
+{% endblock %}
+
+{% block footer %} {% endblock %}

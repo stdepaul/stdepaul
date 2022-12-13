@@ -34,11 +34,47 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.humanize',
+    'django.contrib.postgres',
 
     'api',
     'root_app',
+    'wiki',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    #'allauth.socialaccount.providers.facebook',
+    #'allauth.socialaccount.providers.google',
+
+    'vote',
+    'django_messages',
+    'captcha',
+
+    'rest_framework',
+    'rest_framework.authtoken',
+
+    'martor',
+    'storages',
 ]
 
+"""
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'APP': {
+            'client_id': '',
+            'secret': '',
+            'key': '',
+        }
+    },
+    'google': {
+        'APP': {
+            'client_id': '',
+            'secret': '',
+            'key': ''
+        }
+    }
+}
+"""
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('IS_PRODUCTION') != 'True':
@@ -49,7 +85,7 @@ else:
 if not IS_PRODUCTION:
     DEBUG = True
     # set to static locally for collectstatic
-    STATIC_ROOT = os.path.join(BASE_DIR, '/staticfiles')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     ALLOWED_HOSTS = ['*']
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static'),
@@ -73,13 +109,23 @@ AWS_ACCESS_KEY_ID = os.environ.get('STDEPAUL_AWS_KEY')
 AWS_SECRET_ACCESS_KEY = os.environ.get('STDEPAUL_AWS_SECRET')
 AWS_STORAGE_BUCKET_NAME = 'stdepaul'
 AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
 
 APPEND_SLASH = True 
+
+MARTOR_ENABLE_CONFIGS = {
+    'imgur': 'false',
+}
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
+
+EMAIL_BACKEND = "sgbackend.SendGridBackend"
+SENDGRID_API_KEY = os.environ.get('STDEPAUL_SENDGRID_API_KEY')
+DEFAULT_FROM_EMAIL = 'michael@stdepaul.org'
 
 SITE_ID = 1
 
@@ -110,6 +156,10 @@ TEMPLATES = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -119,6 +169,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'stdepaul.urls'
@@ -153,42 +204,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': ('%(asctime)s [%(process)d] [%(levelname)s] ' +
-                       'pathname=%(pathname)s lineno=%(lineno)s ' +
-                       'funcname=%(funcName)s %(message)s'),
-            'datefmt': '%Y-%m-%d %H:%M:%S'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        }
-    },
-    'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'logging.NullHandler',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        }
-    },
-    'loggers': {
-        'testlogger': {
-            'handlers': ['console'],
-            'level': 'INFO',
-        }
-    }
-}
-
-DEBUG_PROPAGATE_EXCEPTIONS = True
-COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
