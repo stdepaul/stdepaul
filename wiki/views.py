@@ -67,6 +67,11 @@ class WikiEntryCreateView(CreateView):
 			'pk': str(self.object.pk),
 			'slug': str(self.object.slug)})
 
+	def get_context_data(self, **kwargs):
+		context = super(WikiEntryCreateView, self).get_context_data(**kwargs)
+		context['location'] = self.kwargs['location']
+		return context
+
 class WikiEntryDetailView(DetailView):
 	model = WikiEntry
 	template_name = 'wiki/entry_detail.html'
