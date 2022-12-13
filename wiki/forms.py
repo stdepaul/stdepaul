@@ -11,7 +11,7 @@ from .models import WikiEntry
 
 class WikiEntryForm(forms.ModelForm):
 
-    captcha = ReCaptchaField(widget=ReCaptchaV3())
+    # captcha = ReCaptchaField(widget=ReCaptchaV3())
 
     class Meta:
         model = WikiEntry

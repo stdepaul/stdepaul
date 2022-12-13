@@ -63,7 +63,8 @@ class WikiEntryCreateView(CreateView):
 	template_name = 'wiki/entry_create.html'
 
 	def get_success_url(self, **kwargs):
-		return reverse("entry_detail", kwargs={
+		return reverse("wiki_entry_detail", kwargs={
+			'location': str(self.object.location),
 			'pk': str(self.object.pk),
 			'slug': str(self.object.slug)})
 
@@ -71,6 +72,13 @@ class WikiEntryCreateView(CreateView):
 		context = super(WikiEntryCreateView, self).get_context_data(**kwargs)
 		context['location'] = self.kwargs['location']
 		return context
+
+	def form_valid(self, form):
+		f = form.save(commit=False)
+		f.created_by = self.request.user
+		f.save()
+
+		return super(WikiEntryCreateView, self).form_valid(form)
 
 class WikiEntryDetailView(DetailView):
 	model = WikiEntry
@@ -80,11 +88,6 @@ class WikiEntryDetailView(DetailView):
 		kwargs = super().get_form_kwargs()
 		kwargs['user'] = self.request.user
 		return kwargs
-
-	def get_success_url(self):
-		return reverse("wiki_entry_detail", kwargs={
-			'pk': str(self.kwargs['pk']),
-			'slug': str(self.kwargs['slug'])})
 
 	def get_context_data(self, **kwargs):
 		context = super(WikiEntryDetailView, self).get_context_data(**kwargs)
@@ -108,11 +111,18 @@ class WikiEntryUpdateView(UpdateView):
 	def dispatch(self, request, *args, **kwargs):
 		if not self.user_passes_test(request):
 			return redirect(reverse('wiki_entry_detail', kwargs={
+				'location': self.object.location,
 				'pk': self.object.pk,
 				'slug': self.object.slug
 			}))
 		return super(WikiEntryUpdateView, self).dispatch(
 			request, *args, **kwargs)
+
+	def get_success_url(self, **kwargs):
+		return reverse("wiki_entry_detail", kwargs={
+			'location': str(self.object.location),
+			'pk': str(self.object.pk),
+			'slug': str(self.object.slug)})
 
 
 class WikiEntryDeleteView(DeleteView):

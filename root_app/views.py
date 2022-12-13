@@ -383,8 +383,16 @@ class HelperCreateView(CreateView):
 
 	def get_success_url(self, **kwargs):
 		return reverse("helper_detail", kwargs={
+			'location': str(self.object.location),
 			'pk': str(self.object.pk),
 			'slug': str(self.object.slug)})
+
+	def form_valid(self, form):
+		f = form.save(commit=False)
+		f.created_by = self.request.user
+		f.save()
+
+		return super(HelperCreateView, self).form_valid(form)
 
 class HelperDetailView(DetailView):
 	model = Helper
@@ -394,11 +402,6 @@ class HelperDetailView(DetailView):
 		kwargs = super().get_form_kwargs()
 		kwargs['user'] = self.request.user
 		return kwargs
-
-	def get_success_url(self):
-		return reverse("helper_detail", kwargs={
-			'pk': str(self.kwargs['pk']),
-			'slug': str(self.kwargs['slug'])})
 
 	def get_context_data(self, **kwargs):
 		context = super(HelperDetailView, self).get_context_data(**kwargs)
@@ -418,11 +421,18 @@ class HelperUpdateView(UpdateView):
 	def dispatch(self, request, *args, **kwargs):
 		if not self.user_passes_test(request):
 			return redirect(reverse('helper_detail', kwargs={
+				'location': self.object.location,
 				'pk': self.object.pk,
 				'slug': self.object.slug
 			}))
 		return super(HelperUpdateView, self).dispatch(
 			request, *args, **kwargs)
+
+	def get_success_url(self, **kwargs):
+		return reverse("helper_detail", kwargs={
+			'location': str(self.object.location),
+			'pk': str(self.object.pk),
+			'slug': str(self.object.slug)})
 
 class HelperDeleteView(DeleteView):
 	model = Helper
@@ -438,6 +448,7 @@ class HelperDeleteView(DeleteView):
 	def dispatch(self, request, *args, **kwargs):
 		if not self.user_passes_test(request):
 			return redirect(reverse('helper_detail', kwargs={
+				'location': self.object.location,
 				'pk': self.object.pk,
 				'slug': self.object.slug
 			}))

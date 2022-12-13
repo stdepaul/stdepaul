@@ -222,7 +222,7 @@
 	<script>
 		$("#id_location").autocomplete({
                 source: "/api/get_location_slug/",
-                minLength: 2,
+                minLength: 4,
                 open: function(){
                     setTimeout(function () {
                         $('.ui-autocomplete').css('z-index', 99);
