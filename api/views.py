@@ -19,7 +19,7 @@ from allcities import cities
 
 
 @api_view(['GET'])
-@permission_classes((IsAuthenticated, AllowAny))
+@permission_classes((AllowAny))
 @ensure_csrf_cookie
 def get_location_slug(request):
 	loc_query = request.GET.get('term')
