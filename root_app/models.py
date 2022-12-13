@@ -78,10 +78,10 @@ class Helper(models.Model):
 		return 'Helper'
 
 	def get_thumbnail_url(self):
-		return f"{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.thumbnail}"
+		return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.thumbnail}"
 
 	def get_cover_photo_url(self):
-		return f"{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.cover_photo}"
+		return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.cover_photo}"
 
 RULES = (
 	('ISILL', 'Is illegal'),
@@ -148,10 +148,10 @@ class Post(VoteModel, models.Model):
 		return f'Post ({self.get_post_type_display()})'
 
 	def get_thumbnail_url(self):
-		return f"{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.thumbnail}"
+		return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.thumbnail}"
 
 	def get_cover_photo_url(self):
-		return f"{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.cover_photo}"
+		return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.cover_photo}"
 
 class PostReport(models.Model):
 	post = models.ForeignKey('Post', on_delete=models.CASCADE)
