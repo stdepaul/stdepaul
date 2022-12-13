@@ -222,12 +222,13 @@
 	<script>
 		$("#id_location").autocomplete({
                 source: "/api/get_location_slug/",
-                minLength: 4,
+                minLength: 4,/*
                 open: function(){
                     setTimeout(function () {
                         $('.ui-autocomplete').css('z-index', 99);
                     }, 0);
                 }
+                */
               });
 
 		if($('label[for="id_captcha"]').length > 0){
