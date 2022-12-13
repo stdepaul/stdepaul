@@ -129,7 +129,7 @@
 				<div class="col-md-3 col-sm-12 col-xs-12 floatleft" style="padding:10px; overflow:clip">
 					{% if post.thumbnail %}
 					
-					<img src="https://stdepaul-dev.s3.us-east-2.amazonaws.com/{{post.thumbnail}}" alt="{{post.title}}" class="floatleft" width="100%" />
+					<img src="{{post.get_thumbnail_url}}" alt="{{post.title}}" class="floatleft" width="100%" />
 					{% else %}
 					<img src="/static/img/stdepaulsqblue.png" alt="{{post.title}}" width="100%" class="floatleft"/>
 					{% endif %}

@@ -16,6 +16,8 @@ from django.urls import reverse, reverse_lazy
 from itertools import chain
 from martor.models import MartorField
 
+from django.conf import settings
+
 HELPER_TYPES = (
 	('food', 'Food Assistance'),
 	('rent_utilities', 'Housing / Rent Assistance'),
@@ -74,6 +76,12 @@ class Helper(models.Model):
 
 	def get_object_type(self):
 		return 'Helper'
+
+	def get_thumbnail_url(self):
+		return f"{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.thumbnail}"
+
+	def get_cover_photo_url(self):
+		return f"{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.cover_photo}"
 
 RULES = (
 	('ISILL', 'Is illegal'),
@@ -138,6 +146,12 @@ class Post(VoteModel, models.Model):
 
 	def get_object_type(self):
 		return f'Post ({self.get_post_type_display()})'
+
+	def get_thumbnail_url(self):
+		return f"{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.thumbnail}"
+
+	def get_cover_photo_url(self):
+		return f"{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.cover_photo}"
 
 class PostReport(models.Model):
 	post = models.ForeignKey('Post', on_delete=models.CASCADE)

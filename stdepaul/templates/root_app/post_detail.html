@@ -37,7 +37,7 @@
 
 			<div class="thumbnail col-md-3 floatleft">
 				{% if object.thumbnail %}
-				<img src="https://stdepaul-dev.s3.us-east-2.amazonaws.com/{{object.thumbnail}}" alt="{{object.title}}" width="100%"/>
+				<img src="{{object.get_thumbnail_url}}" alt="{{object.title}}" width="100%"/>
 				{% else %}
 				<img src="/static/img/stdepaulsqblue.png" alt="St. De Paul" width="100%"/>
 				{% endif %}
