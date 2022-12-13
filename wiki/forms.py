@@ -10,7 +10,7 @@ from .models import WikiEntry
 
 class WikiEntryForm(forms.ModelForm):
 
-    # captcha = ReCaptchaField()
+    captcha = ReCaptchaField()
 
     class Meta:
         model = WikiEntry

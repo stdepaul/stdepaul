@@ -13,7 +13,7 @@ from root_app.models import Helper
 
 class PostForm(forms.ModelForm):
 
-    # captcha = ReCaptchaField()
+    captcha = ReCaptchaField()
 
     class Meta:
         model = Post
@@ -35,7 +35,7 @@ class UserProfileForm(forms.ModelForm):
 
 class HelperForm(forms.ModelForm):
 
-    # captcha = ReCaptchaField()
+    captcha = ReCaptchaField()
 
     class Meta:
         model = Helper
