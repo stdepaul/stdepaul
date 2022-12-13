@@ -140,9 +140,8 @@ def posts(request, location):
 			helpers = helpers.annotate(search=SearchVector(
 				'title', 'description', 'moderators', 'created_by')).filter(search=q)
 		if location != 'global':
-			helpers = helpers.filter(location=location, is_verified=True)
-
-		helpers = helpers.order_by('created_at')
+			helpers = helpers.filter(location=location)
+		helpers = helpers.filter(is_verified=True).order_by('created_at')
 
 	if 'wiki_entries' in search_types:
 		wiki_entries = WikiEntry.objects.all()
@@ -153,9 +152,9 @@ def posts(request, location):
 			wiki_entries = wiki_entries.annotate(search=SearchVector(
 				'title', 'description', 'moderators', 'created_by')).filter(search=q)
 		if location != 'global':
-			wiki_entries = wiki_entries.filter(location=location).filter(is_verified=True)
+			wiki_entries = wiki_entries.filter(location=location)
 
-		wiki_entries = wiki_entries.order_by('created_at')
+		wiki_entries = wiki_entries.filter(is_verified=True).order_by('created_at')
 
 	all_items = list(chain(wiki_entries, posts, helpers))
 
