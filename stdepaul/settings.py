@@ -57,6 +57,9 @@ INSTALLED_APPS = [
     'storages',
 ]
 
+RECAPTCHA_REQUIRED_SCORE = 0.85
+# recaptcha v3 
+
 """
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
@@ -94,7 +97,7 @@ if not IS_PRODUCTION:
 else:
     DEBUG = False
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    ALLOWED_HOSTS = ['stdepaul.org', 'www.stdepaul.org', 'stdepaul.herokuapp.com']
+    ALLOWED_HOSTS = os.environ.get('STDEPAUL_ALLOWED_HOSTS').split(',')
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static'),   
     )
@@ -107,7 +110,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 AWS_ACCESS_KEY_ID = os.environ.get('STDEPAUL_AWS_KEY')
 AWS_SECRET_ACCESS_KEY = os.environ.get('STDEPAUL_AWS_SECRET')
-AWS_STORAGE_BUCKET_NAME = 'stdepaul'
+AWS_STORAGE_BUCKET_NAME = os.envion.get('STDEPAUL_S3_BUCKET_NAME')
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
@@ -183,8 +186,9 @@ WSGI_APPLICATION = 'stdepaul.wsgi.application'
 
 import dj_database_url
 dbpw = os.environ.get('STDEPAUL_DBPW')
+db_name = os.environ.get('STDEPAUL_DB_NAME')
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://postgres:%s@localhost:5432/stdepaul' % (dbpw))
+    'default': dj_database_url.config(default='postgres://postgres:%s@localhost:5432/%s' % (dbpw, db_name))
 }
 
 # Password validation

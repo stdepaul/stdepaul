@@ -5,12 +5,13 @@ from django.forms import EmailField
 from django.utils.translation import gettext_lazy as _
 
 from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
 
 from .models import WikiEntry
 
 class WikiEntryForm(forms.ModelForm):
 
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(widget=ReCaptchaV3())
 
     class Meta:
         model = WikiEntry

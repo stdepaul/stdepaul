@@ -42,10 +42,9 @@
     <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
     
 
-    <!--
     <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon"/>
     <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
-	-->
+
 
 	<link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
   	<link href="{% static 'plugins/css/resizable.min.css' %}" type="text/css" media="all" rel="stylesheet" />
@@ -230,6 +229,11 @@
                     }, 0);
                 }
               });
+
+		if($('label[for="id_captcha"]').length > 0){
+			$('label[for="id_captcha"]').hide();
+		}
+		
 	</script>
 	<script src="/static/js/main.js"> </script>
 
