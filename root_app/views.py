@@ -297,6 +297,7 @@ class PostCreateView(CreateView):
 
 	def get_success_url(self, **kwargs):
 		return reverse("post_detail", kwargs={
+			'location': str(self.object.location),
 			'pk': str(self.object.pk),
 			'slug': str(self.object.slug)})
 
