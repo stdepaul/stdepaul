@@ -51,9 +51,7 @@ from .models import Helper
 from wiki.models import WikiEntry
 
 def home(request):
-	context = {
-
-	}
+	context = {}
 	template_name = 'home.html'
 	return render(request, template_name, context)
 
