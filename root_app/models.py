@@ -18,7 +18,7 @@ from martor.models import MartorField
 
 HELPER_TYPES = (
 	('food', 'Food Assistance'),
-	('rent_utilities', 'Rent / Utilities Assistance'),
+	('rent_utilities', 'Housing / Rent Assistance'),
 	('entry_level_job', 'Entry-Level Job Employer'),
 	('develop_skills', 'Job Skills Educator'),
 	('mental_health', 'Mental Health Services Organization or Individual'),
