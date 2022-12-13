@@ -42,7 +42,7 @@ urlpatterns = [
     path('help/<slug:location>/post/create', login_required(root_views.PostCreateView.as_view()), name='post_create'),
     path('help/<slug:location>/post/<int:pk>/<slug:slug>', root_views.PostDetailView.as_view(), name='post_detail'),
     path('help/<slug:location>/post/update/<int:pk>/<slug:slug>', login_required(root_views.PostUpdateView.as_view()), name='post_update'),
-    path('help/<slug:location>/post/delete/<int:pk>/<slug:slug>', login_required(root_views.PostDeleteView.as_view()), name='post_update'),
+    path('help/<slug:location>/post/delete/<int:pk>/<slug:slug>', login_required(root_views.PostDeleteView.as_view()), name='post_delete'),
 
     path('help/<slug:location>/wiki', wiki_views.wiki_home, name='wiki_home'),
     path('help/<slug:location>/wiki/entry/create/', login_required(wiki_views.WikiEntryCreateView.as_view()), name='wiki_entry_create'),

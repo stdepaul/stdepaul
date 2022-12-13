@@ -51,6 +51,8 @@ class Helper(models.Model):
 
 	helper_type = models.CharField(max_length=255, blank=True, null=True, choices=HELPER_TYPES)
 
+	website = models.URLField(blank=True, null=True)
+
 	verification_document_1 = models.ImageField(
 		upload_to="helper_verification_document_1_folder", blank=True, null=True)
 

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load martortags %}
+{% block more_css %}
+	<style>
+		.cover-photo{
+			width: 100%;
+		}
+		.content{
+			display: table;
+			padding: 30px;
+		}
+		.content-top{
+			height: 135px;
+		}
+		.thumbnail{
+
+		}
+		.title{
+			padding: 35px;
+		}
+		.content-bottom{
+			padding: 0 25px;
+		}
+		#info-box{
+			border: 1px solid #ddd;
+			background: #eee;
+			padding: 20px;
+		}
+	</style>
+{% endblock %}
+{% block content %}
+<div class="col-md-10 offset-md-1 col-xs-12 col-sm-12" style="background:white; margin-top: 150px; margin-bottom: 100px; padding:20px;">
+	
+	<div class="content col-md-12">
+		<div class="content-top col-md-12">
+
+			<div class="thumbnail col-md-3 floatleft">
+				{% if object.thumbnail %}
+				<img src="https://stdepaul-dev.s3.us-east-2.amazonaws.com/{{object.thumbnail}}" alt="{{object.title}}" width="100%"/>
+				{% else %}
+				<img src="/static/img/stdepaulsqblue.png" alt="St. De Paul" width="100%"/>
+				{% endif %}
+				<div id="info-box">
+					<p class="nvp"> <b>Created By: </b> <a href="/profile/{{object.created_by}}"> {{object.created_by}} </a></p>
+					<p class="nvp"> <b>Created At: </b> {{object.created_at|naturalday}}</p>
+					<p class="nvp"> <b>Location: </b> {{object.location}}</p>
+					<p class="nvp"> <b>Help Type: </b> <a href="{% url 'posts_home' location=object.location %}?help_types[]={{object.helper_type}}"> {{object.get_helper_type_display}} </a></p>
+				</div>
+			</div>
+			<div class="title col-md-9 floatleft">
+				<h1 class="nvp floatleft prata-font"> {{object.title}} </h1>
+				{% if request.user == object.created_by or request.user in object.moderators.all %}
+			<a class="btn btn-primary floatright" style="margin: 8px" href="{% url 'post_update' location=object.location pk=object.pk slug=object.slug %}"> <i class="fa fa-edit"></i> &nbsp; Update this Post </a> 
+
+			<a class="btn btn-danger floatright" style="margin: 8px" href="{% url 'post_delete' location=object.location pk=object.pk slug=object.slug %}"> <i class="fa fa-times"></i> &nbsp; Delete this Post </a> 
+
+
+			{% endif %}
+				<p class="smallfont nvp" style="clear:both"> <b>{{object.get_object_type}} created by <a href="/profile/{{object.created_by.username}}">{{object.created_by}}</a>, {{object.created_at|naturalday}} in <a href="/help/{{object.location}}"> {{object.location}}</a>, in <a href="/help/{{object.location}}/?help_types[]={{object.helper_type}}"> {{object.get_helper_type_display}}</a></b></p>
+
+			</div>
+		</div>
+		<div class="content-bottom">
+
+
+			<p> {{object.description|safe_markdown}} </p>
+
+			
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block more_js %}
+
+{% endblock %}
