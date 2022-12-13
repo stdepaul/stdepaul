@@ -220,9 +220,23 @@
 	<script type="text/javascript" src="{% static 'plugins/js/emojis.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'martor/js/martor.bootstrap.min.js' %}"></script>
 
+	<script>
+		$("#id_location").autocomplete({
+                source: "/api/get_location_slug/",
+                minLength: 2,
+                open: function(){
+                    setTimeout(function () {
+                        $('.ui-autocomplete').css('z-index', 99);
+                    }, 0);
+                }
+              });
+	</script>
 	<script src="/static/js/main.js"> </script>
 
+	
 	{% block more_js %}
+
+
 
 	{% endblock %}
 </body>

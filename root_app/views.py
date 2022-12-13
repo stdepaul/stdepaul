@@ -99,6 +99,11 @@ def become_a_moderator(request):
 	template_name = 'root_app/become_a_moderator.html'
 	return render(request, template_name, context)
 
+def api_home(request):
+	context = {
+	}
+	template_name = 'root_app/api_home.html'
+	return render(request, template_name, context)
 
 def posts(request, location):
 

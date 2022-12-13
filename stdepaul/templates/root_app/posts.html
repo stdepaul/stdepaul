@@ -83,7 +83,7 @@
 			</label>
 			</div>
 			<p class="prata-font"> Location </p>
-			<input type="text" placeholder="Location" name="location" class="col-md-9 form-control" value="{{location}}" /><br>
+			<input type="text" placeholder="Location" name="location" id="id_location" class="col-md-9 form-control" value="{{location}}" /><br>
 			<p class="prata-font">
 				Search Type
 			</p>
@@ -123,7 +123,7 @@
 		<div class="col-md-9 col-xs-12 col-sm-12 floatleft" style="height:75vh; overflow:auto">
 			<p class="prata-font bigfont floatleft" style="padding-top:10px;"> {{num_results}} results in "{{location}}" </p>
 			<a class="btn btn-primary floatright" style="margin: 8px" href="{% url 'post_create' location=location %}"> <i class="fa fa-edit"></i> &nbsp; Create a new Post </a> 
-			
+			&nbsp; <a class="btn btn-success floatright" style="margin: 8px" href="{% url 'helper_create' %}"> <i class="fa fa-hand-holding-heart"> </i> &nbsp; Become a Helper </a>
 			{% for post in posts %}
 			<div onclick="window.location = '{% if post.get_object_type == 'Helper' %}{% url 'helper_detail' pk=post.pk slug=post.slug location=post.location %}{% elif post.get_object_type == 'Wiki Entry' %}{% url 'wiki_entry_detail' pk=post.pk slug=post.slug location=post.location %}{% else %}{% url 'post_detail' pk=post.pk slug=post.slug location=post.location %}{% endif %}'" class="searchitem" style="cursor: pointer; display: table; width: 100%;  border:1px solid #ddd;  margin: 10px;"> 
 				<div class="col-md-3 col-sm-12 col-xs-12 floatleft" style="padding:10px; overflow:clip">
@@ -142,7 +142,6 @@
 			</div>
 			{% empty %}
 
-			No posts
 
 			{% endfor %}
 		</div>

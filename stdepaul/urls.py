@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
+    path('api-home', root_views.api_home, name='api_home'),
 
     path('accounts/', include('allauth.urls')),
     #path('martor/', include('martor.urls')),
