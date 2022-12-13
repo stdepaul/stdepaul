@@ -57,6 +57,8 @@ INSTALLED_APPS = [
     'storages',
 ]
 
+RECAPTCHA_REQUIRED_SCORE = 0.85
+
 """
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
