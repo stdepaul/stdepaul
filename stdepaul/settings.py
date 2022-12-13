@@ -125,7 +125,7 @@ STATICFILES_FINDERS = (
 
 EMAIL_BACKEND = "sgbackend.SendGridBackend"
 SENDGRID_API_KEY = os.environ.get('STDEPAUL_SENDGRID_API_KEY')
-DEFAULT_FROM_EMAIL = 'noreply@stdepaul.org'
+DEFAULT_FROM_EMAIL = 'michael@stdepaul.org'
 
 SITE_ID = 1
 
