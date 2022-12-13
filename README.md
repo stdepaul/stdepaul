@@ -12,6 +12,10 @@ Hi, and welcome to the source code for the St. Vincent de Paul Assistance Center
 
 3. We will not be making a group home database, until we have researched and concluded that group homes do not lower the quality of life of the neighbors in the neighborhood in which group homes are.
 
+4. We do not condone people who are not licensed landlords offering free housing to people who need housing via St. De Paul. We recommend that you donate money or add housing assistance information to the wiki instead.
+
+5. No hate speech and no politics.
+
 # License
 
 MIT License
