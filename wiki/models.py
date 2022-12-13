@@ -5,6 +5,8 @@ from django.template.defaultfilters import slugify
 
 from django.contrib.auth.models import User
 
+from django.conf import settings
+
 class WikiEntry(models.Model):
 	title = models.CharField(max_length=255, default="Untitled")
 	helper_type = models.CharField(max_length=255, blank=True, null=True, choices=HELPER_TYPES)
@@ -44,3 +46,9 @@ class WikiEntry(models.Model):
 
 	def __str__(self):
 		return self.title
+
+	def get_thumbnail_url(self):
+		return f"{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.thumbnail}"
+
+	def get_cover_photo_url(self):
+		return f"{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.cover_photo}"

@@ -33,7 +33,7 @@
 <div class="col-md-10 offset-md-1 col-xs-12 col-sm-12" style="background:white; margin-top: 150px; margin-bottom: 100px; padding:20px;">
 	<div id="cover-photo">
 		{% if object.cover_photo %}
-		<img src="https://stdepaul-dev.s3.us-east-2.amazonaws.com/{{object.cover_photo}}" style="max-height:25vh; width:100%;" alt="{{object.title}}" />
+		<img src="{{object.get_cover_photo_url}}" style="max-height:25vh; width:100%;" alt="{{object.title}}" />
 		{% endif %}
 	</div>
 	<div class="content col-md-12">
@@ -41,7 +41,7 @@
 
 			<div class="thumbnail col-md-3 floatleft">
 				{% if object.thumbnail %}
-				<img src="https://stdepaul-dev.s3.us-east-2.amazonaws.com/{{object.thumbnail}}" alt="{{object.title}}" width="100%"/>
+				<img src="{{object.get_thumbnail_url}}" alt="{{object.title}}" width="100%"/>
 				{% else %}
 				<img src="/static/img/stdepaulsqblue.png" alt="St. De Paul" width="100%"/>
 				{% endif %}
