@@ -18,3 +18,4 @@ git+https://github.com/jmideamaker/django-messages.git@master
 martor==1.6.15
 django-s3direct
 allcities==1.0.3
+pandas==1.5.2

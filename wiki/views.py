@@ -44,11 +44,7 @@ from root_app.forms import CommentForm
 
 def wiki_home(request, location):
 
-	if location != 'global':
-		location_arr = location.split('-')
-		city = location_arr[0]
-		state_province = location_arr[1]
-		country = location_arr[2]
+	WikiEntry.objects.filter(location=location)
 
 	context = {
 

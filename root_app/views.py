@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+import os 
+import re
 import urllib
 import inspect
 import random
@@ -31,6 +33,8 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView
 from django.shortcuts import redirect
 
+from django.conf import settings
+
 from django.views.generic import DetailView
 from django.views.generic.edit import UpdateView
 from django.views.generic.edit import CreateView
@@ -49,6 +53,10 @@ from .models import Comment
 from .models import Helper
 
 from wiki.models import WikiEntry
+
+from allcities import cities
+
+import pandas as pd 
 
 def home(request):
 	context = {}
@@ -108,8 +116,37 @@ def posts(request, location):
 	q = request.GET.get('q', '')
 	search_types = request.GET.getlist('search_types[]', [])
 	help_types = request.GET.getlist('help_types[]', [])
-	parsed_location = request.GET.get('location', location)
+	parsed_location = request.GET.get('location', location).lower()
 	query = SearchQuery(q)
+
+	if '-' not in parsed_location and parsed_location != 'global':
+		parsed_location = re.sub('[^a-zA-Z0-9 \n\.]', ' ', parsed_location)
+		all_countries = pd.read_csv(os.path.join(settings.BASE_DIR, 'static/assets/countrycodes.csv'))
+		if parsed_location not in [str(country_code).lower() for country_code in all_countries['alpha-2']]:
+
+			results = cities.filter(name=parsed_location)
+			city = list(results)[0]
+			parsed_location = f"{city.asciiname.replace(' ', '').lower()}-{city.admin1_code.lower()}-{city.country_code.lower()}"
+
+		else:
+			parsed_location = parsed_location
+
+	elif '-' in parsed_location:
+		parsed_location_split_len = len(parsed_location.split('-'))
+		if parsed_location_split_len == 1:
+			parsed_location = re.sub('[^a-zA-Z0-9 \n\.]', ' ', parsed_location)
+			results = cities.filter(name=parsed_location)
+			city = list(results)[0]
+			parsed_location = f"{city.asciiname.replace(' ', '').lower()}-{city.admin1_code.lower()}-{city.country_code.lower()}"
+		elif parsed_location_split_len == 2:
+			all_countries = pd.read_csv(os.path.join(settings.BASE_DIR, 'static/assets/countrycodes.csv'))
+			if parsed_location.split('-')[-1] not in [str(country_code).lower() for country_code in all_countries['alpha-2']]:
+				results = cities.filter(name=parsed_location.split('-')[0])
+				for result in results:
+					if result.admin1_code.lower() == parsed_location.split('-')[-1] and result.asciiname.replace(' ','').lower() == parsed_location.split('-')[0]:
+						city = result
+						break
+				parsed_location = f"{city.asciiname.replace(' ', '').lower()}-{city.admin1_code.lower()}-{city.country_code.lower()}"
 
 	posts = []
 	helpers = []
@@ -117,6 +154,16 @@ def posts(request, location):
 
 	if len(search_types) == 0:
 		search_types = ['helpees', 'helpers_indv', 'helpers_org', 'wiki_entries']
+
+	def filter_location(item_list, input_location):
+		location_split_len = len(input_location.split('-'))
+		if location_split_len > 0 and location_split_len < 3:
+			item_list = item_list.filter(location__endswith=input_location)
+		elif location_split_len == 3:
+			item_list = item_list.filter(location=input_location)
+		else:
+			item_list = item_list.filter(location='global')
+		return item_list
 
 	if 'helpees' in search_types or 'helpers_indv' in search_types:
 		posts = Post.objects.all()
@@ -128,7 +175,8 @@ def posts(request, location):
 			posts = posts.annotate(search=SearchVector(
 				'title', 'description', 'created_by')).filter(search=q)
 		if location != 'global':
-			posts = posts.filter(location=location)
+			posts = filter_location(posts, parsed_location)
+			
 
 		posts = posts.order_by('created_at')
 
@@ -140,7 +188,7 @@ def posts(request, location):
 			helpers = helpers.annotate(search=SearchVector(
 				'title', 'description', 'moderators', 'created_by')).filter(search=q)
 		if location != 'global':
-			helpers = helpers.filter(location=location)
+			helpers = filter_location(helpers, parsed_location)
 		helpers = helpers.filter(is_verified=True).order_by('created_at')
 
 	if 'wiki_entries' in search_types:
@@ -152,7 +200,7 @@ def posts(request, location):
 			wiki_entries = wiki_entries.annotate(search=SearchVector(
 				'title', 'description', 'moderators', 'created_by')).filter(search=q)
 		if location != 'global':
-			wiki_entries = wiki_entries.filter(location=location)
+			wiki_entries = filter_location(wiki_entries, parsed_location)
 
 		wiki_entries = wiki_entries.filter(is_verified=True).order_by('created_at')
 
