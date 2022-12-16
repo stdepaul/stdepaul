@@ -29,6 +29,20 @@
 		}
 	</style>
 {% endblock %}
+{% block metatags %}
+    <meta name="title" content="{{object.title}}">
+    <meta name="description" content="{{object.description}}">
+    <meta name="keywords" content="st, de, paul, assistance, center, sign in, signin">
+    <meta property="og:site_name" content="St. Vincent De Paul Assistance Center">
+    <meta property="og:url" content="{{request.get_full_path}}">
+    <meta property="og:title" content="{{object.title}}">
+    {% if object.thumbnail %}
+    <meta property="og:image" content="{{object.get_thumbnail_url}}">
+    {% else %}
+    <meta property="og:image" content="https://www.stdepaul.org/static/img/stdepaulsqblue.png">
+    {% endif %}
+    <meta property="og:description" content="{{object.description}}">
+    {% endblock %}
 {% block content %}
 <div class="col-md-10 offset-md-1 col-xs-12 col-sm-12" style="background:white; margin-top: 150px; margin-bottom: 100px; padding:20px;">
 	
