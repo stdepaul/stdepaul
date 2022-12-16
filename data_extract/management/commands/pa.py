@@ -28,27 +28,36 @@ from django.contrib.auth.models import User
 
 
 class Command(BaseCommand):
-	help = 'Extract data from 211texas.org'
-	first_url = 'https://www.211texas.org'
+	help = 'Extract data from pa211.org'
+	urls = {
+		'https://www.pa211.org/get-help/housing-shelter': [
+			'exclude': [
+				'Home Purchase and Rental',
+				'Subsidized Housing',
+				'Home Improvement',
+				'Landlord and Tenant Issues',
+			],
+			'help_code': 'rent_utilities'
+		],
+		'https://www.pa211.org/get-help/food': {
+			'exclude': [
+				'Holiday Meals and Baskets',
+				'Healthy Eating',
+				'Pet Care'
+			],
+			'help_code': 'food'
+		}
+		'https://www.pa211.org/get-help/utilities/': {
+			'exclude': [],
+			'help_code': 'rent_utilities',
+		}
+	}
 	delay = 0
 	links = []
 	next_pages = []
 	initial_links_to_follow = []
 	search_terms = []
 	counter = 0
-	classes = {
-		#'Housing Expense:Rent Payment' : 'rent_utilities',
-		#'Housing Expense:Mortgage Payment' : 'rent_utilities',
-		#'Emergency Shelter:ALL': 'rent_utilities',
-		'Emergency Food:ALL': 'food',
-		'Personal Expenses:ALL': 'other',
-		#'Inpatient/Residential Facilities:ALL': 'mental_health_rehab',
-	}
-
-	def construct_search_link_base(self, search_term):
-
-		url = f"https://na1.icarol.info/AdvancedSearch.aspx?org=72605&Count=5&NameOnly=True&pst=Coverage&sort=Proximity&TaxExact=False&Country=United+States&StateProvince=TX&County=-1&City=-1&PostalCode=&Search={search_term}"
-		return url
 
 	def start(self, initial_url):
 
@@ -59,30 +68,8 @@ class Command(BaseCommand):
 
 		self.driver = webdriver.Firefox(firefox_profile=profile, options=options)
 
-		self.driver.get(initial_url)
-
-		for _class, help_code in self.classes.items():
-			_class_split = _class.split(':')
-			link_category = _class_split[0]
-			link_sub_category = _class_split[1]
-			link_group = self.driver.find_element_by_link_text(
-				link_category
-			)
-
-			link_group.click()
-
-			link_group_parent_parent_parent = link_group.find_element_by_xpath('..').find_element_by_xpath('..').find_element_by_xpath('..')
-
-			if link_sub_category == 'ALL':
-
-				self.search_terms.extend(
-					[{'href': link.text, 'helper_type': help_code} for link in link_group_parent_parent_parent.find_elements_by_tag_name('li')])
-
-			else:
-				self.search_terms.append({
-					'href': link_group.find_element_by_xpath(f"//a[@title='{link_sub_category}']").text,
-					'helper_type': help_code
-				})
+		for url, data in urls.items():
+			self.driver.get(url)
 
 
 		for search_term in self.search_terms:
