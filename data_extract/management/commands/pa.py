@@ -30,7 +30,7 @@ from django.contrib.auth.models import User
 class Command(BaseCommand):
 	help = 'Extract data from pa211.org'
 	urls = {
-		'https://www.pa211.org/get-help/housing-shelter': [
+		'https://www.pa211.org/get-help/housing-shelter': {
 			'exclude': [
 				'Home Purchase and Rental',
 				'Subsidized Housing',
@@ -38,7 +38,7 @@ class Command(BaseCommand):
 				'Landlord and Tenant Issues',
 			],
 			'help_code': 'rent_utilities'
-		],
+		},
 		'https://www.pa211.org/get-help/food': {
 			'exclude': [
 				'Holiday Meals and Baskets',
@@ -46,12 +46,13 @@ class Command(BaseCommand):
 				'Pet Care'
 			],
 			'help_code': 'food'
-		}
+		},
 		'https://www.pa211.org/get-help/utilities/': {
 			'exclude': [],
 			'help_code': 'rent_utilities',
 		}
 	}
+	region_code = 'pa'
 	delay = 0
 	links = []
 	next_pages = []
@@ -59,7 +60,7 @@ class Command(BaseCommand):
 	search_terms = []
 	counter = 0
 
-	def start(self, initial_url):
+	def start(self, urls):
 
 		options = Options()
 		#options.headless = True
@@ -71,134 +72,129 @@ class Command(BaseCommand):
 		for url, data in urls.items():
 			self.driver.get(url)
 
+			time.sleep(3)
+			try:
+				close = self.driver.find_element_by_xpath('/html/body/div[1]/div[3]/div/div/div/div[2]')
 
-		for search_term in self.search_terms:
-			self.follow_link(
-				self.construct_search_link_base(search_term['href']),
-				search_term['helper_type'])
+				close.click()
+
+				time.sleep(3)
+			except Exception as e:
+				print('no alert')
+
+			help_category_elements = self.driver.find_elements_by_css_selector('.help-category-title')
+			help_categories = [element for element in help_category_elements if element.text not in urls[url]['exclude']]
+			for hc in help_categories:
+				hc.click()
+				time.sleep(1)
+				link_list_element = self.driver.find_element_by_xpath(f'//*[@class="{hc.get_attribute("class")}"]/following-sibling::div')
+				link_list_element_list = link_list_element.find_elements_by_tag_name('a')
+				for link_in_list in link_list_element_list:
+					self.links.append({
+						'href': link_in_list.get_attribute('href'),
+						'helper_type': urls[url]['help_code']
+					})
+
 
 		for link in self.links:
 			self.get_data(link['href'], link['helper_type'])
 
 		self.driver.quit()
 
-	def follow_link(self, link, helper_type):
-
-		self.driver.get(link)
-
-		self.get_data_links(helper_type)
-		
-
-	def get_data_links(self, helper_type):
-		
-		link_elements = [link_base.find_element_by_tag_name('a') for link_base in self.driver.find_elements_by_css_selector('.DetailsHeaderBackground')]
-
-		for link in link_elements:
-			self.links.append({
-				'href': "https:" + link.get_attribute('onclick').split('window.open("')[-1].split('")')[0], 
-				'helper_type': helper_type
-			})
-
-
-		page_info = self.driver.find_element_by_css_selector('.PagerInfoCell').text
-		current_page_num = int(self.driver.find_element_by_css_selector('.PagerCurrentPageCell').text)
-		print(current_page_num)
-		num_pages = int(page_info.split('of ')[-1])
-
-		if current_page_num < num_pages:
-			try: 
-				next_page_element = self.driver.find_element_by_xpath('//*[@class="PagerCurrentPageCell"]/following-sibling::td')
-				next_page_link = next_page_element.find_element_by_tag_name('a')
-				next_page_link.click()
-				self.get_data_links(helper_type)
-			except Exception as e:
-				print(e)
-				return
-
 	def get_data(self, link, helper_type):
 
 
 		self.driver.get(link)
 
-		time.sleep(10)
-
-		try:
-			self.driver.switch_to.alert.accept()
-		except Exception as e:
-			print('no alert')
+		helpers = self.driver.find_elements_by_css_selector('.search-result-item')
 		
-		
-
-		self.driver.switch_to.frame(self.driver.find_element_by_css_selector("iframe#find_services_frame"))
-
-		
-		try:	
-			title = self.driver.find_element_by_css_selector("#hlLinkToParentAgency").text.split('Agency: ')[-1]
-			description = self.driver.find_element_by_css_selector("#lblAgencyDescription").text
-			address = self.driver.find_element_by_css_selector("#lblAgencyPhysicalAddress")
-			hours_of_operation = self.driver.find_element_by_css_selector('#lblAgencyHours').text
-		except Exception as e:
-			print(e)
-			return
-		try:
-			phone = self.driver.find_element_by_xpath('/html/body/form/div[4]/div[1]/div[3]/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr[2]/td[1]').text
-		except Exception as e:
-			phone = None
-
-		no_website = False
-		has_image = False
-		try:
-			website = self.driver.find_element_by_css_selector('#hlAgencyWebsite').get_attribute('href')
-		except Exception as e:
-			print('could not get website')
-			no_website = True
-			website = None
-			# get thumbnail from website
-
-		if not no_website:
+		for helper in helpers:
+			try:	
+				title = helper.find_element_by_css_selector(".search-result-item-name").text
+				description = helper.find_element_by_css_selector(".search-result-item-description").text
+				address = helper.find_element_by_css_selector(".search-result-item-address")
+				hours_of_operation = helper.find_element_by_css_selector('.search-result-item-hours').text
+				
+			except Exception as e:
+				print(e)
+				return
 			try:
-				print(website)
-				r = requests.get(website)
-				soup = Soup(r.content, 'html.parser')
-				images = [item['content']
-						  for item in soup.findAll("meta", {'property': "og:image"})]
+				phone = helper.find_element_by_css_selector(
+					'.search-result-item-phone').find_element_by_tag_name('a').get_attribute('href').split('tel:')[-1]
+			except Exception as e:
+				phone = None
 
-				img_temp = NamedTemporaryFile(delete=True)
-				img_temp.write(requests.get(images[0]).content)
-				img_temp.flush()
+			try:
+				email = helper.find_element_by_css_selector(
+					'search-result-item-email').find_element_by_tag_name('a').get_attribute('href').split('mailto:')[-1]
 
-				img_filetype = images[0].split('.')[-1].split('?')[0]
+			except Exception as e:
+				email = None
 
-				has_image = True
+			try:
+				eligibility = helper.find_element_by_css_selector('search-result-item-eligibility').text
+				description = description + "\n\n" + eligibility
+			except Exception as e:
+				eligibility = None
 
+			no_website = False
+			has_image = False
+			try:
+				website = helper.find_element_by_css_selector(
+					'.search-result-item-name').find_element_by_tag_name('a').get_attribute('href')
+			except Exception as e:
+				print('could not get website')
+				no_website = True
+				website = None
+				# get thumbnail from website
+
+			if not no_website:
+				try:
+					print(website)
+					r = requests.get(website)
+					soup = Soup(r.content, 'html.parser')
+					images = [item['content']
+							  for item in soup.findAll("meta", {'property': "og:image"})]
+
+					img_temp = NamedTemporaryFile(delete=True)
+					img_temp.write(requests.get(images[0]).content)
+					img_temp.flush()
+
+					img_filetype = images[0].split('.')[-1].split('?')[0]
+
+					has_image = True
+
+				except Exception as e:
+					print(e)
+
+			helper_type = helper_type
+				
+			loc_seach_str = re.sub('[^a-zA-Z0-9]', '', address.get_attribute('innerHTML').split('<br>')[-1].split(' ')[0])
+			location = search_city(loc_seach_str, self.region_code)
+
+			try:
+
+				if title != '':
+					w = WikiEntry.objects.create(
+						title=title,
+						description=description,
+						address=address.text,
+						hours_of_operation=hours_of_operation,
+						website=website,
+						helper_type=helper_type,
+						location=location,
+						slug=slugify(title)[:50],
+						phone_number=phone,
+						is_verified=True,
+						email=email,
+					)
+
+					print(f'added {title}')
+
+					if has_image:
+						w.thumbnail.save(f"{slugify(title)}-thumbnail.{img_filetype}", img_temp)
 			except Exception as e:
 				print(e)
 
-		helper_type = helper_type
-			
-		loc_seach_str = re.sub('[^a-zA-Z0-9]', '', address.get_attribute('innerHTML').split('<br>')[-1].split(' ')[0])
-		location = search_city(loc_seach_str, 'tx')
-
-		try:
-
-			if title != '':
-				w = WikiEntry.objects.create(
-					title=title,
-					description=description,
-					address=address.text,
-					hours_of_operation=hours_of_operation,
-					website=website,
-					helper_type=helper_type,
-					location=location,
-					slug=slugify(title)[:50],
-					phone_number=phone,
-					is_verified=True,
-				)
-
-				if has_image:
-					w.thumbnail.save(f"{slugify(title)}-thumbnail.{img_filetype}", img_temp)
-		except Exception as e:
-			print(e)
-
 	def handle(self, *args, **kwargs):
-		self.start(self.first_url)
+		self.start(self.urls)
