@@ -20,3 +20,4 @@ django-s3direct
 allcities==1.0.3
 pandas==1.5.2
 beautifulsoup4==4.11.1
+natural-keys==1.1.1
