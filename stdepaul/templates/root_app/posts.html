@@ -49,15 +49,8 @@
 			</label>
 
 			<label class="PillList-item">
-		    <input type="checkbox" name="help_types[]" value="mental_health" checked>
-		    	<span class="PillList-label"> Mental health services
-		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-		    	</span>
-			</label>
-
-		    <label class="PillList-item">
-		    <input type="checkbox" name="help_types[]" value="rehab" checked>
-		    	<span class="PillList-label"> Rehab Services
+		    <input type="checkbox" name="help_types[]" value="mental_health_rehab" checked>
+		    	<span class="PillList-label"> Mental health or rehab services
 		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
 		    	</span>
 			</label>
@@ -82,7 +75,7 @@
 		    	</span>
 			</label>
 			</div>
-			<p class="prata-font"> City </p>
+			<p class="prata-font"> Location (e.g. "portland") </p>
 			<input type="text" placeholder="Location" name="location" id="id_location" class="col-md-9 form-control" value="{{location}}" /><br>
 			<p class="prata-font">
 				Search Type
@@ -136,7 +129,7 @@
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12 floatnone" style="padding:10px;">
 					<p class="prata-font bigfont nvp"> {{post.title}} </p>
-					<p class="smallfont nvp"> <b>{{post.get_object_type}} created by <a href="/profile/{{post.created_by.username}}">{{post.created_by}}</a>, {{post.created_at|naturalday}} in <a href="/help/{{post.location}}"> {{post.location}}</a>, in {% if 'Post' in post.get_object_type %}<a href="/help/{{location}}/?help_types[]={{post.help_type}}"> {{post.get_help_type_display}}</a>{% else %}<a href="/help/{{post.location}}/?help_types[]={{post.helper_type}}"> {{post.get_helper_type_display}}</a>{% endif %} </b></p>
+					<p class="smallfont nvp"> <b>{{post.get_object_type}} created by {% if post.created_by %} <a href="/profile/{{post.created_by.username}}">{{post.created_by}}</a>{% else %} wiki_admin {% endif %}, {{post.created_at|naturalday}} in <a href="/help/{{post.location}}"> {{post.location}}</a>, in {% if 'Post' in post.get_object_type %}<a href="/help/{{location}}/?help_types[]={{post.help_type}}"> {{post.get_help_type_display}}</a>{% else %}<a href="/help/{{post.location}}/?help_types[]={{post.helper_type}}"> {{post.get_helper_type_display}}</a>{% endif %} </b></p>
 					<p> {{post.description|safe_markdown}} </p>
 				</div>
 			</div>

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'api',
     'root_app',
     'wiki',
+    'data_extract',
 
     'allauth',
     'allauth.account',
@@ -128,12 +129,12 @@ STATICFILES_FINDERS = (
 
 EMAIL_BACKEND = "sgbackend.SendGridBackend"
 SENDGRID_API_KEY = os.environ.get('STDEPAUL_SENDGRID_API_KEY')
-DEFAULT_FROM_EMAIL = 'michael@stdepaul.org'
+DEFAULT_FROM_EMAIL = 'hello@stdepaul.org'
 
 SITE_ID = 1
 
-RECAPTCHA_PUBLIC_KEY = os.environ.get('STDEPAUL_RECAPTCHA_KEY')
-RECAPTCHA_PRIVATE_KEY = os.environ.get('STDEPAUL_RECAPTCHA_SECRET')
+RECAPTCHA_PUBLIC_KEY = str(os.environ.get('STDEPAUL_RECAPTCHA_KEY'))
+RECAPTCHA_PRIVATE_KEY = str(os.environ.get('STDEPAUL_RECAPTCHA_SECRET'))
 
 LOGIN_REDIRECT_URL = '/'
 

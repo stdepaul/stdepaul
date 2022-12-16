@@ -24,5 +24,6 @@ from allcities import cities
 def get_location_slug(request):
 	loc_query = request.GET.get('term')
 	results = cities.filter(name=loc_query)
+	results = sorted(results, key=lambda d: d.population, reverse=True)
 	results = [f"{city.asciiname.replace(' ', '').lower()}-{city.admin1_code.lower()}-{city.country_code.lower()}" for city in results]
 	return Response(results)

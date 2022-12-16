@@ -111,43 +111,70 @@ def api_home(request):
 	template_name = 'root_app/api_home.html'
 	return render(request, template_name, context)
 
-def posts(request, location):
+def search_city(parsed_location, region=None):
 
+	if parsed_location != '':
+		if '-' not in parsed_location and parsed_location != 'global':
+			parsed_location = re.sub('[^a-zA-Z0-9]', ' ', parsed_location)
+			all_countries = pd.read_csv(os.path.join(settings.BASE_DIR, 'static/assets/countrycodes.csv'))
+			if parsed_location not in [str(country_code).lower() for country_code in all_countries['alpha-2']]:
+
+				results = cities.filter(name=parsed_location)
+				# get city result with highest population
+
+				if len(list(results)) > 0:
+					city = list(results)[0]
+					for result in results:
+						if region == result.admin1_code.lower():
+							city = result 
+							break
+						elif result.population > city.population:
+							city = result
+
+					parsed_location = f"{city.asciiname.replace(' ', '').lower()}-{city.admin1_code.lower()}-{city.country_code.lower()}"
+				else:
+					parsed_location = 'global'
+
+			else:
+				parsed_location = parsed_location
+
+		elif '-' in parsed_location:
+			parsed_location_split_len = len(parsed_location.split('-'))
+			if parsed_location_split_len == 1:
+				parsed_location = re.sub('[^a-zA-Z0-9]', ' ', parsed_location)
+				results = cities.filter(name=parsed_location)
+				if len(list(results)) > 0:
+					city = list(results)[0]
+					parsed_location = f"{city.asciiname.replace(' ', '').lower()}-{city.admin1_code.lower()}-{city.country_code.lower()}"
+				else:
+					parsed_location = 'global'
+			elif parsed_location_split_len == 2:
+				parsed_location = re.sub('[^a-zA-Z0-9-]', '', parsed_location)
+				all_countries = pd.read_csv(os.path.join(settings.BASE_DIR, 'static/assets/countrycodes.csv'))
+				if parsed_location.split('-')[-1] not in [str(country_code).lower() for country_code in all_countries['alpha-2']]:
+					results = cities.filter(name=parsed_location.split('-')[0])
+					for result in results:
+						if result.admin1_code.lower() == parsed_location.split('-')[-1] and result.asciiname.replace(' ','').lower() == parsed_location.split('-')[0]:
+							city = result
+							parsed_location = f"{city.asciiname.replace(' ', '').lower()}-{city.admin1_code.lower()}-{city.country_code.lower()}"
+							break
+			else:
+				parsed_location = re.sub('[^a-zA-Z0-9-]', '', parsed_location)
+	else:
+		parsed_location = 'global'
+
+	return parsed_location
+
+def posts(request, location):
+	
 	q = request.GET.get('q', '')
 	search_types = request.GET.getlist('search_types[]', [])
 	help_types = request.GET.getlist('help_types[]', [])
 	parsed_location = request.GET.get('location', location).lower()
 	query = SearchQuery(q)
 
-	if '-' not in parsed_location and parsed_location != 'global':
-		parsed_location = re.sub('[^a-zA-Z0-9 \n\.]', ' ', parsed_location)
-		all_countries = pd.read_csv(os.path.join(settings.BASE_DIR, 'static/assets/countrycodes.csv'))
-		if parsed_location not in [str(country_code).lower() for country_code in all_countries['alpha-2']]:
-
-			results = cities.filter(name=parsed_location)
-			city = list(results)[0]
-			parsed_location = f"{city.asciiname.replace(' ', '').lower()}-{city.admin1_code.lower()}-{city.country_code.lower()}"
-
-		else:
-			parsed_location = parsed_location
-
-	elif '-' in parsed_location:
-		parsed_location_split_len = len(parsed_location.split('-'))
-		if parsed_location_split_len == 1:
-			parsed_location = re.sub('[^a-zA-Z0-9 \n\.]', ' ', parsed_location)
-			results = cities.filter(name=parsed_location)
-			city = list(results)[0]
-			parsed_location = f"{city.asciiname.replace(' ', '').lower()}-{city.admin1_code.lower()}-{city.country_code.lower()}"
-		elif parsed_location_split_len == 2:
-			all_countries = pd.read_csv(os.path.join(settings.BASE_DIR, 'static/assets/countrycodes.csv'))
-			if parsed_location.split('-')[-1] not in [str(country_code).lower() for country_code in all_countries['alpha-2']]:
-				results = cities.filter(name=parsed_location.split('-')[0])
-				for result in results:
-					if result.admin1_code.lower() == parsed_location.split('-')[-1] and result.asciiname.replace(' ','').lower() == parsed_location.split('-')[0]:
-						city = result
-						break
-				parsed_location = f"{city.asciiname.replace(' ', '').lower()}-{city.admin1_code.lower()}-{city.country_code.lower()}"
-
+	parsed_location = search_city(parsed_location)
+				
 	posts = []
 	helpers = []
 	wiki_entries = []
@@ -173,7 +200,7 @@ def posts(request, location):
 			posts = posts.filter(help_type__in=help_types)
 		if q:
 			posts = posts.annotate(search=SearchVector(
-				'title', 'description', 'created_by')).filter(search=q)
+				'title', 'description', 'created_by', 'location')).filter(search=q)
 		if location != 'global':
 			posts = filter_location(posts, parsed_location)
 			
@@ -186,7 +213,7 @@ def posts(request, location):
 			helpers = helpers.filter(helper_type__in=help_types)
 		if q:
 			helpers = helpers.annotate(search=SearchVector(
-				'title', 'description', 'moderators', 'created_by')).filter(search=q)
+				'title', 'description', 'moderators', 'created_by', 'location', 'address')).filter(search=q)
 		if location != 'global':
 			helpers = filter_location(helpers, parsed_location)
 		helpers = helpers.filter(is_verified=True).order_by('created_at')
@@ -198,7 +225,7 @@ def posts(request, location):
 			wiki_entries = wiki_entries.filter(helper_type__in=help_types)
 		if q:
 			wiki_entries = wiki_entries.annotate(search=SearchVector(
-				'title', 'description', 'moderators', 'created_by')).filter(search=q)
+				'title', 'description', 'moderators', 'created_by', 'location', 'address')).filter(search=q)
 		if location != 'global':
 			wiki_entries = filter_location(wiki_entries, parsed_location)
 

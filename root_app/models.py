@@ -23,8 +23,7 @@ HELPER_TYPES = (
 	('rent_utilities', 'Housing / Rent Assistance'),
 	('entry_level_job', 'Entry-Level Job Employer'),
 	('develop_skills', 'Job Skills Educator'),
-	('mental_health', 'Mental Health Services Organization or Individual'),
-	('rehab', 'Drug / Alcohol Rehab Services Organization'),
+	('mental_health_rehab', 'Mental Health or Rehab Services'),
 	('scholarships', 'Scholarship Offerer'),
 	('other', 'Other'),
 )
