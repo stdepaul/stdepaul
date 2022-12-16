@@ -1,15 +1,92 @@
 {% extends 'base.html' %}
-
+{% load humanize %}
+{% load martortags %}
 {% block more_css %}
+	<style>
+		.cover-photo{
+			width: 100%;
+		}
+		.content{
+			display: table;
+			padding: 30px;
+		}
+		.content-top{
+			height: 135px;
+		}
+		.thumbnail{
 
+		}
+		.title{
+			padding: 35px;
+		}
+		.content-bottom{
+			padding: 0 25px;
+		}
+		#info-box{
+			border: 1px solid #ddd;
+			background: #eee;
+			padding: 20px;
+		}
+	</style>
 {% endblock %}
-
 {% block content %}
 <div class="col-md-10 offset-md-1 col-xs-12 col-sm-12" style="background:white; margin-top: 150px; margin-bottom: 100px; padding:20px;">
-	<h1 class="prata-font"> The St. De Paul Wiki </h1>
-	<a class="btn btn-primary" href="{% url 'wiki_entry_create' location='global' %}"> <i class="fa fa-edit"> </i>&nbsp; Create a Wiki Entry </a>
+	<div id="cover-photo">
+		{% if object.cover_photo %}
+		<img src="{{object.get_cover_photo_url}}" style="max-height:25vh; width:100%;" alt="{{object.title}}" />
+		{% endif %}
+	</div>
+	<div class="content col-md-12">
+		<div class="content-top col-md-12">
+
+			<div class="thumbnail col-md-3 floatleft">
+				{% if object.thumbnail %}
+				<img src="{{object.get_thumbnail_url}}" alt="{{object.title}}" width="100%"/>
+				{% else %}
+				<img src="/static/img/stdepaulsqblue.png" alt="St. De Paul" width="100%"/>
+				{% endif %}
+				<div id="info-box">
+					<ul>
+						<li> <span class="big-font prata-font"> Quick Links </span>
+							<ul>
+								<li> <a href="{% url 'posts_home' location=location %}?help_types[]=rent_utilities"> Housing / Rent / Utilities Assistance in {{location}} </a></li>
+								<li> <a href="{% url 'posts_home' location=location %}?help_types[]=food"> Food Assistance in {{location}} </a></li>
+								<li> <a href="{% url 'posts_home' location=location %}?help_types[]=entry_level_job"> Jobs in {{location}} </a></li>
+								<li> <a href="{% url 'posts_home' location=location %}?help_types[]=develop_skills"> Develop skills for a better job in {{location}} </a></li>
+								<li> <a href="{% url 'posts_home' location=location %}?help_types[]=scholarships"> Scholarshipe in {{location}} </a></li>
+							</ul>
+						</li>
+					
+				</div>
+			</div>
+			<div class="title col-md-9 floatleft">
+				<h1 class="nvp floatleft prata-font"> {% if object %}{{object.title}}{% else %} {{location}} wiki (Default, unedited) {% endif %} </h1>
+				{% if object %}
+			<a class="btn btn-primary floatright" style="margin: 8px" href="{% url 'wiki_entry_update' location=object.location pk=object.pk slug=object.slug %}"> <i class="fa fa-edit"></i> &nbsp; Update this Page </a> 
+
+
+
+			{% endif %}
+
+
+				</div>
+		</div>
+		<div class="content-bottom">
+
+			{% if object %}
+			<p> {{object.description|safe_markdown}} </p>
+			{% else %}
+			<p> This page is the default page for the location: {{location}} ; it has not yet been edited. To edit this page, create a Wiki Entry for this location with the title "__WIKI_LOCATION_TITLE__" . </p>
+
+			<a class="btn btn-primary" href="{% url 'wiki_entry_create' location=location %}"> <i class="fa fa-edit"> </i>&nbsp; Create a Wiki Entry </a>
+		
+			{% endif %}
+			
+		</div>
+	</div>
 </div>
 {% endblock %}
+
 
 {% block more_js %}
 

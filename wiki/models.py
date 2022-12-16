@@ -7,8 +7,19 @@ from django.contrib.auth.models import User
 
 from django.conf import settings
 
-class WikiEntry(models.Model):
-	title = models.CharField(max_length=255, default="Untitled")
+from natural_keys import NaturalKeyModel
+
+
+
+# __WIKI_LOCATION_HOME__ is the homepage wiki for a given location
+
+RESERVED_TITLES = (
+	'__WIKI_LOCATION_HOME__',
+)
+
+
+class WikiEntry(NaturalKeyModel):
+	title = models.CharField(max_length=255, default="Untitled", unique=True)
 	helper_type = models.CharField(max_length=255, blank=True, null=True, choices=HELPER_TYPES)
 	description = MartorField(blank=True, null=True)
 
@@ -26,7 +37,7 @@ class WikiEntry(models.Model):
 
 	slug = models.SlugField(max_length=50, blank=True, null=True)
 
-	created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+	created_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 

@@ -47,7 +47,9 @@ body{
   overflow: auto;
   display: table;
 }
-
+.content-bottom{
+  display:table;
+}
 #help-form-section{
   margin-top: 215px;
 }

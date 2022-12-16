@@ -46,13 +46,14 @@
 				<img src="/static/img/stdepaulsqblue.png" alt="St. De Paul" width="100%"/>
 				{% endif %}
 				<div id="info-box">
-					<p class="nvp"> <b>Phone Number:  </b>{{object.phone_number}}</p>
+					{% if object.phone_number %}<p class="nvp"> <b>Phone Number:  </b>{{object.phone_number}}</p>{% endif %}
 					<p class="nvp"> <b>Address:  </b>{{object.address}}</p>
 
 					<p class="nvp"> <b>Hours of Operation: </b> {{object.hours_of_operation}}</p>
-					<p class="nvp"> <b>Created By: </b> <a href="/profile/{{object.created_by}}"> {{object.created_by}} </a></p>
+					<p class="nvp"> <b>Created By: </b> {% if object.created_by %}<a href="/profile/{{object.created_by}}"> {{object.created_by}} </a>{% else %} wiki_admin {% endif %}</p>
 					<p class="nvp"> <b>Created At: </b> {{object.created_at|naturalday}}</p>
 					<p class="nvp"> <b>Location: </b> {{object.location}}</p>
+					{% if object.website %}<p class="nvp"> <b>Website: </b> <a href="{{object.website}}" target="_blank"> {{object.website}}</a></p> {% endif %}
 					<p class="nvp"> <b>Help Type: </b> <a href="{% url 'posts_home' location=object.location %}?help_types[]={{object.helper_type}}"> {{object.get_helper_type_display}} </a></p>
 				</div>
 			</div>
@@ -63,7 +64,7 @@
 
 
 			{% endif %}
-				<p class="smallfont nvp" style="clear:both"> <b>{{object.get_object_type}} created by <a href="/profile/{{object.created_by.username}}">{{object.created_by}}</a>, {{object.created_at|naturalday}} in <a href="/help/{{object.location}}"> {{object.location}}</a>, in <a href="/help/{{object.location}}/?help_types[]={{object.helper_type}}"> {{object.get_helper_type_display}}</a></b></p>
+				<p class="smallfont nvp" style="clear:both"> <b>{{object.get_object_type}} created by {% if object.created_by %}<a href="/profile/{{object.created_by.username}}">{{object.created_by}}</a>{% else %} wiki_admin {% endif %}, {{object.created_at|naturalday}} in <a href="/help/{{object.location}}"> {{object.location}}</a>, in <a href="/help/{{object.location}}/?help_types[]={{object.helper_type}}"> {{object.get_helper_type_display}}</a></b></p>
 
 			</div>
 		</div>

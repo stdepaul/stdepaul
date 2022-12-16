@@ -44,14 +44,15 @@ from root_app.forms import CommentForm
 
 def wiki_home(request, location):
 
-	if location != 'global':
-		location_arr = location.split('-')
-		city = location_arr[0]
-		state_province = location_arr[1]
-		country = location_arr[2]
+	wiki_home_page_qs = WikiEntry.objects.filter(title='__WIKI_LOCATION_HOME__', location=location)
+	if wiki_home_page_qs.exists():
+		wiki_home_page = wiki_home_page_qs[0]
+	else:
+		wiki_home_page = None
 
 	context = {
-
+		'location': location,
+		'object': wiki_home_page,
 	}
 
 	template_name = 'wiki/home.html'
