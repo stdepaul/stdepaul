@@ -465,6 +465,7 @@ class HelperCreateView(CreateView):
 	def form_valid(self, form):
 		f = form.save(commit=False)
 		f.created_by = self.request.user
+		f.save()
 		f.moderators.add(self.request.user)
 		f.save()
 

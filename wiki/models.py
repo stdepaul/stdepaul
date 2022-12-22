@@ -19,7 +19,7 @@ RESERVED_TITLES = (
 
 
 class WikiEntry(NaturalKeyModel):
-	title = models.CharField(max_length=255, default="Untitled", unique=True)
+	title = models.CharField(max_length=255, default="Untitled")
 	helper_type = models.CharField(max_length=255, blank=True, null=True, choices=HELPER_TYPES)
 	description = MartorField(blank=True, null=True)
 
@@ -45,6 +45,10 @@ class WikiEntry(NaturalKeyModel):
 	email = models.CharField(max_length=255, blank=True, null=True)
 
 	is_verified = models.BooleanField(default=False)
+
+	class Meta:
+
+		unique_together = [['title', 'location']]
 
 	def save(self, *args, **kwargs):
 		if not self.slug:
