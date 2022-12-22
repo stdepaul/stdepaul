@@ -1,6 +1,6 @@
 # Introduction
 
-Hi, and welcome to the source code for the St. Vincent de Paul Assistance Center.
+Hi, and welcome to the source code for the St. De Paul Assistance Center.
 
 # Contributing
 
