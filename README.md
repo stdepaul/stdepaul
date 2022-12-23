@@ -22,7 +22,7 @@ MIT License
 
 # Instagram
 
-https://instagram/stdepaul
+https://instagram.com/stdepaul
 
 # Discord
 
