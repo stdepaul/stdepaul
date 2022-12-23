@@ -48,7 +48,7 @@ class WikiEntry(NaturalKeyModel):
 
 	class Meta:
 
-		unique_together = [['title', 'location']]
+		unique_together = [['title', 'address', 'description']]
 
 	def save(self, *args, **kwargs):
 		if not self.slug:
