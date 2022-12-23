@@ -30,6 +30,9 @@ from django.conf import settings
 
 import signal
 
+from urllib.parse import urlparse
+from urllib.parse import parse_qs
+
 class timeout:
 	def __init__(self, seconds=1, error_message='Timeout'):
 	    self.seconds = seconds
@@ -60,7 +63,7 @@ class Command(BaseCommand):
 	initial_links_to_follow = []
 	search_terms = []
 	info_page_links = []
-	
+	ids = []
 	def build_link(self, url, loc):
 		return f'{url}&location={loc}'
 
@@ -74,6 +77,7 @@ class Command(BaseCommand):
 		self.driver = webdriver.Firefox(firefox_profile=profile, options=options)
 
 		self.driver.get(self.initial_url)
+		"""
 		for category in self.categories:
 			category_element = self.driver.find_element_by_css_selector(f'#{category[0]}')
 			category_element.click()
@@ -89,6 +93,21 @@ class Command(BaseCommand):
 					'href': link_in_list.get_attribute('href'),
 					'helper_type': category[1]
 				})
+		"""
+
+		self.links = [
+			#{
+			#	'href': 'https://www.211ca.org/search?search=food',
+			#	'helper_type': 'food',
+			#},
+			{
+				'href': 'https://www.211ca.org/search?search=housing',
+				'helper_type': 'rent_utilities',
+			}, {
+				'href': 'https://www.211ca.org/search?search=utility-assistance',
+				'helper_type': 'rent_utilities'
+			}
+		]
 
 		path = os.path.join(
 			os.path.dirname(
@@ -98,22 +117,38 @@ class Command(BaseCommand):
 			self.cities = [city['name'] for city in json.loads(f.read())[:50]]
 
 		for link in self.links:
+			"""
 			for city in self.cities:
-				self.get_pages(self.build_link(link['href'], city), link['helper_type'])
+				print('city', city)
+				
+			"""
+			city = 'San Diego'
+			self.info_page_links = []
+			self.get_pages(self.build_link(link['href'], city), link['helper_type'])
 
 		self.driver.quit()
 
 	def follow_page_link(self, link):
+
+		# appends page links to self.info_page_links
+
 		print(f'following link {link}')
 		self.driver.get(link)
 		helpers = self.driver.find_elements_by_css_selector('.uk-padding-small-left')
 		for helper in helpers:
 			href_element = helper.find_element_by_css_selector(".gtm-card-title")
 			href = href_element.get_attribute('href')
-			self.info_page_links.append(href)
-			print(f'added {href}')
+
+			parsed_href = urlparse(href)
+			_id = parse_qs(parsed_href.query)['idServiceAtLocation'][0]
+			if _id not in self.ids:
+				self.info_page_links.append(href)
+				self.ids.append(_id)
+				print(f'added {href}')
 		
 	def get_pages(self, link, helper_type):
+
+		# gets links in map pages
 
 		self.driver.get(link)
 
@@ -126,9 +161,10 @@ class Command(BaseCommand):
 			page_count = int(self.driver.find_element_by_xpath(
 					f'//*[@class="uk-margin-auto-left"]/preceding-sibling::li[1]').text)
 
+		print('page count', page_count)
 
 		for i in range(page_count):
-			
+			print('i', i)
 			if i == 0:
 				first_link = self.driver.current_url
 				self.follow_page_link(first_link)
@@ -155,7 +191,10 @@ class Command(BaseCommand):
 				obj['description'] = li_element.text.split('Description: ')[-1]
 
 			if 'Website' in li_element.text:
-				obj['website'] = li_element.find_element_by_tag_name('a').get_attribute('href')
+				try:
+					obj['website'] = li_element.find_element_by_tag_name('a').get_attribute('href')
+				except Exception as e:
+					print(e)
 
 			if 'Email' in li_element.text:
 				obj['email'] = li_element.text.split('Email: ')[-1]
@@ -188,10 +227,12 @@ class Command(BaseCommand):
 
 
 
-		for link in self.info_page_links:
-			self.driver.get(link)
+		for i, link in enumerate(self.info_page_links):
 
 			try:
+				self.driver.get(link)
+
+			
 				title = self.driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[2]/div/div/div/div/div/div[2]/p').text.split('Organization Name: ')[-1]
 
 			except Exception as e:
@@ -245,6 +286,9 @@ class Command(BaseCommand):
 			location = search_city(loc_search_str, self.region_code)
 
 			try:
+				print('LINK', link)
+				print(f'LINK {i+1} of {len(self.info_page_links)}')
+				print("         ")
 
 				if title != '':
 					w = WikiEntry.objects.create(

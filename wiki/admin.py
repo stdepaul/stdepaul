@@ -4,4 +4,4 @@ from .models import WikiEntry
 
 @admin.register(WikiEntry)
 class WikiEntryAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('title', 'location')
