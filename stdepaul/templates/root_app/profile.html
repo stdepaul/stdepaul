@@ -55,7 +55,9 @@
 			</div>
 			<div class="title col-md-9 floatleft">
 				<h1 class="nvp floatleft prata-font"> {{profile.username}}'s profile </h1>
+				{% if request.user == profile %}
 			<a class="btn btn-primary floatright" style="margin: 8px" href="{% url 'update_profile' slug=profile.userprofile.slug %}"> <i class="fa fa-edit"></i> &nbsp; Edit Profile </a> 
+			{% endif %}
 
 			<p class="smallfont nvp" style="clear:both"> <b>Name: </b> {{profile.userprofile.name}}</p>
 
