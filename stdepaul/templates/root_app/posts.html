@@ -143,8 +143,9 @@
 				<div class="col-md-12 col-sm-12 col-xs-12 floatnone" style="padding:10px;">
 					<p class="prata-font bigfont nvp"> {{post.title}} </p>
 					<p class="smallfont nvp"> <b>{{post.get_object_type}} created by {% if post.created_by %} <a href="/profile/{{post.created_by.username}}">{{post.created_by}}</a>{% else %} wiki_admin {% endif %}, {{post.created_at|naturalday}} in <a href="/help/{{post.location}}"> {{post.location}}</a>, in {% if 'Post' in post.get_object_type %}<a href="/help/{{location}}/?help_types[]={{post.help_type}}"> {{post.get_help_type_display}}</a>{% else %}<a href="/help/{{post.location}}/?help_types[]={{post.helper_type}}"> {{post.get_helper_type_display}}</a>{% endif %} </b></p>
+					<p class="smallfont nvp"> <b> Address: </b> {{post.address}} </p>
 					<p> {{post.description|safe_markdown}} </p>
-					<p class="smallfont nvp"> <b> Address </b> {{post.address}} </p>
+
 				</div>
 			</div>
 			{% empty %}
