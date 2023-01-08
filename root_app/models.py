@@ -64,6 +64,9 @@ class Helper(models.Model):
 
 	is_verified = models.BooleanField(default=False)
 
+	latitude = models.CharField(max_length=255, blank=True, null=True)
+	longitude = models.CharField(max_length=255, blank=True, null=True)
+
 	def save(self, *args, **kwargs):
 		if not self.slug:
 			self.slug = slugify(self.title)[:50]
@@ -76,8 +79,18 @@ class Helper(models.Model):
 	def get_object_type(self):
 		return 'Helper'
 
+	def get_url(self):
+		return reverse("helper_detail", kwargs={
+			'location': str(self.location),
+			'pk': str(self.id),
+			'slug': str(self.slug)})
+
 	def get_thumbnail_url(self):
-		return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.thumbnail}"
+		if self.thumbnail:
+			return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.thumbnail}"
+		else:
+			return "/static/img/stdepaulsqblue.png"
+
 
 	def get_cover_photo_url(self):
 		return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.cover_photo}"
@@ -134,6 +147,7 @@ class Post(VoteModel, models.Model):
 
 	def get_absolute_url(self):
 		return reverse("post_detail", kwargs={
+			'location': str(self.location),
 			'pk': str(self.id),
 			'slug': str(self.slug)})
 
@@ -143,11 +157,20 @@ class Post(VoteModel, models.Model):
 		g = 1.8
 		return p / (t + 2) ** g
 
+	def get_url(self):
+		return reverse("post_detail", kwargs={
+			'location': str(self.location),
+			'pk': str(self.id),
+			'slug': str(self.slug)})
+
 	def get_object_type(self):
 		return f'Post ({self.get_post_type_display()})'
 
 	def get_thumbnail_url(self):
-		return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.thumbnail}"
+		if self.thumbnail:
+			return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.thumbnail}"
+		else:
+			return "/static/img/stdepaulsqblue.png"
 
 	def get_cover_photo_url(self):
 		return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.cover_photo}"

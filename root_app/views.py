@@ -7,6 +7,7 @@ import inspect
 import random
 import string
 import markdown
+import json 
 
 from itertools import chain
 
@@ -232,16 +233,32 @@ def posts(request, location):
 		wiki_entries = wiki_entries.filter(is_verified=True).order_by('created_at')
 
 	all_items = list(chain(wiki_entries, posts, helpers))
+	wiki_entries_and_helpers = list(chain(wiki_entries, helpers))
 
 	paginator = Paginator(all_items, 30)
 	page = request.GET.get('page')
 	results = paginator.get_page(page)
+
+	map_data = []
+	for item in wiki_entries_and_helpers:
+
+		if item.latitude != None and item.longitude != None:
+			map_data.append({
+				'title': item.title,
+				'latitude': item.latitude,
+				'longitude': item.longitude,
+				'pk': item.pk,
+				'thumbnail': item.get_thumbnail_url(),
+				'address': item.address,
+				'url': item.get_url(),
+			})
 
 	context = {
 		'posts': results,
 		'num_results': len(all_items),
 		'location': location,
 		'q': q,
+		'map_data': map_data
 	}
 	template = 'root_app/posts.html'
 	if location != parsed_location:
