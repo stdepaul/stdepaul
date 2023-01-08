@@ -87,8 +87,10 @@
 				{% if request.user == object.created_by or request.user in object.moderators.all or request.user.is_staff or request.user.is_superuser %}
 			<a class="btn btn-primary floatright" style="margin: 8px" href="{% url 'wiki_entry_update' location=object.location pk=object.pk slug=object.slug %}"> <i class="fa fa-edit"></i> &nbsp; Update this Page </a> 
 
-			<a class="btn btn-info floatright" style="margin:8px" id="get-geoposition" href="#"> <i class="fa fa-map-marked"></i> &nbsp; Get Geoposition </a>
+				{% if not object.latitude and not object.longitude %}
+				<a class="btn btn-info floatright" style="margin:8px" id="get-geoposition" href="#"> <i class="fa fa-map-marked"></i> &nbsp; Get Geoposition </a>
 
+				{% endif %}
 
 			{% endif %}
 				<p class="smallfont nvp" style="clear:both"> <b>{{object.get_object_type}} created by {% if object.created_by %}<a href="/profile/{{object.created_by.username}}">{{object.created_by}}</a>{% else %} wiki_admin {% endif %}, {{object.created_at|naturalday}} in <a href="/help/{{object.location}}"> {{object.location}}</a>, in <a href="/help/{{object.location}}/?help_types[]={{object.helper_type}}"> {{object.get_helper_type_display}}</a></b></p>
