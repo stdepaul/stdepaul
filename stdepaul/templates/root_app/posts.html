@@ -15,10 +15,11 @@
 <style>
 	#map { width: 100%; height: 75vh; margin: 15px 0;}
 	.popup{
-		height:250px;
-		width:250px;
+		min-height:150px;
+		width:230px;
 		background:white;
 		display:block;
+		display:table;
 	}
 	.popup-image{
 		height: 150px;
@@ -27,17 +28,13 @@
 		position:relative;
 	}
 	.popup-title{
-		height:30px;
-		padding-top:10px;
 		font-size:15px;
 		float:left;
 		width:100%;
 		position:relative;
 	}
 	.popup-address{
-		height:15px;
 		position:relative;
-		padding-top:50px;
 		font-size:10px;
 		float:left;
 		width:100%;
@@ -355,7 +352,7 @@ $(document).ready(function(){
 	var first_post_id = $('.searchitem').eq(0).attr('id').split('-')[1]
 
 	coordinates = LMap.markers[first_post_id].getLatLng()
-	LMap.map.setView([coordinates['lat'], coordinates['lng']], 11);
+	LMap.map.setView([coordinates['lat'], coordinates['lng']], 15);
 	LMap.markers[first_post_id].openPopup()
 
 	$('.searchitem').hover(function(e){
@@ -364,7 +361,7 @@ $(document).ready(function(){
 		var post_id = $this.attr('id').split('-')[1]
 
 		coordinates = LMap.markers[post_id].getLatLng()
-		LMap.map.setView([coordinates['lat'], coordinates['lng']], 13);
+		LMap.map.setView([coordinates['lat'], coordinates['lng']], 15);
 
 		LMap.markers[post_id].openPopup()
 
