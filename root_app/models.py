@@ -71,6 +71,34 @@ class Helper(models.Model):
 		if not self.slug:
 			self.slug = slugify(self.title)[:50]
 
+		if not self.latitude and not self.longitude:
+			conn = http.client.HTTPConnection('api.positionstack.com')
+
+			try:
+				params = urllib.parse.urlencode({
+				    'access_key': os.environ.get('STDEPAUL_POSITIONSTACK_ACCESS_KEY'),
+				    'query': self.address,
+				    'limit': 1,
+				})
+			except Exception as e:
+				print(e)
+				return
+
+			conn.request('GET', '/v1/forward?{}'.format(params))
+
+			res = conn.getresponse()
+			data = res.read()
+
+			try:
+				longitude = str(data.decode('utf-8')['data'][0]['longitude'])
+				latitude = str(data.decode('utf-8')['data'][0]['latitude'])
+			except Exception as e:
+				print(e)
+				return
+			
+			self.latitude = latitude
+			self.longitude = longitude
+
 		return super(Helper, self).save(*args, **kwargs)
 
 	def __str__(self):
