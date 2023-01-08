@@ -15,4 +15,4 @@ class WikiEntryForm(forms.ModelForm):
 
     class Meta:
         model = WikiEntry
-        exclude = ('slug', 'created_by', 'created_at', 'updated_at', 'moderators', 'is_verified')
+        exclude = ('slug', 'created_by', 'created_at', 'updated_at', 'moderators', 'is_verified', 'latitude', 'longitude')
