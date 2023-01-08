@@ -364,7 +364,7 @@ $(document).ready(function(){
 		var post_id = $this.attr('id').split('-')[1]
 
 		coordinates = LMap.markers[post_id].getLatLng()
-		LMap.map.setView([coordinates['lat'], coordinates['lng']], 11);
+		LMap.map.setView([coordinates['lat'], coordinates['lng']], 13);
 
 		LMap.markers[post_id].openPopup()
 
