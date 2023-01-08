@@ -16,6 +16,10 @@ from django.urls import reverse, reverse_lazy
 from itertools import chain
 from martor.models import MartorField
 
+import http.client, urllib.parse
+import os
+import json
+
 from django.conf import settings
 
 HELPER_TYPES = (
