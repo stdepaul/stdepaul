@@ -5,6 +5,58 @@
 
 {% block more_css %}
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+   integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+   crossorigin=""/>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>	
+
+<style>
+	#map { width: 100%; height: 75vh; margin: 15px 0;}
+	.popup{
+		height:250px;
+		width:250px;
+		background:white;
+		display:block;
+	}
+	.popup-image{
+		height: 150px;
+		width:100%;
+		float:left;
+		position:relative;
+	}
+	.popup-title{
+		height:30px;
+		padding-top:10px;
+		font-size:15px;
+		float:left;
+		width:100%;
+		position:relative;
+	}
+	.popup-address{
+		height:15px;
+		position:relative;
+		padding-top:50px;
+		font-size:10px;
+		float:left;
+		width:100%;
+		font-weight:bold;
+	}
+	.br5{
+		border-radius:5px;
+		-moz-border-radius:5px;
+		-webkit-border-radius:5px;
+		border:1px solid #aaa;
+	}
+	.mt100{
+		margin-top:100px;
+	}
+	.bold{
+		font-weight:bold;
+	}
+</style>
+
 {% endblock %}
 
 {% block metatags %}
@@ -20,118 +72,125 @@
 
 
 {% block content %}
-	<div class="col-md-10 offset-md-1 col-sm-12 col-xs-12 mt150">
+	<div class="col-md-12 col-sm-12 col-xs-12 mt100">
 
-		<div class="col-md-3 col-xs-12 col-sm-12 floatleft" style="height:80vh; border-right:1px solid #eee; padding:25px; overflow:auto">
-			<h3 class="prata-font"> Filters </h3>
-			<form action="{% url 'posts_home' location=location %}" method="GET">
+		
 
-			<p class="prata-font"> Keywords </p>
-			<input type="text" placeholder="Keywords" name="q" value="{{q}}" class="col-md-9 form-control" /><br>
-			<p class="prata-font">
-				Help Type
-			</p>
-			<div style="width:100%;display:table">
-			
-            <label class="PillList-item">
-		    <input type="checkbox" name="help_types[]" value="food" checked>
-		    	<span class="PillList-label"> Food
-		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-		    	</span>
-			</label>
+		<div class="col-md-12 col-xs-12 col-sm-12 floatleft" style="height:calc(30vh-100px); padding:5px; overflow:auto">
+			<div class="col-md-10 floatleft" style="border-right:1px solid #eee;">
+				<form action="{% url 'posts_home' location=location %}" method="GET">
 
-			<label class="PillList-item">
-		    <input type="checkbox" name="help_types[]" value="rent_utilities" checked>
-		    	<span class="PillList-label"> Housing / Rent Assistance
-		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-		    	</span>
-			</label>
+				<p class="prata-font smallfont nvp bold">
+					Keywords and Location
+				</p>
+				<input type="text" placeholder="Keywords" name="q" value="{{q}}" class="col-md-2 col-xx-12 col-sm-12 br5" style="margin:5px 0 0 0; padding:5px 3px" />
+				<input type="text" placeholder="Location" name="location" id="id_location" class="col-md-2 col-xs-12 col-sm-12 br5" value="{{location}}" style="margin:5px 0 0 0; padding:5px 3px"/>
 
-			<label class="PillList-item">
-		    <input type="checkbox" name="help_types[]" value="entry_level_job" checked>
-		    	<span class="PillList-label"> Entry-level job
-		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-		    	</span>
-			</label>
+				
+				<div style="width:100%;display:table; margin-top:10px; ">
 
-			<label class="PillList-item">
-		    <input type="checkbox" name="help_types[]" value="develop_skills" checked>
-		    	<span class="PillList-label"> Develop skills for a better job
-		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-		    	</span>
-			</label>
+				<!--
+				<div class="prata-font smallfont bold floatleft" style="padding:10px 10px 10px 0">
+					Help Type
+				</div>
+				-->
+	            <label class="PillList-item">
+			    <input type="checkbox" name="help_types[]" value="food" checked>
+			    	<span class="PillList-label"> Food
+			    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+			    	</span>
+				</label>
 
-			<label class="PillList-item">
-		    <input type="checkbox" name="help_types[]" value="mental_health_rehab" checked>
-		    	<span class="PillList-label"> Mental health or rehab services
-		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-		    	</span>
-			</label>
+				<label class="PillList-item">
+			    <input type="checkbox" name="help_types[]" value="rent_utilities" checked>
+			    	<span class="PillList-label"> Housing / Rent Assistance
+			    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+			    	</span>
+				</label>
 
-		    <label class="PillList-item">
-		    <input type="checkbox" name="help_types[]" value="help_applying" checked>
-		    	<span class="PillList-label"> Help applying for gov't social service
-		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-		    	</span>
-			</label>
+				<label class="PillList-item">
+			    <input type="checkbox" name="help_types[]" value="entry_level_job" checked>
+			    	<span class="PillList-label"> Entry-level job
+			    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+			    	</span>
+				</label>
 
-		    <label class="PillList-item">
-		    <input type="checkbox" name="help_types[]" value="scholarships" checked>
-		    	<span class="PillList-label"> Scholarships
-		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-		    	</span>
-			</label>
-			<label class="PillList-item">
-		    <input type="checkbox" name="help_types[]" value="other" checked>
-		    	<span class="PillList-label"> Other
-		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-		    	</span>
-			</label>
+				<label class="PillList-item">
+			    <input type="checkbox" name="help_types[]" value="develop_skills" checked>
+			    	<span class="PillList-label"> Develop skills for a better job
+			    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+			    	</span>
+				</label>
+
+				<label class="PillList-item">
+			    <input type="checkbox" name="help_types[]" value="mental_health_rehab" checked>
+			    	<span class="PillList-label"> Mental health or rehab services
+			    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+			    	</span>
+				</label>
+
+			    <label class="PillList-item">
+			    <input type="checkbox" name="help_types[]" value="scholarships" checked>
+			    	<span class="PillList-label"> Scholarships
+			    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+			    	</span>
+				</label>
+				<label class="PillList-item">
+			    <input type="checkbox" name="help_types[]" value="other" checked>
+			    	<span class="PillList-label"> Other
+			    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+			    	</span>
+				</label>
+				</div>
+				<!--
+				<div class="prata-font smallfont bold floatleft" style="padding:10px 10px 10px 0;">
+					Search Type
+				</div>
+				-->
+				<div style="display:table">
+				 <label class="PillList-item">
+			    <input type="checkbox" name="search_types[]" value="helpers_indv" checked>
+			    	<span class="PillList-label"> Helpers (Individuals)
+			    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+			    	</span>
+				</label>
+
+			    <label class="PillList-item">
+			    <input type="checkbox" name="search_types[]" value="helpers_org" checked>
+			    	<span class="PillList-label"> Helpers (Organizations)
+			    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+			    	</span>
+				</label>
+
+			    <label class="PillList-item">
+			    <input type="checkbox" name="search_types[]" value="wiki_entries" checked>
+			    	<span class="PillList-label"> Wiki Entries (Organizations)
+			    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+			    	</span>
+				</label>
+
+				<label class="PillList-item">
+			    <input type="checkbox" name="search_types[]" value="helpees" checked>
+			    	<span class="PillList-label"> Helpees
+			    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
+			    	</span>
+				</label>
+				</div><br>
 			</div>
-			<p class="prata-font"> Location (e.g. "portland") </p>
-			<input type="text" placeholder="Location" name="location" id="id_location" class="col-md-9 form-control" value="{{location}}" /><br>
-			<p class="prata-font">
-				Search Type
-			</p>
-			<div style="display:table">
-			 <label class="PillList-item">
-		    <input type="checkbox" name="search_types[]" value="helpers_indv" checked>
-		    	<span class="PillList-label"> Helpers (Individuals)
-		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-		    	</span>
-			</label>
+			<div class="col-md-2 floatleft">
 
-		    <label class="PillList-item">
-		    <input type="checkbox" name="search_types[]" value="helpers_org" checked>
-		    	<span class="PillList-label"> Helpers (Organizations)
-		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-		    	</span>
-			</label>
+				<button type="submit" class="btn btn-primary col-md-9 floatleft" style="margin-top:70px;"><i class="fa fa-search"></i> &nbsp; Search </button>
 
-		    <label class="PillList-item">
-		    <input type="checkbox" name="search_types[]" value="wiki_entries" checked>
-		    	<span class="PillList-label"> Wiki Entries (Organizations)
-		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-		    	</span>
-			</label>
-
-			<label class="PillList-item">
-		    <input type="checkbox" name="search_types[]" value="helpees" checked>
-		    	<span class="PillList-label"> Helpees
-		    		<span class="Icon Icon--checkLight Icon--smallest"><i class="fa fa-check"></i></span>
-		    	</span>
-			</label>
-			</div><br>
-
-			<button type="submit" class="btn btn-primary col-md-9"><i class="fa fa-search"></i> &nbsp; Search </button>
+			</div>
 		</form>
 		</div>
-		<div class="col-md-9 col-xs-12 col-sm-12 floatleft" style="height:75vh; overflow:auto">
+		
+		<div class="col-md-7 col-xs-12 col-sm-12 floatleft" style="height:70vh; overflow:auto">
 			<p class="prata-font bigfont floatleft" style="padding-top:10px;"> {{num_results}} results in "{{location}}" </p>
 			<a class="btn btn-primary floatright" style="margin: 8px" href="{% url 'post_create' location=location %}"> <i class="fa fa-edit"></i> &nbsp; Create a new Post </a> 
 			&nbsp; <a class="btn btn-success floatright" style="margin: 8px" href="{% url 'helper_create' %}"> <i class="fa fa-hand-holding-heart"> </i> &nbsp; Become a Helper </a>
 			{% for post in posts %}
-			<div onclick="window.location = '{% if post.get_object_type == 'Helper' %}{% url 'helper_detail' pk=post.pk slug=post.slug location=post.location %}{% elif post.get_object_type == 'Wiki Entry' %}{% url 'wiki_entry_detail' pk=post.pk slug=post.slug location=post.location %}{% else %}{% url 'post_detail' pk=post.pk slug=post.slug location=post.location %}{% endif %}'" class="searchitem" style="cursor: pointer; display: table; width: 100%;  border:1px solid #ddd;  margin: 10px;"> 
+			<div id="post-{{post.pk}}" onclick="window.location = '{% if post.get_object_type == 'Helper' %}{% url 'helper_detail' pk=post.pk slug=post.slug location=post.location %}{% elif post.get_object_type == 'Wiki Entry' %}{% url 'wiki_entry_detail' pk=post.pk slug=post.slug location=post.location %}{% else %}{% url 'post_detail' pk=post.pk slug=post.slug location=post.location %}{% endif %}'" class="searchitem" style="cursor: pointer; display: table; width: 100%;  border:1px solid #ddd;  margin: 10px;"> 
 				<div class="col-md-3 col-sm-12 col-xs-12 floatleft" style="padding:10px; overflow:clip">
 					{% if post.thumbnail %}
 					
@@ -153,7 +212,10 @@
 
 			{% endfor %}
 		</div>
-		<div class="col-md-9 col-xs-12 col-sm-12 floatleft pagination" style="height:5vh; padding:20px;">
+		<div class="col-md-5 col-xs-12 col-sm-12 floatleft" style="height:70vh">
+			<div id="map"></div>
+		</div>
+		<div class="col-md-7 col-xs-12 col-sm-12 floatleft pagination" style="height:5vh; padding:20px;">
 		    <span class="step-links">
 		        {% if posts.has_previous %}
 		            <a href="?page=1">&laquo; first</a>
@@ -169,12 +231,23 @@
 		            <a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
 		        {% endif %}
 		    </span>
+
+
 		</div>
 
+
+
 	</div>
+
+	<div id="map"></div>
 {% endblock %}
 
 {% block more_js %}
+
+
+{{map_data|json_script:"map-data"}}
+
+
 <script>
 	var url = new URL(window.location.href);
 	var help_types = url.searchParams.getAll("help_types[]");
@@ -207,6 +280,100 @@
 
 
 </script>
+
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+  	 integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+  	 crossorigin=""></script>
+
+  	<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+<script>
+
+Data = {
+	map_data : JSON.parse(document.getElementById('map-data').textContent)
+}
+
+
+
+LMap = {
+	map: null,
+	markers : {},
+	init_map : function(mcg){
+		if(LMap.map !== null){
+			LMap.map.off()
+			LMap.map.remove()	
+		}
+
+		LMap.map = L.map('map', {
+			'center': [39.82, -98.58], 
+			'zoom': 4,
+			'maxZoom': 18,
+			'layers': mcg});
+
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		    maxZoom: 19,
+		    attribution: '© OpenStreetLMap'
+		}).addTo(LMap.map);
+	},
+	create_mcg : function(data){
+		var mcg = L.markerClusterGroup({
+		  chunkedLoading: true,
+		  //singleMarkerMode: true,
+		  spiderfyOnMaxZoom: false
+		});
+		$(data).each(function(i, item){
+			var a = item;
+
+			var lat = a['latitude']
+			var long = a['longitude']
+
+
+			if (lat == null && long == null){
+			  	return;
+			}
+			var title = a['title']
+			var thumbnail = a['thumbnail']
+			var address = a['address']
+			var url = a['url']
+			var pk = a['pk']
+
+
+			LMap.markers[pk] = L.marker(new L.LatLng(lat, long), { title: title });	  
+			LMap.markers[pk].bindPopup("<a href='"+url+"' class='popup'><img class='popup-image' src='" + thumbnail + "'/><div class='popup-title'>"+ title +"</div><div class='popup-address'>"+address+"</div></a>");
+			mcg.addLayer(LMap.markers[pk]);
+		})
+		  
+		
+		LMap.init_map(mcg)
+	},
+}
+
+$(document).ready(function(){
+
+	LMap.create_mcg(Data.map_data)
+
+	var first_post_id = $('.searchitem').eq(0).attr('id').split('-')[1]
+
+	coordinates = LMap.markers[first_post_id].getLatLng()
+	LMap.map.setView([coordinates['lat'], coordinates['lng']], 11);
+	LMap.markers[first_post_id].openPopup()
+
+	$('.searchitem').hover(function(e){
+		$this = $(this)
+		
+		var post_id = $this.attr('id').split('-')[1]
+
+		coordinates = LMap.markers[post_id].getLatLng()
+		LMap.map.setView([coordinates['lat'], coordinates['lng']], 11);
+
+		LMap.markers[post_id].openPopup()
+
+		
+	})
+})
+
+</script>
+
 {% endblock %}
 
 {% block footer %} {% endblock %}

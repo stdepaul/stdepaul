@@ -4,12 +4,16 @@ from martor.models import MartorField
 from django.template.defaultfilters import slugify
 
 from django.contrib.auth.models import User
+from django.urls import reverse, reverse_lazy
+
 
 from django.conf import settings
 
 from natural_keys import NaturalKeyModel
 
-
+import http.client, urllib.parse
+import os
+import json
 
 # __WIKI_LOCATION_HOME__ is the homepage wiki for a given location
 
@@ -46,6 +50,9 @@ class WikiEntry(NaturalKeyModel):
 
 	is_verified = models.BooleanField(default=False)
 
+	latitude = models.CharField(max_length=255, blank=True, null=True)
+	longitude = models.CharField(max_length=255, blank=True, null=True)
+
 	class Meta:
 
 		unique_together = [['title', 'address', 'description']]
@@ -53,6 +60,36 @@ class WikiEntry(NaturalKeyModel):
 	def save(self, *args, **kwargs):
 		if not self.slug:
 			self.slug = slugify(self.title)[:50]
+
+		"""
+		if not self.latitude and not self.longitude:
+			conn = http.client.HTTPConnection('api.positionstack.com')
+
+			try:
+				params = urllib.parse.urlencode({
+				    'access_key': os.environ.get('STDEPAUL_POSITIONSTACK_ACCESS_KEY'),
+				    'query': self.address,
+				    'limit': 1,
+				})
+			except Exception as e:
+				print(e)
+				return
+
+			conn.request('GET', '/v1/forward?{}'.format(params))
+
+			res = conn.getresponse()
+			data = res.read()
+
+			try:
+				longitude = str(data.decode('utf-8')['data'][0]['longitude'])
+				latitude = str(data.decode('utf-8')['data'][0]['latitude'])
+			except Exception as e:
+				print(e)
+				return
+			
+			self.latitude = latitude
+			self.longitude = longitude
+		"""
 
 		return super(WikiEntry, self).save(*args, **kwargs)
 
@@ -62,8 +99,17 @@ class WikiEntry(NaturalKeyModel):
 	def __str__(self):
 		return self.title
 
+	def get_url(self):
+		return reverse("wiki_entry_detail", kwargs={
+			'location': str(self.location),
+			'pk': str(self.id),
+			'slug': str(self.slug)})
+
 	def get_thumbnail_url(self):
-		return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.thumbnail}"
+		if self.thumbnail:
+			return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.thumbnail}"
+		else:
+			return "/static/img/stdepaulsqblue.png"
 
 	def get_cover_photo_url(self):
 		return f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.us-east-2.amazonaws.com/{self.cover_photo}"
