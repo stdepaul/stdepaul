@@ -17,6 +17,13 @@ import os
 
 from allcities import cities
 
+from wiki.models import WikiEntry
+from root_app.models import Helper
+
+import http.client, urllib.parse
+import os
+import json
+
 
 @api_view(['GET'])
 @permission_classes((AllowAny,))
@@ -27,3 +34,52 @@ def get_location_slug(request):
 	results = sorted(results, key=lambda d: d.population, reverse=True)
 	results = [f"{city.asciiname.replace(' ', '').lower()}-{city.admin1_code.lower()}-{city.country_code.lower()}" for city in results]
 	return Response(results)
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+@ensure_csrf_cookie
+def get_geoposition(request):
+	# only make api request to positionstack if model instance has no coords
+	_type = request.GET.get('type')
+	pk = request.GET.get('pk')
+
+	if _type == 'helper':
+		w = Helper.objects.get(pk=pk)
+	elif _type == 'wiki_entry':
+		w = WikiEntry.objects.get(pk=pk)
+	else:
+		return Response('error: invalid type. Must be helper or wiki_entry')
+
+	if not w.latitude and not w.longitude:
+		conn = http.client.HTTPConnection('api.positionstack.com')
+
+		try:
+			params = urllib.parse.urlencode({
+			    'access_key': os.environ.get('STDEPAUL_POSITIONSTACK_ACCESS_KEY'),
+			    'query': w.address,
+			    'limit': 1,
+			})
+		except Exception as e:
+			print(e)
+			return Response('error: invalid params')
+
+		conn.request('GET', '/v1/forward?{}'.format(params))
+
+		res = conn.getresponse()
+		data = res.read()
+
+		try:
+			longitude = str(json.loads(data.decode('utf-8'))['data'][0]['longitude'])
+			latitude = str(json.loads(data.decode('utf-8'))['data'][0]['latitude'])
+		except Exception as e:
+			print(e)
+			return Response('error: invalid data')
+		
+		w.latitude = latitude
+		w.longitude = longitude
+
+		w.save()
+
+		return Response('success')
+	else:
+		return Response('error: this already contains lat/lng coords')
