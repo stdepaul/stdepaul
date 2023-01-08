@@ -61,7 +61,6 @@ class WikiEntry(NaturalKeyModel):
 		if not self.slug:
 			self.slug = slugify(self.title)[:50]
 
-		"""
 		if not self.latitude and not self.longitude:
 			conn = http.client.HTTPConnection('api.positionstack.com')
 
@@ -89,7 +88,6 @@ class WikiEntry(NaturalKeyModel):
 			
 			self.latitude = latitude
 			self.longitude = longitude
-		"""
 
 		return super(WikiEntry, self).save(*args, **kwargs)
 
