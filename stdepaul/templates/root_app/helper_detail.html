@@ -72,10 +72,15 @@
 			</div>
 			<div class="title col-md-9 floatleft">
 				<h1 class="nvp floatleft prata-font"> {{object.title}} </h1>
-				{% if request.user == object.created_by %}
+				{% if request.user == object.created_by or request.user in object.moderators.all or request.user.is_staff or request.user.is_superuser %}
 			<a class="btn btn-primary floatright" style="margin: 8px" href="{% url 'helper_update' location=object.location pk=object.pk slug=object.slug %}"> <i class="fa fa-edit"></i> &nbsp; Update this Page </a> 
 
+						<a class="btn btn-info floatright" style="margin:8px" id="get-geoposition" href="#"> <i class="fa fa-map-marked"></i> &nbsp; Get Geoposition </a>
+
+
 			<a class="btn btn-danger floatright" style="margin: 8px" href="{% url 'helper_delete' location=object.location pk=object.pk slug=object.slug %}"> <i class="fa fa-times"></i> &nbsp; Delete this Page </a> 
+
+
 
 			{% endif %}
 				<p class="smallfont nvp" style="clear:both"> <b>{{object.get_object_type}} created by <a href="/profile/{{object.created_by.username}}">{{object.created_by}}</a>, {{object.created_at|naturalday}} in <a href="/help/{{object.location}}"> {{object.location}}</a>, in <a href="/help/{{object.location}}/?help_types[]={{object.helper_type}}"> {{object.get_helper_type_display}}</a></b></p>
@@ -95,5 +100,20 @@
 
 
 {% block more_js %}
-
+<script>
+	$('#get-geoposition').click(function(){
+		$.ajax({
+			'url': '/api/get_geoposition/',
+			'type': 'GET',
+			'dataType': 'json',
+			'data': {
+				'pk': {{object.pk}},
+				'type': 'helper',
+			},
+			success : function(data){
+				alert(data)
+			}
+		})
+	})
+</script>
 {% endblock %}
