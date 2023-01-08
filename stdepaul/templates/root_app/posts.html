@@ -77,11 +77,9 @@
 			<div class="col-md-10 floatleft" style="border-right:1px solid #eee;">
 				<form action="{% url 'posts_home' location=location %}" method="GET">
 
-				<p class="prata-font smallfont nvp bold">
-					Keywords and Location
-				</p>
-				<input type="text" placeholder="Keywords" name="q" value="{{q}}" class="col-md-2 col-xx-12 col-sm-12 br5" style="margin:5px 0 0 0; padding:5px 3px" />
-				<input type="text" placeholder="Location" name="location" id="id_location" class="col-md-2 col-xs-12 col-sm-12 br5" value="{{location}}" style="margin:5px 0 0 0; padding:5px 3px"/>
+				<div> Search Filters: </div>
+				<input type="text" title="Keywords" placeholder="Keywords" name="q" value="{{q}}" class="col-md-2 col-xx-12 col-sm-12 br5" style="margin:5px 0 0 0; padding:5px 3px" />
+				<input type="text" title="Location" placeholder="Location" name="location" id="id_location" class="col-md-2 col-xs-12 col-sm-12 br5" value="{{location}}" style="margin:5px 0 0 0; padding:5px 3px"/>
 
 				
 				<div style="width:100%;display:table; margin-top:10px; ">
@@ -182,10 +180,10 @@
 		</form>
 		</div>
 		
-		<div class="col-md-7 col-xs-12 col-sm-12 floatleft" style="height:70vh; overflow:auto">
+		<div class="col-md-7 col-xs-12 col-sm-12 floatleft" style="height:70vh; overflow-y:auto; overflow-x:hidden">
 			<p class="prata-font bigfont floatleft" style="padding-top:10px;"> {{num_results}} results in "{{location}}" </p>
 			<a class="btn btn-primary floatright" style="margin: 8px" href="{% url 'post_create' location=location %}"> <i class="fa fa-edit"></i> &nbsp; Create a new Post </a> 
-			&nbsp; <a class="btn btn-success floatright" style="margin: 8px" href="{% url 'helper_create' %}"> <i class="fa fa-hand-holding-heart"> </i> &nbsp; Become a Helper </a>
+			&nbsp; <a class="btn btn-light floatright" style="margin: 8px; border:1px solid #aaa" href="{% url 'helper_create' %}"> <i class="fa fa-hand-holding-heart"> </i> &nbsp; Become a Helper </a>
 			{% for post in posts %}
 			<div id="post-{{post.pk}}" onclick="window.location = '{% if post.get_object_type == 'Helper' %}{% url 'helper_detail' pk=post.pk slug=post.slug location=post.location %}{% elif post.get_object_type == 'Wiki Entry' %}{% url 'wiki_entry_detail' pk=post.pk slug=post.slug location=post.location %}{% else %}{% url 'post_detail' pk=post.pk slug=post.slug location=post.location %}{% endif %}'" class="searchitem" style="cursor: pointer; display: table; width: 100%;  border:1px solid #ddd;  margin: 10px;"> 
 				<div class="col-md-3 col-sm-12 col-xs-12 floatleft" style="padding:10px; overflow:clip">
