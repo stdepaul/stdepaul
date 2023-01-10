@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>	
 
 <style>
-	#map { width: 100%; height: 75vh; margin: 15px 0;}
+	#map { width: 100%; height: 59vh; margin: 15px 0;}
 	.popup{
 		min-height:150px;
 		background:white;
@@ -71,7 +71,7 @@
 
 		
 
-		<div class="col-md-12 col-xs-12 col-sm-12 floatleft" style="height:calc(30vh-100px); padding:5px; overflow:auto">
+		<div class="col-md-12 col-xs-12 col-sm-12 floatleft" style="height:calc( 21vh ); padding:5px; overflow:auto">
 			<div class="col-md-10 floatleft" style="border-right:1px solid #eee;">
 				<form action="{% url 'posts_home' location=location %}" method="GET">
 
@@ -178,7 +178,7 @@
 		</form>
 		</div>
 		
-		<div class="col-md-7 col-xs-12 col-sm-12 floatleft" style="height:70vh; overflow-y:auto; overflow-x:hidden">
+		<div class="col-md-7 col-xs-12 col-sm-12 floatleft" style="height:calc( 59vh ); overflow-y:auto; overflow-x:hidden">
 			<div class="padding:30px;">
 				<p class="prata-font floatleft" style="padding:18px;"> {{num_results}} results in "{{location}}" </p>
 				<a class="btn btn-info floatright" style="margin:8px" href="{% url 'wiki_entry_create' location=location %}"> <i class="fa fa-map-marked"> </i> &nbsp; Create a Wiki Entry </a>
@@ -210,7 +210,7 @@
 
 			{% endfor %}
 		</div>
-		<div class="col-md-5 col-xs-12 col-sm-12 floatleft" style="height:70vh">
+		<div class="col-md-5 col-xs-12 col-sm-12 floatleft" style="height:calc( 59vh )">
 			<div id="map"></div>
 		</div>
 		<div class="col-md-7 col-xs-12 col-sm-12 floatleft pagination" style="height:5vh; padding:20px;">
