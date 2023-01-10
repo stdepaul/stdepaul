@@ -73,7 +73,7 @@ def get_geoposition(request):
 			latitude = str(json.loads(data.decode('utf-8'))['data'][0]['latitude'])
 		except Exception as e:
 			print(e)
-			return Response(str(e))
+			return Response('error: invalid data')
 		
 		w.latitude = latitude
 		w.longitude = longitude
