@@ -16,33 +16,15 @@ After doing this, you should be able to do `runserver`!
 
 # Contributing
 
-### Rules
+## Our Communities, and getting involved
 
-1. We will make absolutely **no** use of Artificial Intelligence / Machine Learning. 
+ - Instagram: https://instagram.com/stdepaul
 
-2. We will not be making a group home database, until we have researched and concluded that group homes do not lower the quality of life of the neighbors in the neighborhood in which group homes are.
+ - Discord: https://discord.gg/krEyds6Cp2
 
-3. We do not condone people who are not licensed landlords offering free housing to people who need housing via St. De Paul. We recommend that you donate money or add housing assistance information to the wiki instead.
+ - My LinkedIn: https://linkedin.com/in/mikejohnsonjr
 
-4. No hate speech and no politics.
-
-# License
-
-MIT License
-
-# Instagram
-
-https://instagram.com/stdepaul
-
-# Discord
-
-https://discord.gg/krEyds6Cp2
-
-# My LinkedIn
-
-https://linkedin.com/in/mikejohnsonjr
-
-# Immediate Tasks
+## Immediate Tasks
 
 At the moment, we need more data. At the moment, we only have data for Texas, PA, and CA, from state 211 sites. If you would like to contribute, you'd help a lot by creating scripts that get data from state 211 sites. Selenium is probably the best library for this task. If you're new to selenium, join our discord and I can guide you. Also, the scripts for Texas, CA, and PA are in `data_extract` as management commands.
 
@@ -50,7 +32,7 @@ When you are done getting and adding the data locally, do a dumpdata, like `pyth
 
 I thought about maybe adding a REST API function so that contributors can add data to the production server as they are getting the data, but sometimes mistakes are made, especially with selenium, so I think getting a working implementation and correct data is best before adding to the production server.
 
-## State 211 data checklist
+### State 211 data checklist
 
 - [ ] Alabama
 - [ ] Alaska
@@ -107,3 +89,17 @@ I thought about maybe adding a REST API function so that contributors can add da
 
  - Transportation help
  - Help applying for social services online (similar to turbotax), with virtual mailing addresses (so homeless people without addresses can apply)
+
+### Rules
+
+1. We will make absolutely **no** use of Artificial Intelligence / Machine Learning. 
+
+2. We will not be making a group home database, until we have researched and concluded that group homes do not lower the quality of life of the neighbors in the neighborhood in which group homes are.
+
+3. We do not condone people who are not licensed landlords offering free housing to people who need housing via St. De Paul. We recommend that you donate money or add housing assistance information to the wiki instead.
+
+4. No hate speech and no politics.
+
+# License
+
+MIT License
