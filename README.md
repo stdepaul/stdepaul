@@ -46,56 +46,56 @@ https://linkedin.com/in/mikejohnsonjr
 
 ## State 211 data checklist
 
-1. [] Alabama
-2. [] Alaska
-3. [] Arizona
-4. [] Arkansas
-5. [x] California - 211ca.org
-6. [] Colorado - 211colorado.org
-7. [] Connecticut
-8. [] Delaware
-9. [] Florida
-10. [] Georgia
-11. [] Hawaii
-12. [] Idaho
-13. [] Illinois
-14. [] Indiana
-15. [] Iowa
-16. [] Kansas
-17. [] Kentucky
-18. [] Louisiana
-19. [] Maine
-20. [] Maryland
-21. [] Massachusetts
-22. [] Michigan
-23. [] Minnesota
-24. [] Mississippi
-25. [] Missouri
-26. [] Montana
-27. [] Nebraska
-28. [] Nevada
-29. [] New Hampshire
-30. [] New Jersey
-31. [] New Mexico
-32. [] New York
-33. [] North Carolina
-34. [] North Dakota
-35. [] Ohio
-36. [] Oklahoma
-37. [] Oregon
-38. [x] Pennsylvania
-39. [] Rhode Island
-40. [] South Carolina
-41. [] South Dakota
-42. [] Tennessee
-43. [x] Texas
-44. [] Utah
-45. [] Vermont
-46. [] Virginia
-47. [] Washington
-48. [] West Virginia
-49. [] Wisconsin
-50. [] Wyoming
+- [ ] Alabama
+- [ ] Alaska
+- [ ] Arizona
+- [ ] Arkansas
+- [x] California - 211ca.org
+- [ ] Colorado - 211colorado.org
+- [ ] Connecticut
+- [ ] Delaware
+- [ ] Florida
+- [ ] Georgia
+- [ ] Hawaii
+- [ ] Idaho
+- [ ] Illinois
+- [ ] Indiana
+- [ ] Iowa
+- [ ] Kansas
+- [ ] Kentucky
+- [ ] Louisiana
+- [ ] Maine
+- [ ] Maryland
+- [ ] Massachusetts
+- [ ] Michigan
+- [ ] Minnesota
+- [ ] Mississippi
+- [ ] Missouri
+- [ ] Montana
+- [ ] Nebraska
+- [ ] Nevada
+- [ ] New Hampshire
+- [ ] New Jersey
+- [ ] New Mexico
+- [ ] New York
+- [ ] North Carolina
+- [ ] North Dakota
+- [ ] Ohio
+- [ ] Oklahoma
+- [ ] Oregon
+- [x] Pennsylvania
+- [ ] Rhode Island
+- [ ] South Carolina
+- [ ] South Dakota
+- [ ] Tennessee
+- [x] Texas
+- [ ] Utah
+- [ ] Vermont
+- [ ] Virginia
+- [ ] Washington
+- [ ] West Virginia
+- [ ] Wisconsin
+- [ ] Wyoming
 
 # To add later
 
