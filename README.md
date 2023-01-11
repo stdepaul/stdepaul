@@ -30,7 +30,7 @@ After doing this, you should be able to do `runserver`!
 
 At the moment, we need more data. At the moment, we only have data for Texas, PA, and CA, from state 211 sites. If you would like to contribute, you'd help a lot by creating scripts that get data from state 211 sites. Selenium is probably the best library for this task. If you're new to selenium, join our discord and I can guide you. Also, the scripts for Texas, CA, and PA are in `data_extract` as management commands.
 
-When you are done getting and adding the data locally, do a dumpdata, like `python manage.py dumpdata > new_data.json --natural-foreign` (notice the `natural-foreign` -- this is so we can load the data to the production server) and put the .json file in the `data` dir, push to dev, and make a pull request. 
+When you are done getting and adding the data locally, do a dumpdata, like `python manage.py dumpdata wiki > new_data.json --natural-primary` (notice the `natural-primary` -- this is so we can load the data to the production server) and put the .json file in the `data` dir, push to dev, and make a pull request. 
 
 I thought about maybe adding a REST API function so that contributors can add data to the production server as they are getting the data, but sometimes mistakes are made, especially with selenium, so I think getting a working implementation and correct data is best before adding to the production server.
 
