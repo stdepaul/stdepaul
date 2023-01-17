@@ -94,6 +94,7 @@ I thought about maybe adding a REST API function so that contributors can add da
  - Verification system for wiki / helper editing and approval
  - Wiki Edit History
  - County-based search and generally more robust location searching
+ - Pre-approval system for enrolled social services
 
 ### Rules
 
