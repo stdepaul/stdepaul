@@ -91,6 +91,9 @@ I thought about maybe adding a REST API function so that contributors can add da
 
  - Transportation help
  - Help applying for social services online (similar to turbotax), with virtual mailing addresses (so homeless people without addresses can apply)
+ - Verification system for wiki / helper editing and approval
+ - Wiki Edit History
+ - County-based search and generally more robust location searching
 
 ### Rules
 
