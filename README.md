@@ -95,6 +95,11 @@ I thought about maybe adding a REST API function so that contributors can add da
  - Wiki Edit History
  - County-based search and generally more robust location searching
  - Pre-approval system for enrolled social services
+ - Helpers get points for helping people (with verificatin system)
+ - Actually contact state 211 sites so information is updated at St De Paul when it is updated at the state 211 sites (site UIs change)
+ - Following and unfollowing, messaging, more robust posting, voting for posts
+ - "Top Helpers in your area"
+ - "Top Contributors"
 
 ### Rules
 
