@@ -41,7 +41,7 @@ I thought about maybe adding a REST API function so that contributors can add da
 - [ ] Arizona
 - [ ] Arkansas
 - [x] California - 211ca.org
-- [ ] Colorado - 211colorado.org
+- [x] Colorado - 211colorado.org
 - [ ] Connecticut
 - [ ] Delaware
 - [ ] Florida
