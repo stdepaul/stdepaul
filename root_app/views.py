@@ -119,6 +119,8 @@ def search_city(parsed_location, region=None):
 		if '-' not in parsed_location and parsed_location != 'global':
 			parsed_location = re.sub('[^a-zA-Z0-9]', ' ', parsed_location)
 			all_countries = pd.read_csv(os.path.join(settings.BASE_DIR, 'static/assets/countrycodes.csv'))
+
+			# if input location is country_code (e.g. US), parsed_location = parsed_location
 			if parsed_location not in [str(country_code).lower() for country_code in all_countries['alpha-2']]:
 
 				results = cities.filter(name=parsed_location)
