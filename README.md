@@ -90,11 +90,11 @@ I thought about maybe adding a REST API function so that contributors can add da
 # To add later
 
  - Transportation help
- - Help applying for social services online (similar to turbotax), with virtual mailing addresses (so homeless people without addresses can apply)
+ - **Help applying for social services online (similar to turbotax), with virtual mailing addresses (so homeless people without addresses can apply)**
  - Verification system for wiki / helper editing and approval
  - Wiki Edit History
  - County-based search and generally more robust location searching
- - Pre-approval system for enrolled social services
+ - **Pre-approval system for enrolled social services**
  - Helpers get points for helping people (with verification system)
  - Actually contact state 211 sites so information is updated at St De Paul when it is updated at the state 211 sites (site UIs change)
  - Following and unfollowing, messaging, more robust posting, voting for posts
