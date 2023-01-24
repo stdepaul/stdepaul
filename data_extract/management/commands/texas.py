@@ -189,8 +189,8 @@ class Command(BaseCommand):
 
 		helper_type = helper_type
 			
-		loc_seach_str = re.sub('[^a-zA-Z0-9]', '', address.get_attribute('innerHTML').split('<br>')[-1].split(' ')[0])
-		location = search_city(loc_seach_str, 'tx')
+		loc_search_str = re.sub('[^a-zA-Z0-9]', '', address.get_attribute('innerHTML').split('<br>')[-1].split(' ')[0])
+		location = search_city(loc_search_str, 'tx')
 
 		try:
 

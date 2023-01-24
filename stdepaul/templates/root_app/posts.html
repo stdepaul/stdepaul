@@ -55,12 +55,12 @@
 {% endblock %}
 
 {% block metatags %}
-    <meta name="title" content="{q}} results in {{location}} at St. De Paul">
+    <meta name="title" content="{{q}} results in {{location}} at St. De Paul">
     <meta name="description" content="{{num_results}} results for {{q}} in {{location}} at St. De Paul">
     <meta name="keywords" content="st, de, paul, assistance, center, sign in, signin">
     <meta property="og:site_name" content="St. Vincent De Paul Assistance Center">
     <meta property="og:url" content="{{request.get_full_path}}">
-    <meta property="og:title" content="{q}} results in {{location}} at St. De Paul">
+    <meta property="og:title" content="{{q}} results in {{location}} at St. De Paul">
     <meta property="og:image" content="https://www.stdepaul.org/static/img/stdepaulsqblue.png">
     <meta property="og:description" content="{{num_results}} results for {{q}} in {{location}} at St. De Paul">
     {% endblock %}
