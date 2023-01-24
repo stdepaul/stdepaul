@@ -18,13 +18,13 @@ Website: https://stdepaul.org
 
 ## Getting set up locally
 
- 1. Create a virtualenv, download the requirements from `requirements.txt`
+ 1. Create a virtualenv, download the requirements from `requirements.txt` (`pip3 install -r requirements.txt`)
 
  2. Set the environment variables: STDEPAUL_SETTINGS_SECRET_KEY, IS_PRODUCTION ('False' on your local), STDEPAUL_ALLOWED_HOSTS (this can just be "\*" locally), STDEPAUL_AWS_KEY, STDEPAUL_AWS_SECRET, STDEPAUL_AWS_BUCKET_NAME, STDEPAUL_RECAPTCHA_KEY, STDEPAUL_RECAPTCHA_SECRET, STDEPAUL_SENDGRID_API_KEY, STDEPAUL_DBPW, STDEPAUL_POSITIONSTACK_ACCESS_KEY, and STDEPAUL_DB_NAME. `settings.py` for usage. You will need to either register credentials at each service (AWS, Google Recaptcha, etc) or write random characters. Obviously if you write random characters, those services won't work locally.
 
- 3. Migrate the database 
+ 3. Migrate the database (`python manage.py migrate`)
 
-After doing this, you should be able to do `runserver`!
+After doing this, you should be able to do `python3 manage.py runserver`!
 
 ## Immediate Tasks
 
