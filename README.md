@@ -14,8 +14,6 @@ Website: https://stdepaul.org
 
  - My LinkedIn: https://linkedin.com/in/mikejohnsonjr
 
- - Reddit: https://reddit.com/r/stdepaul
-
 ## Getting set up locally
 
  1. Create a virtualenv, download the requirements from `requirements.txt` (`pip3 install -r requirements.txt`)
