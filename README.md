@@ -34,7 +34,7 @@ I thought about maybe adding a REST API function so that contributors can add da
 
 ### State 211 data checklist
 
-- [ ] Alabama - h211connectsalabama.org
+- [ ] Alabama - 211connectsalabama.org
 - [ ] Alaska
 - [ ] Arizona
 - [ ] Arkansas
