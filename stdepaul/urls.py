@@ -12,7 +12,7 @@ urlpatterns = [
     path('api-home', root_views.api_home, name='api_home'),
 
     path('accounts/', include('allauth.urls')),
-    #path('martor/', include('martor.urls')),
+    path('martor/', include('martor.urls')),
 
     path('', root_views.home, name='home'),
    
